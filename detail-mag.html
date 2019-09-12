@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Expressive Camera</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="favicon.png" type="image/png" sizes="24x24">
+    <script src="jq.js"> </script>
+    <script>
+
+      $( document ).ready(function() {
+            console.log("Doing some shit");
+            var figure = $(".video").hover( hoverVideo, hideVideo );
+            function hoverVideo(e) {  
+                $('video', this).get(0).play(); 
+                console.log("Video playing");
+            }
+            function hideVideo(e) {
+                $('video', this).get(0).pause(); 
+            }
+      });
+    </script>
+  </head>
+  <body>
+  <table class="coretable">
+  		
+      <!-- Header -->
+      <tr >
+        <td colspan="2" class="header detail"> 
+            <div class="emojiwrapper"><span class="emoji">←</span> </div>
+            <a href="index.html"> Go back </a>
+        </td>
+        </td>
+      </tr>
+
+      <!-- Minis -->
+  		<tr class="tight-bottom">
+  			<td class="description "> 
+          <div class="emojiwrapper"><span class="emoji">💻</span></div>
+          <div class="title"> Expressive Camera </div>
+          <div class="subtitle product"> product, 2018 </div>
+        </td>
+          <td class="image"> 
+            <div class="video" > 
+              <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+              <video class="one" muted loop poster="Images/MAG/mag-banner.png">
+                <source src="Images/MAG/flow.mp4" type="video/mp4"/> 
+              </video>
+            </div> 
+          </td>
+          <td class="image"> 
+            <div class="video" > 
+              <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+              <video class="one" muted loop poster="Images/Bauhaus/face-suggestion-poster.png"> 
+                <source src="Images/Bauhaus/face-suggestion.mp4" type="video/mp4"/> 
+              </video>
+            </div> 
+          </td>
+          <td class="image"> 
+            <div class="video" > 
+              <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+              <video class="one" muted loop poster="Images/Bauhaus/sticker-add-poster.png"> 
+                <source src="Images/Bauhaus/sticker-add.mp4" type="video/mp4"/> 
+              </video>
+            </div> 
+          </td>
+  		</tr>
+
+      <tr>
+        <td class="description"> 
+        </td>
+         <td colspan="4" class="image">
+          Expressive Camera was created by Expression, a team of artists and technologists at Google, over two years. I was the lead Product Manager for the project. It is a system of augmented reality and computer vision features, built on top of the camera platform. One set of features (first image) enables users to immerse themselves in 2D and 3D worlds. Each of these worlds is meant to help the user convey a sentiment, so they can clarify their emotions. Another set of features enables users to edit their photos and videos. It understands the content of photos, and automatically suggests imagery to add onto those photos (second image). Additionally it enables users to find and add photos themselves (third image). Expressive Camera is currently available on Google's keyboard, GBoard on <a href="https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin&hl=en_US"> Android</a> and <a href="https://itunes.apple.com/us/app/gboard-the-google-keyboard/id1091700242?mt=8">iOS</a>.
+        </td>
+      </tr>
+
+  </table>
+
+  <table class="coretable tight secondary">
+
+      <!-- Make a gif samples  -->
+      <tr>
+        <td class="description"> 
+            Sentiment based real time overlays
+        </td>
+        <td class="image"> <img class="one" src="Images/MAG/Sample/2_confused.gif"/> </td>
+        <td class="image"> <img class="one" src="Images/MAG/Sample/6_flower.gif"/> </td>
+        <td class="image"> <img class="one" src="Images/MAG/Sample/4_love.gif"/> </td>
+        <td class="image"> <img class="one" src="Images/MAG/Sample/9_firework.gif"/> </td>
+      </tr>
+
+      <tr>
+        <td class="description"> 
+        </td>
+        <td class="image"> <img class="one" src="Images/MAG/Sample/3_by.gif"/> </td>
+        <td class="image"> <img class="one" src="Images/MAG/Sample/8_hands.gif"/> </td>
+        <td class="image"> <img class="one" src="Images/MAG/Sample/5_morning.gif"/> </td>
+        <td class="image"> <img class="one" src="Images/MAG/Sample/7_breaking.gif"/> </td>
+      </tr>
+
+      <tr class="tight-bottom">
+        <td class="description"> 
+        </td>
+        <td colspan="4" class="image">
+           A large <b> variety of sentiments </b> can be conveyed with real time overlays. Each of these immersive overlays was chosen to help users convey a specific emotion or feeling. Each of them is also bright, colorful and playful to encourage the users to share these images as a way to communicate. Once a user creates their own GIF, conveying a sentiment, it is stored as a GIF that they can reuse in the future. </br>
+        </td>
+      </tr>
+
+      <!-- Creation samples -->
+
+      <tr>
+        <td class="description"> 
+            Expressive editing
+        </td>
+        <td class="image"> <img class="one" src="Images/Bauhaus/Sample/7_berlin.jpg"/> </td>
+        <td class="image"> <img class="one" src="Images/Bauhaus/Sample/8_sunset.jpg"/> </td>
+        <td class="image" colspan="2"> <img class="two" src="Images/Bauhaus/Sample/4_Drake.jpg"/> </td>
+      </tr>
+
+
+      <tr>
+        <td class="description"> 
+        </td>
+        <td class="image"> <img class="one" src="Images/Bauhaus/Sample/1_party.jpg"/> </td>
+        <td class="image"> <img class="one" src="Images/Bauhaus/Sample/3_koji.jpg"/> </td>
+        <td class="image"> <img class="one" src="Images/Bauhaus/Sample/5_work.jpg"/> </td>
+        <td class="image"> <img class="one" src="Images/Bauhaus/Sample/6_food.jpg"/> </td>
+      </tr>
+
+      <tr class="tight-bottom">
+        <td class="description"> 
+        </td>
+        <td colspan="4" class="image">
+           In addition to real time recording, expressive camera overs a  <b> range of editing functionality </b>. A user can edit any photo, and add imagery on top of it to clarify an emotion, or further enhance the ambience of the moment. Expressive Camera can automatically recognize elements in the photo, such as a person, and suggests imagery to collage with - such as a party hat. It also has a large library of stickers and access to image search, so users can find their own imagery. This enables an extremely broad set of image possibilities, in a simple interface. </br>
+        </td>
+      </tr>
+
+
+
+  </table>
+  </body>
+</html>

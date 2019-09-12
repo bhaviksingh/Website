@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bhavik Singh</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/png" sizes="24x24">
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="jq.js"> </script>
+    <script>
+
+      $( document ).ready(function() {
+            console.log("Doing some shit");
+            var figure = $(".video").hover( hoverVideo, hideVideo );
+            function hoverVideo(e) {  
+                $('video', this).get(0).play(); 
+                console.log("Video playing");
+            }
+            function hideVideo(e) {
+                $('video', this).get(0).pause(); 
+            }
+      });
+    </script>
+  </head>
+  <body>
+  <table class="coretable home">
+  		
+      <!-- Header -->
+      <tr >
+        <td class="header"> 
+            <div class="emojiwrapper"><span class="emoji">👋</span> </div>
+            This is bhavik </br> singh dot com
+        </td>
+        <td class="about">
+          Hey! I'm a Product Manager, Designer and Developer currently working at Google in San Francisco. I like projects that combine technology with art. A selection of my recent works is below. Email me at bhaviksingh@gmail.com.
+         <!--  <ul>
+            <li> I'm an engineer, product manager, artist and designer! </li>
+            <li> I like projects at the intersection of art and technology </li>
+            <li> I work at  Google in San Francisco </li>
+            <li> I can be reached at bhaviksingh@gmail.com </li>
+            <li> A selection of recent work is below. Hover to play videos </li>
+          </ul> -->
+        </td>
+      </tr>
+    </table>
+    <table class="coretable home">
+
+      <!-- Minis -->
+  		<tr >
+  			<td class="description" onclick="location.href='detail-mini.html';"> 
+          <div class="emojiwrapper"><span class="emoji">💼</span></div>
+          <div class="title"> Minis </div>
+          <div class="subtitle product"> product, 2017-18</div>
+          <div class="body"> Digital avatars that look and feel like you, generated with a selfie.
+            <br/>  </br> Powered by illustration and neural nets.  Built with the Expression team at Google. </div>
+          <div class="link"> →  <a href="detail-mini.html">learn more </a> </div>
+        </td>
+        <td class="image"> 
+          <div class="video" > 
+            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+            <video class="one" muted loop poster="Images/Tech/Mini/create_poster.png"> 
+              <source src="Images/Tech/Mini/create.mp4" type="video/mp4"/> 
+            </video>
+          </div> 
+        </td>
+        <td class="image"> 
+          <div class="video" > 
+            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+            <video class="one" muted loop poster="Images/Tech/Mini/customize_poster.png"> 
+              <source src="Images/Tech/Mini/customize.mp4" type="video/mp4"/> 
+            </video>
+          </div> 
+        </td>
+        <td class="image"> 
+          <div class="video" > 
+            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+            <video class="one" muted loop poster="Images/Tech/Mini/send_poster.png"> 
+              <source src="Images/Tech/Mini/send.mp4" type="video/mp4"/> 
+            </video>
+          </div> 
+        </td>
+  		</tr>
+
+      <!-- Expressive Camera -->
+      <tr>
+        <td class="description" onclick="location.href='detail-mag.html';"> 
+          <div class="emojiwrapper"><span class="emoji">💼</span></div>
+          <div class="title"> ExCam</div>
+          <div class="subtitle product"> product, 2018 </div>
+          <div class="body">Capture moments, or clarify your emotion with immersive effects and expressive image editing.
+           </br> </br> Powered by 2D/3D art and computer vision. Built with the Expression team at Google.  </div>
+          <div class="link"> →  <a href="detail-mag.html">learn more</a> </div>
+        </td>
+        <td class="image"> 
+          <div class="video" > 
+            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+            <video class="one" muted loop poster="Images/MAG/mag-banner.png">
+              <source src="Images/MAG/flow.mp4" type="video/mp4"/> 
+            </video>
+          </div> 
+        </td>
+        <td class="image"> 
+          <div class="video" > 
+            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+            <video class="one" muted loop poster="Images/Bauhaus/face-suggestion-poster.png"> 
+              <source src="Images/Bauhaus/face-suggestion.mp4" type="video/mp4"/> 
+            </video>
+          </div> 
+        </td>
+        <td class="image"> 
+          <div class="video" > 
+            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+            <video class="one" muted loop poster="Images/Bauhaus/sticker-add-poster.png"> 
+              <source src="Images/Bauhaus/sticker-add.mp4" type="video/mp4"/> 
+            </video>
+          </div> 
+        </td>
+      </tr>
+
+
+      <!-- Vibes -->
+      <tr>
+        <td class="description" onclick="location.href='detail-vibes.html';"> 
+          <div class="emojiwrapper"><span class="emoji">📱</span></div>
+          <div class="title"> Vibes </div>
+          <div class="subtitle tech"> design + code, 2018 </div>
+          <div class="body"> An app that explores how groups can create stories and form memories together. 
+          </br> </br> Powered by React Native, Sketch. Built by me and friends. </div>
+          <div class="link"> → <a href="detail-vibes.html"> learn more</a> </div>
+        </td>
+        <td class="image"> <img class="one" src="Images/Vibes/Intro.png"/> </td>
+        <td class="image"> <img class="one" src="Images/Vibes/Home.png"/> </td>
+        <td class="image"> <img class="one" src="Images/Vibes/Vibe.png"/> </td>
+      </tr>
+
+
+      <!-- Art -->
+      <tr>
+        <td class="description" onclick="location.href='detail-sketch.html';"> 
+          <div class="emojiwrapper"><span class="emoji">🎨</span></div>
+          <div class="title"> Memory Sketchbook </div>
+          <div class="subtitle art"> art, 2018 </div>
+          <div class="body"> Sketches that explore how memories are formed, stored and recalled.
+          </br> </br> Powered by Photoshop, Instagram, my camera and a sketchbook. Built by me. </div>
+          <div class="link">  <a href="detail-sketch.html">→ learn more</a> </div>
+        </td>
+        <td class="image"> <img class="one" src="Images/Art/Finished/jai-browner.png"/> </td>
+        <td class="image"> <img class="one" src="Images/Art/Finished/rob-bloom.jpg"/> </td>
+        <td class="image"> <img class="one" src="Images/Art/Finished/self-final.jpg"/> </td>
+        <td class="image"> <img class="one" src="Images/Art/Finished/jobs.png"/> </td>
+        <td class="buffer">  </td>
+      </tr>
+
+
+      <!-- Spot -->
+      <tr>
+        <td class="description nolink"> 
+          <div class="emojiwrapper"><span class="emoji">📱</span></div>
+          <div class="title"> Spot </div>
+          <div class="subtitle tech"> design + code, 2018 </div>
+          <div class="body"> An app that explores the boundary between digital and analogue worlds, through dogs. 
+          </br> </br> Powered by react native, Sketch and puppies. Built by me and friends.  </div>
+        </td>
+        <td class="image"> <img class="one" src="Images/Spot/Capture.png"/> </td>
+        <td class="image"> <img class="one" src="Images/Spot/Dogs.png"/> </td>
+        <td class="image" > <img class="one" src="Images/Spot/Spotted.png"/> </td>
+      </tr>
+
+
+  		<tr>
+  			<td class="description two nolink"> 
+          <div class="emojiwrapper"><span class="emoji">🙏</span></div>
+         <div class="title"> Bye</div>
+         <div class="body" style="padding-bottom: 120px"> Thanks for stopping by. </div>
+       </td>
+  		</tr>
+
+  </table>
+  </body>
+</html>

@@ -1,0 +1,166 @@
+<html>
+
+<head>
+    <script src="js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var flowerURLs = ["assets/cutie/cutie", "assets/bush/bush"]; //URL of all possible flowers
+            var flowers = []; //Active flowers
+
+            var numFlowers = 1;
+            var gardenContainer = "#garden";
+            var buttonID = "#entire-space, #garden-container";
+
+            function setupGarden() {
+                //Clear out flowers and html
+                flowers = [];
+                $(gardenContainer).html("");
+
+                for (var i = 0; i < numFlowers; i++) {
+                    var flowerID = "flower-" + i;
+                    var flowerURL = flowerURLs[Math.floor(Math.random() * flowerURLs.length)]; //Replace this with randomness eventually
+                    flowers.push({
+                        "url": flowerURL,
+                        "id": flowerID
+                    });
+                    var imgElement = $("<img src='" + flowerURL + thingies[0] + ".png' id='" + flowerID + "'/>");
+                    $(gardenContainer).append(imgElement);
+                }
+            }
+
+            //Animation related thingies
+            var thingies = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
+            var maxFrame = thingies.length - 1;
+            var waitTime = 3000 / maxFrame;
+            var current = 0;
+            var direction = "pause";
+            var addNewFlowers = false;
+
+            $(buttonID).mousedown(function() {
+                startAnimationUp()
+            });
+            $(buttonID).mouseup(function() {
+                startAnimationDown()
+            });
+
+
+            // $(buttonID).hover(() => startAnimationUp(), () => startAnimationDown());
+
+            function startAnimationUp() {
+                console.log("Animating up");
+                direction = "up";
+                renderNext();
+            }
+
+            function startAnimationDown() {
+                console.log("Animating down");
+                direction = "down";
+                renderNext();
+            }
+
+            function renderNext() {
+
+                $.each(flowers, function(index, flower) {
+                    var desiredSrc = flower["url"] + thingies[current] + ".png";
+                    document.getElementById(flower["id"]).src = desiredSrc;
+                });
+
+                if (direction == "pause") {
+                    return;
+                } else if (direction == "down") {
+                    if (current == 0) {
+                        direction = "pause";
+                        if (addNewFlowers) {
+                            numFlowers += 1;
+                            addNewFlowers = false;
+                            setupGarden();
+                        }
+                        return;
+                    } else {
+                        current -= 1;
+                    }
+                } else if (direction == "up") {
+                    if (current == maxFrame) {
+                        direction = "pause";
+                        console.log("Reached max");
+                        addNewFlowers = true;
+                        return;
+                    } else {
+                        current += 1;
+                    }
+                }
+                setTimeout(function() {
+                    renderNext()
+                }, waitTime);
+            }
+
+            setupGarden();
+
+        });
+    </script>
+
+    <style>
+        body {
+            background: white;
+        }
+        
+        #button {
+            width: 50px;
+            height: 50px;
+            left: 0px;
+            top: 0px;
+            position: absolute;
+            background: blue;
+            z-index: 2;
+        }
+        
+        #entire-space {
+            background: blue;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            cursor: pointer;
+        }
+        
+        #garden-container {
+            margin: 0 auto;
+            text-align: center;
+            vertical-align: center;
+            z-index: 2;
+        }
+        
+        #garden {
+            background: white;
+            height: 600px;
+            width: 600px;
+            cursor: crosshair;
+            user-select: none;
+            margin: 0 auto;
+            pointer-events: none;
+        }
+        
+        #garden img {
+            width: 20%;
+            height: auto;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="entire-space" onmouseover="function(){console.log('plz')}">
+
+    </div>
+    <div id="garden-container">
+        <div id="garden">
+
+        </div>
+    </div>
+
+</body>
+
+</html>
