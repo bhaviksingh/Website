@@ -49,19 +49,22 @@
             var direction = "pause";
             var addNewFlowers = false;
 
-            $(buttonID).bind('touchstart mousedown', function(e) {
-                startAnimationUp()
-            });
 
-
-            $(buttonID).bind('touchend mouseup', function(e) {
-                startAnimationDown()
-            });
-
+            //No right clicks
             $(document).bind("contextmenu", function(e) {
                 return false;
             });
 
+            function setupEvents() {
+                $(buttonID).bind('touchstart mousedown', function(e) {
+                    startAnimationUp()
+                });
+
+
+                $(buttonID).bind('touchend mouseup', function(e) {
+                    startAnimationDown()
+                });
+            }
 
             // $(buttonID).hover(() => startAnimationUp(), () => startAnimationDown());
 
@@ -75,6 +78,18 @@
                 console.log("Animating down");
                 direction = "down";
                 renderNext();
+            }
+
+            function tutorial() {
+                $("#tutorial-1").hide().fadeIn().delay(2000).fadeOut();
+                $("#tutorial-2").hide().delay(4000).fadeIn().delay(1000).fadeOut();
+                $("#tutorial-3").hide().delay(7000).fadeIn().delay(1000).fadeOut();
+                setTimeout(function() {
+                    $("#cursor-overlay").fadeTo(200, 0, function() {
+                        setupGarden();
+                        setupEvents();
+                    });
+                }, 9000);
             }
 
             function renderNext() {
@@ -113,8 +128,7 @@
                 }, waitTime);
             }
 
-            setupGarden();
-
+            tutorial();
         });
     </script>
 
@@ -161,29 +175,42 @@
         }
         
         #cursor-overlay {
-            opacity: 0;
+            opacity: 1;
             position: absolute;
             left: 0px;
             top: 0px;
             z-index: 5;
             width: 100vw;
             height: 100vh;
+            text-align: center;
+        }
+        
+        #tutorial-container {
+            position: absolute;
+            margin: 0 auto;
+            font-family: sans-serif;
+            font-size: 24px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
 
 <body>
     <div id="cursor-overlay">
-
+        <div id="tutorial-container">
+            <div id="tutorial-1" class="tutorial"> 🌸 This is a safe space </div>
+            <div id="tutorial-2" class="tutorial"> ⬇️Press down as you breathe in </div>
+            <div id="tutorial-3" class="tutorial"> ⬆️Release as you breathe out </div>
+        </div>
     </div>
 
     <div id="background">
         <div id="entire-space">
-
         </div>
         <div id="garden-container">
             <div id="garden">
-
             </div>
         </div>
     </div>
