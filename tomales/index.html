@@ -10,7 +10,7 @@
 
             var numFlowers = 1;
             var gardenContainer = "#garden";
-            var buttonID = "#entire-space, #garden-container";
+            var buttonID = "#cursor-overlay";
 
             function setupGarden() {
                 //Clear out flowers and html
@@ -24,7 +24,19 @@
                         "url": flowerURL,
                         "id": flowerID
                     });
-                    var imgElement = $("<img src='" + flowerURL + thingies[0] + ".png' id='" + flowerID + "'/>");
+
+                    if (i == 0) {
+                        var topPosition = 260;
+                        var leftPosition = 320;
+                    } else {
+                        //TODO: make a better distribution algorithm here
+                        var topPosition = Math.floor(Math.random() * 500);
+                        var leftPosition = Math.floor(Math.random() * 500);
+                    }
+
+                    var flowerPosition = "style='left:" + leftPosition + "; top:" + topPosition + ";'";
+
+                    var imgElement = $("<img src='" + flowerURL + thingies[0] + ".png' id='" + flowerID + "'" + flowerPosition + "/>");
                     $(gardenContainer).append(imgElement);
                 }
             }
@@ -37,11 +49,17 @@
             var direction = "pause";
             var addNewFlowers = false;
 
-            $(buttonID).mousedown(function() {
+            $(buttonID).bind('touchstart mousedown', function(e) {
                 startAnimationUp()
             });
-            $(buttonID).mouseup(function() {
+
+
+            $(buttonID).bind('touchend mouseup', function(e) {
                 startAnimationDown()
+            });
+
+            $(document).bind("contextmenu", function(e) {
+                return false;
             });
 
 
@@ -105,62 +123,70 @@
             background: white;
         }
         
-        #button {
-            width: 50px;
-            height: 50px;
-            left: 0px;
-            top: 0px;
-            position: absolute;
-            background: blue;
-            z-index: 2;
-        }
-        
         #entire-space {
-            background: blue;
+            background: #38a0ff;
             position: absolute;
             top: 0px;
             left: 0px;
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            cursor: pointer;
         }
         
         #garden-container {
             margin: 0 auto;
             text-align: center;
-            vertical-align: center;
             z-index: 2;
         }
         
         #garden {
-            background: white;
-            height: 600px;
-            width: 600px;
-            cursor: crosshair;
+            background: rgb(187, 255, 228);
+            height: 800px;
+            width: 800px;
+            max-height: 90%;
+            max-width: 90%;
             user-select: none;
             margin: 0 auto;
             pointer-events: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         
         #garden img {
             width: 20%;
             height: auto;
-            position: relative;
+            position: absolute;
+        }
+        
+        #cursor-overlay {
+            opacity: 0;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            z-index: 5;
+            width: 100vw;
+            height: 100vh;
         }
     </style>
 </head>
 
 <body>
-    <div id="entire-space" onmouseover="function(){console.log('plz')}">
+    <div id="cursor-overlay">
 
     </div>
-    <div id="garden-container">
-        <div id="garden">
+
+    <div id="background">
+        <div id="entire-space">
 
         </div>
-    </div>
+        <div id="garden-container">
+            <div id="garden">
 
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
