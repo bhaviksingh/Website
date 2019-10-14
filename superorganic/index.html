@@ -32,6 +32,7 @@
                 }
                 this.content = boxJSON.content;
                 this.title = boxJSON.title;
+                this.border = boxJSON.border;
             }
 
             flipVisibility() {
@@ -49,7 +50,13 @@
                         var sizeHTML = "width:" + this.width + ";";
                     }
                     var posHTML = "top:" + this.pos.y + "px; left:" + this.pos.x + "px;";
-                    var divHTML = "<div class='box' id='" + this.id + "' style='" + sizeHTML + posHTML + "'>" + this.content + "</div>";
+                    var classes = "box";
+
+                    if (!this.border) {
+                        classes += " noborder";
+                    }
+
+                    var divHTML = "<div class='" + classes + "' id='" + this.id + "' style='" + sizeHTML + posHTML + "'>" + this.content + "</div>";
                     var containerHTML = "<div class='box-container' id='" + this.id + "-container'>" + divHTML + "</div>";
                     var element = $(containerHTML);
                 } else {
@@ -58,7 +65,7 @@
                 return element;
             }
             getHyperlink() {
-                if (this.visibility) {
+                if (this.visibility && this.title) {
                     return "<div class='hyperlink' onClick=navigateTo('" + this.id + "')>" + this.title + "</div>";
                 }
 
@@ -75,12 +82,20 @@
 
         function navigateTo(boxID) {
             console.log("scrolling to.. " + boxID);
-            var leftPosition = $("#" + boxID + "-container").position().left;
+            var leftPosition = $("#" + boxID + "-container").offset().left;
             $("#all-container").scrollLeft(leftPosition);
         }
 
         function unlock(boxID) {
-            boxList[boxID].flipVisibility();
+            var boxIDList = [];
+            if (boxID.search(",") >= 0) {
+                boxIDList = boxID.split(",");
+            } else {
+                boxIDList = [boxID];
+            }
+            for (var i = 0; i < boxIDList.length; i++) {
+                boxList[boxIDList[i]].flipVisibility();
+            }
             renderAllBoxes();
         }
 
@@ -123,8 +138,10 @@
         <div id="all-container">
         </div>
     </div>
-    <canvas width="1920" height="1000"></canvas>
-    <canvas width="1920" height="1000" class="offscreen" style="display: none;"></canvas>
+    <div id="canvas-container">
+        <canvas width="1920" height="1000"></canvas>
+        <canvas width="1920" height="1000" class="offscreen" style="display: none;"></canvas>
+    </div>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js"></script>
     <script src="js/vec2.js"></script>
@@ -341,4 +358,4 @@
 </body>
 
 
-</html>
+</html
