@@ -91,10 +91,15 @@
             updateTrackBarOnScroll();
         })
 
+        $(window).resize(function() {
+            console.log("resizing!");
+            updateTrackBarOnScroll();
+        })
+
         function updateTrackBarOnScroll() {
             var windowStart = $(document).scrollLeft();
 
-            var windowEnd = windowStart + window.width;
+            var windowEnd = windowStart + $(window).width();
             var boxKeys = Object.keys(boxList);
 
             $(".hyperlink").attr("class", "hyperlink");
@@ -128,9 +133,6 @@
 
             }
         }
-        $(document).scroll(function() {
-
-        });
 
         function navigateTo(boxID) {
             console.log("scrolling to.. " + boxID);
