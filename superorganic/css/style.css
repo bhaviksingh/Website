@@ -1,0 +1,132 @@
+@font-face {
+    font-family: "SF Grandezza Heavy";
+    src: url("../assets/SF Grandezza Heavy.ttf");
+}
+
+div {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+#top-bar {
+    position: static;
+    top: 0px;
+    width: 100%;
+    background: white;
+    padding: 4px;
+    padding-left: 24px;
+    border-bottom: 1px solid black;
+}
+
+#hyperlink-list {
+    display: flex;
+    flex-direction: row;
+}
+
+#hyperlink-list .hyperlink {
+    font-size: 18px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+#hyperlink-list .hyperlink:after {
+    content: "-";
+    margin-right: 12px;
+    margin-left: 12px;
+}
+
+#main-container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+}
+
+#all-container {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.box-container {
+    height: 100% - 24px;
+    min-width: 50%;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.box {
+    padding: 12px;
+    background: white;
+    color: black;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.box .row {
+    margin-bottom: 24px;
+}
+
+.box h1 {
+    font-size: 60px;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    font-family: "SF Grandezza Heavy";
+}
+
+.box h2 {
+    font-size: 36px;
+    font-weight: normal;
+    line-height: 40px;
+    margin: 0;
+    padding: 0;
+}
+
+.box h3 {
+    font-size: 24px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.box .button {
+    text-transform: uppercase;
+    padding: 8px 0px;
+    border: 1px solid black;
+    font-size: 18px;
+    display: inline-block;
+    width: 104px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.box .button.offset {
+    margin-left: 105px;
+    margin-top: -1px;
+}
+
+@media screen and (max-width: 1200px) {
+    body {
+        background-color: rgba(0, 0, 0, .1);
+    }
+    .box-container {
+        min-width: 100%;
+    }
+}

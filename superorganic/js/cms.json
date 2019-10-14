@@ -1,0 +1,38 @@
+{
+    "boxList": [{
+        "id": "hero-1",
+        "pos": { "x": 0, "y": 10 },
+        "size": {},
+        "visibility": true,
+        "title": "Overview",
+        "content": "<div class='row'> <h1> Superorganic </h1> <h3> is a community of designers and engineers who build digital products for ambitious clients.</h3> </div> <div class='button' onClick=unlock('hire-us')> hire us </div> </br> <div class='button offset' onClick=unlock('join-us')> join us </div>"
+    }, {
+        "id": "hire-us",
+        "pos": { "x": 0, "y": 0 },
+        "size": { "w": "20%" },
+        "visibility": false,
+        "title": "Hire us",
+        "content": "<h1> Placeholder for hire us </h1>"
+    }, {
+        "id": "join-us",
+        "pos": { "x": 0, "y": 10 },
+        "size": { "w": 400 },
+        "visibility": false,
+        "title": "Join us",
+        "content": "<h1> Placeholder for Join us </h1"
+    }, {
+        "id": "what-we-do",
+        "pos": { "x": 0, "y": 10 },
+        "size": { "w": "40%" },
+        "visibility": true,
+        "title": "What we do",
+        "content": "<div class='row'> Superorganic is a new model for building software. For clients, we provide agency-level services using a communal organizational structure.</div> <div class='row'> For clients, we offer access to vetted talent, coordinated project teams, and cost efficiencies via reduced overhead. </div> <div class='row'> For designers & engineers, we offer freedom and stability via higher per-hour incomes. </div>"
+    }, {
+        "id": "how-we-work",
+        "pos": { "x": -50, "y": -50 },
+        "size": { "w": "40%" },
+        "visibility": true,
+        "title": "How we work",
+        "content": "<h2> How we work </h2> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet, euismod nunc a nec et. Augue interdum adipiscing mi eu in urna volutpat sed. Eget ultrices tortor."
+    }]
+}
