@@ -5,10 +5,13 @@
     <script>
         $(document).ready(function() {
 
-            var flowerURLs = ["assets/cutie/cutie", "assets/bush/bush"]; //URL of all possible flowers
+            var flowerURLs = ["assets/cutie/cutie", "assets/bush/bush", "assets/hydranges/blue", "assets/tulips/red", "assets/cactus/cactus"]; //URL of all possible flowers
             var flowers = []; //Active flowers
 
+            var backgroundURL = ["assets/wind-slow/up"];
+
             var numFlowers = 1;
+            var gridFactor = 20;
             var gardenContainer = "#garden";
             var buttonID = "#cursor-overlay";
 
@@ -25,14 +28,11 @@
                         "id": flowerID
                     });
 
-                    if (i == 0) {
-                        var topPosition = 260;
-                        var leftPosition = 320;
-                    } else {
-                        //TODO: make a better distribution algorithm here
-                        var topPosition = Math.floor(Math.random() * 500);
-                        var leftPosition = Math.floor(Math.random() * 500);
-                    }
+
+
+                    //TODO: make a better distribution algorithm here
+                    var topPosition = ((i + 1) * ((Math.random() < 0) ? -1 : 1) * gridFactor) + Math.floor(Math.random() * 300);
+                    var leftPosition = ((i + 1) * ((Math.random() < 0) ? -1 : 1) * gridFactor) + Math.floor(Math.random() * 500) - 100;
 
                     var flowerPosition = "style='left:" + leftPosition + "; top:" + topPosition + ";'";
 
@@ -40,14 +40,6 @@
                     $(gardenContainer).append(imgElement);
                 }
             }
-
-            //Animation related thingies
-            var thingies = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
-            var maxFrame = thingies.length - 1;
-            var waitTime = 3000 / maxFrame;
-            var current = 0;
-            var direction = "pause";
-            var addNewFlowers = false;
 
 
             //No right clicks
@@ -80,17 +72,14 @@
                 renderNext();
             }
 
-            function tutorial() {
-                $("#tutorial-1").hide().fadeIn().delay(2000).fadeOut();
-                $("#tutorial-2").hide().delay(4000).fadeIn().delay(1000).fadeOut();
-                $("#tutorial-3").hide().delay(7000).fadeIn().delay(1000).fadeOut();
-                setTimeout(function() {
-                    $("#cursor-overlay").fadeTo(200, 0, function() {
-                        setupGarden();
-                        setupEvents();
-                    });
-                }, 9000);
-            }
+
+            //Animation related thingies
+            var thingies = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
+            var maxFrame = thingies.length - 1;
+            var waitTime = 3000 / maxFrame;
+            var current = 0;
+            var direction = "pause";
+            var addNewFlowers = false;
 
             function renderNext() {
 
@@ -99,9 +88,13 @@
                     document.getElementById(flower["id"]).src = desiredSrc;
                 });
 
+                var backgroundSrc = backgroundURL + thingies[current] + ".png";
+                $('#entire-space').css('background-image', 'url("' + backgroundSrc + '")');
+
                 if (direction == "pause") {
                     return;
-                } else if (direction == "down") {
+                } else
+                if (direction == "down") {
                     if (current == 0) {
                         direction = "pause";
                         if (addNewFlowers) {
@@ -128,6 +121,36 @@
                 }, waitTime);
             }
 
+            function tutorial() {
+                $("#tutorial-1").hide().fadeIn().delay(2000).fadeOut();
+                $("#tutorial-2").hide().delay(4000).fadeIn().delay(1000).fadeOut();
+                $("#tutorial-3").hide().delay(7000).fadeIn().delay(1000).fadeOut();
+                setTimeout(function() {
+                    $("#cursor-overlay").fadeTo(200, 0, function() {
+                        setupGarden();
+                        setupEvents();
+                    });
+                }, 9000);
+            }
+
+            function preload() {
+                $.each(flowerURLs, function(index, flowerURL) {
+                    for (var i = 0; i < thingies.length; i++) {
+                        var addition = thingies[i];
+                        var desiredSrc = flowerURL + addition + ".png";
+                        var newImg = $("<img src='" + desiredSrc + "'/>");
+                        $("#preload").append(newImg);
+                    }
+                });
+
+                for (var i = 0; i < thingies.length; i++) {
+                    var addition = thingies[i];
+                    var backroundSrc = backgroundURL + addition + ".png";
+                    var newBg = $("<img src='" + backroundSrc + "'/>")
+                    $("#preload").append(newBg);
+                }
+            }
+            preload();
             tutorial();
         });
     </script>
@@ -138,13 +161,16 @@
         }
         
         #entire-space {
-            background: #38a0ff;
+            background-image: url("assets/wind-slow/up00.png");
+            background-size: 600px;
+            background-position: left;
             position: absolute;
             top: 0px;
             left: 0px;
             width: 100vw;
             height: 100vh;
             z-index: -1;
+            opacity: 0.4;
         }
         
         #garden-container {
@@ -194,15 +220,19 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        
+        #preload {
+            display: none;
+        }
     </style>
 </head>
 
 <body>
     <div id="cursor-overlay">
         <div id="tutorial-container">
-            <div id="tutorial-1" class="tutorial"> 🌸 This is a safe space </div>
-            <div id="tutorial-2" class="tutorial"> ⬇️Press down as you breathe in </div>
-            <div id="tutorial-3" class="tutorial"> ⬆️Release as you breathe out </div>
+            <div id="tutorial-1" class="tutorial"> This is a safe space </div>
+            <div id="tutorial-2" class="tutorial"> Breathe in, and press down </div>
+            <div id="tutorial-3" class="tutorial"> Breathe out, and release </div>
         </div>
     </div>
 
@@ -214,6 +244,9 @@
             </div>
         </div>
     </div>
+    <div id="preload">
+
+    </div>
 </body>
 
-</html>
+</html
