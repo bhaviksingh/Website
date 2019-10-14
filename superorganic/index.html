@@ -42,6 +42,20 @@
             getID() {
                 return this.id;
             }
+            isVisible() {
+                return this.visibility;
+            }
+            getMyLeft() {
+                if (this.visibility) {
+                    return $("#" + this.id + "-container").offset().left;
+                }
+            }
+            getHyperlink() {
+                if (this.visibility && this.title) {
+                    return "<div class='hyperlink' id='" + this.id + "-hyperlink' onClick=navigateTo('" + this.id + "')>" + this.title + "</div>";
+                }
+
+            }
             render() {
                 if (this.visibility) {
                     // var sizeHTML = "width:" + this.size.w + "px; height:" + this.size.h + "px";
@@ -59,31 +73,71 @@
                     var divHTML = "<div class='" + classes + "' id='" + this.id + "' style='" + sizeHTML + posHTML + "'>" + this.content + "</div>";
                     var containerHTML = "<div class='box-container' id='" + this.id + "-container'>" + divHTML + "</div>";
                     var element = $(containerHTML);
+
                 } else {
                     var element = "";
                 }
+
                 return element;
             }
-            getHyperlink() {
-                if (this.visibility && this.title) {
-                    return "<div class='hyperlink' onClick=navigateTo('" + this.id + "')>" + this.title + "</div>";
+
+        }
+
+        $(document).ready(function() {
+            updateTrackBarOnScroll();
+        })
+
+        $(document).scroll(function() {
+            updateTrackBarOnScroll();
+        })
+
+        function updateTrackBarOnScroll() {
+            var windowStart = $(document).scrollLeft();
+
+            var windowEnd = windowStart + window.width;
+            var boxKeys = Object.keys(boxList);
+
+            $(".hyperlink").attr("class", "hyperlink");
+
+            for (var i = 0; i < boxKeys.length; i++) {
+
+                var current = boxList[boxKeys[i]];
+
+                if (current.isVisible()) {
+                    var currentStart = current.getMyLeft();
+
+                    //Find next visible element
+                    //Can be replaced with just like .next?
+
+                    if (current.getID() == "empty-padding-box") {
+                        break;
+                    }
+
+                    var nextContainerID = $("#" + current.getID() + "-container").next().attr("id");
+                    var nextID = nextContainerID.substring(0, nextContainerID.search("-container"));
+                    var next = boxList[nextID];
+                    var currentEnd = next.getMyLeft();
+
+                    if (currentStart >= windowStart && currentStart <= windowEnd) {
+                        if (currentEnd >= windowStart && currentEnd <= windowEnd) {
+                            $("#" + current.getID() + "-hyperlink").addClass("active");
+                            console.log("Start is " + windowStart + "end is" + windowEnd + " currentEnd for " + current.getID() + " is" + currentEnd);
+                        }
+                    }
                 }
 
             }
         }
+        $(document).scroll(function() {
 
-        $("#main-container, #all-container, .box-container ").click(function(event) {
-            console.log("Relaying click")
-            var e = new jQuery.Event("click");
-            e.pageX = event.pageX;
-            e.pageY = event.pageY;
-            $("canvas").trigger(e);
         });
 
         function navigateTo(boxID) {
             console.log("scrolling to.. " + boxID);
-            var leftPosition = $("#" + boxID + "-container").offset().left;
-            $("#all-container").scrollLeft(leftPosition);
+            var objectLeft = boxList[boxID].getMyLeft()
+            var moveLeftTo = objectLeft;
+            console.log("Moving to " + moveLeftTo + " Object at " + objectLeft + " window at " + $(document).scrollLeft());
+            $(document).scrollLeft(moveLeftTo);
         }
 
         function unlock(boxID) {
@@ -97,6 +151,9 @@
                 boxList[boxIDList[i]].flipVisibility();
             }
             renderAllBoxes();
+            setTimeout(function() {
+                navigateTo(boxIDList[0]);
+            }, 100);
         }
 
         function renderAllBoxes() {
@@ -134,9 +191,7 @@
 
         </div>
     </div>
-    <div id="main-container">
-        <div id="all-container">
-        </div>
+    <div id="all-container">
     </div>
     <div id="canvas-container">
         <canvas width="1920" height="1000"></canvas>

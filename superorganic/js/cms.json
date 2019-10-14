@@ -55,5 +55,13 @@
         "border": false,
         "title": false,
         "content": "<div class='box' style='left: -40px; top: -90px;'> The team sends the client a Statement of Work that includes rates and hours for each Superorganic member. </div> <div class='box' style='left: 10px; top: 10px;'> The client signs standardized contracts with each team member. </div> <div class='box' style='left: 40px; top: 80px;'> The team works closely with the client to complete the project through a mixture of on-site and digital collaboration. </div> "
+    }, {
+        "id": "empty-padding-box",
+        "pos": { "x": 0, "y": 0 },
+        "size": { "w": "10px" },
+        "visibility": true,
+        "border:": false,
+        "title": false,
+        "content": ""
     }]
 }
