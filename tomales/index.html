@@ -2,6 +2,8 @@
 
 <head>
     <script src="js/jquery.min.js"></script>
+    <script src="js/poisson-disc-sampler.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
     <script>
         $(document).ready(function() {
 
@@ -11,14 +13,23 @@
             var backgroundURL = ["assets/wind-slow/up"];
 
             var numFlowers = 1;
-            var gridFactor = 20;
+            var distanceBetweenFlowers = 300;
             var gardenContainer = "#garden";
             var buttonID = "#cursor-overlay";
+            var skipTutorial = true;
 
-            function setupGarden() {
+            //The width and height are 800 as defined in CSS 
+            //TOOD: likely just clean this up and do it all in JS 
+            var sampler;
+
+            function createGarden() {
                 //Clear out flowers and html
                 flowers = [];
                 $(gardenContainer).html("");
+
+                sampler = poissonDiscSampler(700, 700, distanceBetweenFlowers);
+
+                var finishedCreation = true;
 
                 for (var i = 0; i < numFlowers; i++) {
                     var flowerID = "flower-" + i;
@@ -29,16 +40,35 @@
                     });
 
 
+                    if (i == 0) {
+                        var leftPosition = 350;
+                        var topPosition = 250;
+                    } else {
 
-                    //TODO: make a better distribution algorithm here
-                    var topPosition = ((i + 1) * ((Math.random() < 0) ? -1 : 1) * gridFactor) + Math.floor(Math.random() * 300);
-                    var leftPosition = ((i + 1) * ((Math.random() < 0) ? -1 : 1) * gridFactor) + Math.floor(Math.random() * 500) - 100;
+                        var sample = sampler();
+
+                        if (!sample) {
+                            console.log("No more flowers fit buddy, max was " + i + " trying again");
+                            distanceBetweenFlowers -= 10;
+                            finishedCreation = false;
+                            break;
+                        }
+
+                        //The flowers are about 200 high, and 100 wide, so we offset this from the sample sizes
+                        var leftPosition = sample[0];
+                        var topPosition = sample[1] - 100;
+                    }
+
 
                     var flowerPosition = "style='left:" + leftPosition + "; top:" + topPosition + ";'";
-
-                    var imgElement = $("<img src='" + flowerURL + thingies[0] + ".png' id='" + flowerID + "'" + flowerPosition + "/>");
+                    var imgElement = $("<img src='" + flowerURL + frameNumbers[0] + ".png' id='" + flowerID + "'" + flowerPosition + "/>");
                     $(gardenContainer).append(imgElement);
                 }
+
+                if (!finishedCreation) {
+                    createGarden();
+                }
+
             }
 
 
@@ -53,9 +83,12 @@
                 });
 
 
-                $(buttonID).bind('touchend mouseup', function(e) {
+                $(buttonID).bind('touchend mouseup keyup', function(e) {
                     startAnimationDown()
                 });
+
+
+
             }
 
             // $(buttonID).hover(() => startAnimationUp(), () => startAnimationDown());
@@ -73,9 +106,10 @@
             }
 
 
-            //Animation related thingies
-            var thingies = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
-            var maxFrame = thingies.length - 1;
+            //Animation related frameNumbers
+            // var thingies_forward = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
+            var frameNumbers = ["20", "19", "18", "17", "16", "15", "14", "13", "12", "11", "10", "09", "08", "07", "06", "05", "04", "03", "02", "01", "00"]
+            var maxFrame = frameNumbers.length - 1;
             var waitTime = 3000 / maxFrame;
             var current = 0;
             var direction = "pause";
@@ -84,11 +118,11 @@
             function renderNext() {
 
                 $.each(flowers, function(index, flower) {
-                    var desiredSrc = flower["url"] + thingies[current] + ".png";
+                    var desiredSrc = flower["url"] + frameNumbers[current] + ".png";
                     document.getElementById(flower["id"]).src = desiredSrc;
                 });
 
-                var backgroundSrc = backgroundURL + thingies[current] + ".png";
+                var backgroundSrc = backgroundURL + frameNumbers[current] + ".png";
                 $('#entire-space').css('background-image', 'url("' + backgroundSrc + '")');
 
                 if (direction == "pause") {
@@ -100,7 +134,7 @@
                         if (addNewFlowers) {
                             numFlowers += 1;
                             addNewFlowers = false;
-                            setupGarden();
+                            createGarden();
                         }
                         return;
                     } else {
@@ -122,29 +156,39 @@
             }
 
             function tutorial() {
-                $("#tutorial-1").hide().fadeIn().delay(2000).fadeOut();
-                $("#tutorial-2").hide().delay(4000).fadeIn().delay(1000).fadeOut();
-                $("#tutorial-3").hide().delay(7000).fadeIn().delay(1000).fadeOut();
-                setTimeout(function() {
-                    $("#cursor-overlay").fadeTo(200, 0, function() {
-                        setupGarden();
-                        setupEvents();
-                    });
-                }, 9000);
+
+                if (skipTutorial) {
+                    $("#tutorial-1").hide();
+                    $("#tutorial-2").hide();
+                    $("#tutorial-3").hide();
+                    createGarden();
+                    setupEvents();
+                } else {
+                    $("#tutorial-1").hide().fadeIn().delay(2000).fadeOut();
+                    $("#tutorial-2").hide().delay(4000).fadeIn().delay(1000).fadeOut();
+                    $("#tutorial-3").hide().delay(7000).fadeIn().delay(1000).fadeOut();
+                    setTimeout(function() {
+                        $("#cursor-overlay").fadeTo(200, 0, function() {
+                            createGarden();
+                            setupEvents();
+                        });
+                    }, 9000);
+                }
+
             }
 
             function preload() {
                 $.each(flowerURLs, function(index, flowerURL) {
-                    for (var i = 0; i < thingies.length; i++) {
-                        var addition = thingies[i];
+                    for (var i = 0; i < frameNumbers.length; i++) {
+                        var addition = frameNumbers[i];
                         var desiredSrc = flowerURL + addition + ".png";
                         var newImg = $("<img src='" + desiredSrc + "'/>");
                         $("#preload").append(newImg);
                     }
                 });
 
-                for (var i = 0; i < thingies.length; i++) {
-                    var addition = thingies[i];
+                for (var i = 0; i < frameNumbers.length; i++) {
+                    var addition = frameNumbers[i];
                     var backroundSrc = backgroundURL + addition + ".png";
                     var newBg = $("<img src='" + backroundSrc + "'/>")
                     $("#preload").append(newBg);
@@ -156,74 +200,7 @@
     </script>
 
     <style>
-        body {
-            background: white;
-        }
-        
-        #entire-space {
-            background-image: url("assets/wind-slow/up00.png");
-            background-size: 600px;
-            background-position: left;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            opacity: 0.4;
-        }
-        
-        #garden-container {
-            margin: 0 auto;
-            text-align: center;
-            z-index: 2;
-        }
-        
-        #garden {
-            background: rgb(187, 255, 228);
-            height: 800px;
-            width: 800px;
-            max-height: 90%;
-            max-width: 90%;
-            user-select: none;
-            margin: 0 auto;
-            pointer-events: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        #garden img {
-            width: 20%;
-            height: auto;
-            position: absolute;
-        }
-        
-        #cursor-overlay {
-            opacity: 1;
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            z-index: 5;
-            width: 100vw;
-            height: 100vh;
-            text-align: center;
-        }
-        
-        #tutorial-container {
-            position: absolute;
-            margin: 0 auto;
-            font-family: sans-serif;
-            font-size: 24px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        #preload {
-            display: none;
-        }
+
     </style>
 </head>
 
@@ -249,4 +226,4 @@
     </div>
 </body>
 
-</html
+</html>

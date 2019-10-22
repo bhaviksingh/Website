@@ -1,0 +1,68 @@
+body {
+    background: white;
+}
+
+#entire-space {
+    background-image: url("../assets/wind-slow/up00.png");
+    background-size: 600px;
+    background-position: left;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    opacity: 0.4;
+}
+
+#garden-container {
+    margin: 0 auto;
+    text-align: center;
+    z-index: 2;
+}
+
+#garden {
+    background: rgb(187, 255, 228);
+    height: 800px;
+    width: 800px;
+    max-height: 90%;
+    max-width: 90%;
+    user-select: none;
+    margin: 0 auto;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#garden img {
+    width: 20%;
+    height: auto;
+    position: absolute;
+}
+
+#cursor-overlay {
+    opacity: 1;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+}
+
+#tutorial-container {
+    position: absolute;
+    margin: 0 auto;
+    font-family: sans-serif;
+    font-size: 24px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#preload {
+    display: none;
+}
