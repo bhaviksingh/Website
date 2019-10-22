@@ -4,18 +4,34 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/poisson-disc-sampler.js"></script>
     <script src="js/garden.js"></script>
+    <script src="js/tutorial.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <script>
         $(document).ready(function() {
 
-            //No right clicks
-            $(document).bind("contextmenu", function(e) {
-                return false;
-            });
-
+            var garden, tutorial;
+            var maxIndex, waitTime;
+            var background = new Background("#entire-space");
             var buttonID = "#cursor-overlay";
 
+            function setup() {
+                garden = new Garden("#garden", 700, 700, 1); //Create a garden
+                tutorial = new Tutorial("#tutorial-image");
+
+                maxIndex = garden.getMaxIndex(); //We get the maxIndex from the garden
+                waitTime = garden.getTimeBetweenFrames(3000);
+
+                setupEvents();
+            }
+            setup();
+
+
             function setupEvents() {
+
+                $(document).bind("contextmenu", function(e) {
+                    return false;
+                });
+
 
                 $(buttonID).bind('touchstart mousedown', function(e) {
                     startAnimationDown()
@@ -26,8 +42,6 @@
                     startAnimationUp()
                 });
             }
-
-            // $(buttonID).hover(() => startAnimationUp(), () => startAnimationDown());
 
             function startAnimationUp() {
                 console.log("Animating up");
@@ -41,44 +55,23 @@
                 renderNextFrame();
             }
 
-            var garden = new Garden("#garden", 700, 700, 1, 20); //Create a garden
 
-            var maxIndex = garden.getMaxIndex(); //We get the maxIndex from the garden
-            var waitTime = garden.getTimeBetweenFrames(3000);
             var direction = "pause"; //We're started in a paused state
             var currentIndex = maxIndex; //We're starting at the last frame
-            var reachedTop = true; //Whether or not we hit the maxIndex on our last run (true since we're starting here)
-
-            var firstRun = true;
+            var activeRenderer = tutorial;
 
             function renderNextFrame() {
 
-                garden.updateGardenToIndex(currentIndex);
-
-                //TODO: Have the background animator be its own little thing
-                // var backgroundSrc = backgroundURL + frameNumbers[currentIndex] + ".png";
-                // $('#entire-space').css('background-image', 'url("' + backgroundSrc + '")');
+                activeRenderer.updateToIndex(currentIndex);
+                background.updateToIndex(currentIndex);
 
                 if (direction == "pause") {
                     return;
                 } else
                 if (direction == "down") {
-
-                    if (currentIndex == 0) {
+                    if (activeRenderer.reachedBottom(currentIndex)) {
                         console.log("Reached bottom");
                         direction = "pause";
-
-                        //The first time ever, we start at the top - but from then on, we start at bottom
-                        if (firstRun) {
-                            firstRun = false;
-                            garden.updateStartingFrame(0);
-                        }
-
-                        //Now, we reached the top, when we went up - so lets add a flower!
-                        if (reachedTop) {
-                            reachedTop = false;
-                            garden.addFlower();
-                        }
                         return;
 
                     } else {
@@ -86,10 +79,15 @@
                     }
                 } else if (direction == "up") {
                     //If the user reaches the top, stop and tell the system to add a new flower (which happens the next time we hit the bottom)
-                    if (currentIndex == maxIndex) {
+                    if (activeRenderer.reachedTop(currentIndex)) {
                         console.log("Reached top");
                         direction = "pause";
-                        reachedTop = true;
+
+                        if (activeRenderer.isFinished()) {
+                            activeRenderer = garden;
+                            garden.createGarden();
+                        }
+
                         return;
                     } else {
                         currentIndex += 1;
@@ -101,35 +99,6 @@
             }
 
 
-            var skipTutorial = true;
-
-            function tutorial() {
-
-                setupEvents();
-
-                if (skipTutorial) {
-                    $("#tutorial-1").hide();
-                    $("#tutorial-2").hide();
-                    $("#tutorial-3").hide();
-                    garden.createGarden();
-                } else {
-
-                    $("#tutorial-1").hide().fadeIn().delay(2000).fadeOut();
-
-                    $("#tutorial-2").hide().delay(4000).fadeIn().delay(1000).fadeOut();
-
-                    $("#tutorial-3").hide().delay(7000).fadeIn().delay(1000).fadeOut();
-
-                    setTimeout(function() {
-                        $("#cursor-overlay").fadeTo(200, 0, function() {
-                            garden.createGarden();
-                        });
-                    }, 9000);
-                }
-
-            }
-
-            tutorial();
         });
     </script>
 
@@ -141,9 +110,10 @@
 <body>
     <div id="cursor-overlay">
         <div id="tutorial-container">
-            <div id="tutorial-1" class="tutorial"> This is a safe space </div>
-            <div id="tutorial-2" class="tutorial"> Breathe in, and press down </div>
-            <div id="tutorial-3" class="tutorial"> Breathe out, and release </div>
+            <div id="tutorial" class="tutorial">
+                <img id="tutorial-image" />
+            </div>
+
         </div>
     </div>
 
