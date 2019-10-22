@@ -63,6 +63,6 @@ body {
     transform: translate(-50%, -50%);
 }
 
-#preload {
+.preload {
     display: none;
 }
