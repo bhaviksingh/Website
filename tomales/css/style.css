@@ -1,45 +1,7 @@
 body {
     background: white;
-}
-
-#entire-space {
-    background-image: url("../assets/wind-slow/up00.png");
-    background-size: 600px;
-    background-position: left;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    opacity: 0.4;
-}
-
-#garden-container {
-    margin: 0 auto;
-    text-align: center;
-    z-index: 2;
-}
-
-#garden {
-    background: rgb(187, 255, 228);
-    height: 800px;
-    width: 800px;
-    max-height: 90%;
-    max-width: 90%;
-    user-select: none;
-    margin: 0 auto;
-    pointer-events: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-#garden img {
-    width: 20%;
-    height: auto;
-    position: absolute;
+    cursor: pointer;
+    cursor: url('../assets/cursor.png'), auto;
 }
 
 #cursor-overlay {
@@ -53,6 +15,94 @@ body {
     text-align: center;
 }
 
+#entire-space {
+    background-image: url("../assets/wind-slow/up00.png");
+    background-size: 300px;
+    background-position: left;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    opacity: 0.2;
+}
+
+#garden-container {
+    margin: 0 auto;
+    text-align: center;
+    z-index: 2;
+}
+
+#garden,
+#garden-grass,
+#explainer-content {
+    background: none;
+    height: 800px;
+    width: 800px;
+    max-height: 90%;
+    max-width: 90%;
+    user-select: none;
+    margin: 0 auto;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#garden-grass {
+    background: rgb(187, 255, 228);
+    z-index: -1;
+}
+
+#garden img {
+    width: 20%;
+    height: auto;
+    position: absolute;
+}
+
+#explainer {
+    margin: 0 auto;
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+}
+
+#explainer-toggle {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    font-size: 24px;
+    background: #c4fafc;
+    border-radius: 40px;
+    padding: 24px;
+    cursor: crosshair;
+    text-align: center;
+    z-index: 40;
+    display: none;
+}
+
+#explainer-content {
+    background: #c4fafc;
+    z-index: 4;
+    font-size: 32px;
+    padding: 32px;
+    box-sizing: border-box;
+    display: none;
+}
+
+#explainer-content .row {
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 12px;
+    margin-bottom: 56px;
+}
+
+#explainer-content .header {
+    font-weight: bold;
+}
+
 #tutorial-container {
     position: absolute;
     margin: 0 auto;
@@ -63,6 +113,31 @@ body {
     transform: translate(-50%, -50%);
 }
 
+#tutorial-container img {
+    width: 40%;
+    margin: 0 auto;
+}
+
 .preload {
     display: none;
+}
+
+@media only screen and (min-device-width: 800px) {
+    /* For desktop */
+    #entire-space {
+        background-size: 200px;
+        opacity: .1;
+    }
+    #garden,
+    #garden-grass {
+        width: 750px;
+        height: 600px;
+    }
+    #explainer-content {
+        width: 860px;
+        height: 700px;
+    }
+    #garden img {
+        width: 15%;
+    }
 }

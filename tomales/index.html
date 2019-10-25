@@ -1,32 +1,69 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <script src="js/jquery.min.js"></script>
     <script src="js/poisson-disc-sampler.js"></script>
     <script src="js/garden.js"></script>
     <script src="js/tutorial.js"></script>
     <link rel="stylesheet" href="css/style.css" />
+
     <script>
         $(document).ready(function() {
 
             var garden, tutorial;
-            var maxIndex, waitTime;
+            var activeRenderer;
+            var direction, maxIndex, waitTime;
             var background = new Background("#entire-space");
             var buttonID = "#cursor-overlay";
 
+            var introImage = "assets/intro.gif";
+
             function setup() {
-                garden = new Garden("#garden", 700, 700, 1); //Create a garden
+
+                var gardenWidth = $("#garden").width() - 100;
+                var gardenHeight = $("#garden").height() - 100;
+
+                console.log(gardenWidth + " " + gardenHeight);
+
+                garden = new Garden("#garden", gardenWidth, gardenHeight, 2); //Create a garden
                 tutorial = new Tutorial("#tutorial-image");
+                activeRenderer = tutorial;
 
                 maxIndex = garden.getMaxIndex(); //We get the maxIndex from the garden
                 waitTime = garden.getTimeBetweenFrames(3000);
 
-                setupEvents();
+                direction = "pause"; //We're started in a paused state
+                currentIndex = maxIndex; //We're starting at the last frame
+                //TODO: THIS IS EXTREMELY BROKEN AND JANK AND SHOULDN'T BE THIS WAY 
+
+                $("#tutorial-image").hide();
+                $("#tutorial-image").attr("src", introImage);
+                $("#tutorial-image").fadeIn("slow").delay(1500).fadeOut("slow", function() {
+                    activeRenderer.start();
+                    setupEvents();
+                    $("#tutorial-image").delay(500).fadeIn("slow");
+                    $("#explainer-toggle").delay(500).fadeIn("slow");
+                });
+
+
             }
             setup();
 
 
+            var blockClicks = false;
+
             function setupEvents() {
+
+                $("#explainer-toggle").bind("click", function(e) {
+                    if ($("#explainer-content").is(":visible")) {
+                        $("#explainer-content").hide();
+                        blockClicks = false;
+                    } else {
+                        $("#explainer-content").show();
+                        blockClicks = true;
+                    }
+                });
 
                 $(document).bind("contextmenu", function(e) {
                     return false;
@@ -44,21 +81,22 @@
             }
 
             function startAnimationUp() {
-                console.log("Animating up");
-                direction = "up";
-                renderNextFrame();
+                if (!blockClicks) {
+                    console.log("Animating up");
+                    direction = "up";
+                    renderNextFrame();
+                }
             }
 
             function startAnimationDown() {
-                console.log("Animating down");
-                direction = "down";
-                renderNextFrame();
+                if (!blockClicks) {
+                    console.log("Animating down");
+                    direction = "down";
+                    renderNextFrame();
+                }
             }
 
 
-            var direction = "pause"; //We're started in a paused state
-            var currentIndex = maxIndex; //We're starting at the last frame
-            var activeRenderer = tutorial;
 
             function renderNextFrame() {
 
@@ -85,7 +123,7 @@
 
                         if (activeRenderer.isFinished()) {
                             activeRenderer = garden;
-                            garden.createGarden();
+                            activeRenderer.start();
                         }
 
                         return;
@@ -102,31 +140,57 @@
         });
     </script>
 
-    <style>
-
-    </style>
 </head>
 
 <body>
+    <div id="explainer">
+        <div id="explainer-toggle">
+            ?
+        </div>
+        <div id="explainer-content">
+            <div class="row">
+                <div class="header">
+                    🌱 What is this?
+                </div>
+                <div class="body">
+                    This is a safe space on the internet. A space to get away from receiving, and to give. A space to give to yourself, and to give to slowness and growth. A space to pause, breathe, and think (or not think).
+                </div>
+            </div>
+            <div class="row">
+                <div class="header">
+                    🌸 What do I do here?
+                </div>
+                <div class="body">
+                    Press down (using your mouse, or touching your touch-screen) and breathe in. Release (your finger) and breathe out. Watch flowers grow. Repeat.
+                </div>
+            </div>
+            <div class="row">
+                <div class="header">
+                    🌳 Who built this?
+                </div>
+                <div class="body">
+                    I did! @bvksn on twitter, @by_bvk on Instagram. I'd love to hear what you (who-ever you are) think! So reach out on those places.
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="cursor-overlay">
+
+    </div>
+
+    <div id="entire-space">
+    </div>
+    <div id="garden-container">
         <div id="tutorial-container">
             <div id="tutorial" class="tutorial">
                 <img id="tutorial-image" />
             </div>
 
         </div>
-    </div>
-
-    <div id="background">
-        <div id="entire-space">
+        <div id="garden-grass">
         </div>
-        <div id="garden-container">
-            <div id="garden">
-            </div>
+        <div id="garden">
         </div>
-    </div>
-    <div id="preload">
-
     </div>
 </body>
 
