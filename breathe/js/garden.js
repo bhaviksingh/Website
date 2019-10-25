@@ -43,7 +43,9 @@ class Garden {
         this.gardenSize = [gardenWidth, gardenHeight];
         this.sampler = null;
 
-        this.preload();
+        //We're doing this in a set timeout because we know that the tutorial is pre-loading at the same time and we want that to go first
+        //THIS IS EXTREMELY JANK AND SHOULD BE FIXED ASAP
+        setTimeout(() => this.preload(), 300);
 
     }
 

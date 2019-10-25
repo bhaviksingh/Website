@@ -140,4 +140,8 @@ body {
     #garden img {
         width: 15%;
     }
+    #explainer-content {
+        font-size: 24px;
+        padding-top: 90px;
+    }
 }

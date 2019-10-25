@@ -7,7 +7,8 @@
     <script src="js/garden.js"></script>
     <script src="js/tutorial.js"></script>
     <link rel="stylesheet" href="css/style.css" />
-
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
+    <title> breathe </title>
     <script>
         $(document).ready(function() {
 
@@ -26,8 +27,8 @@
 
                 console.log(gardenWidth + " " + gardenHeight);
 
-                garden = new Garden("#garden", gardenWidth, gardenHeight, 2); //Create a garden
                 tutorial = new Tutorial("#tutorial-image");
+                garden = new Garden("#garden", gardenWidth, gardenHeight, 2);
                 activeRenderer = tutorial;
 
                 maxIndex = garden.getMaxIndex(); //We get the maxIndex from the garden
@@ -36,12 +37,15 @@
                 direction = "pause"; //We're started in a paused state
                 currentIndex = maxIndex; //We're starting at the last frame
                 //TODO: THIS IS EXTREMELY BROKEN AND JANK AND SHOULDN'T BE THIS WAY 
+                //IT ALSO MAKES NO SENSE TO READ THE MAXINDEX FROM GARDEN
+                //REALLY THE RENDERER SHOULD BE IN ITS OWN CLASS ETC ETC
 
                 $("#tutorial-image").hide();
                 $("#tutorial-image").attr("src", introImage);
                 $("#tutorial-image").fadeIn("slow").delay(1500).fadeOut("slow", function() {
                     activeRenderer.start();
                     setupEvents();
+
                     $("#tutorial-image").delay(500).fadeIn("slow");
                     $("#explainer-toggle").delay(500).fadeIn("slow");
                 });

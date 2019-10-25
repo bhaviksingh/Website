@@ -6,6 +6,7 @@ class Tutorial {
         this.stageURLs = ["assets/tutorial/pressdown/tutorial-pressdown", "assets/tutorial/letgo/tutorial-letgo"];
         this.frameNumbers = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
         this.finished = false;
+        this.preload()
     }
 
     start() {
@@ -48,6 +49,17 @@ class Tutorial {
     updateToIndex(frameIndex) {
         var _this = this;
         $(_this.tutorialContainer).attr("src", this.calculateSrcAtFrame(frameIndex));
+    }
+
+    preload() {
+        $(this.tutorialContainer).append("<div id='tutorial-preload' class='preload'> </div>");
+        var _this = this;
+        $.each(_this.stageURLs, function(index, stageURL) {
+            for (var i = 0; i < _this.frameNumbers.length; i++) {
+                var tutorialStageImg = $("<img src='" + stageURL + _this.frameNumbers[i] + ".png'>");
+                $("#tutorial-preload").append(tutorialStageImg);
+            };
+        });
     }
 
 }
