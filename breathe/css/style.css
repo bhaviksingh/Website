@@ -4,6 +4,17 @@ body {
     cursor: url('../assets/cursor.png'), auto;
 }
 
+body,
+#explainer,
+#explainer-content {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 #cursor-overlay {
     opacity: 1;
     position: absolute;
