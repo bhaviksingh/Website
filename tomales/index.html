@@ -69,7 +69,13 @@
                     }
                 });
 
+                $("#explainer").bind("contextmenu", function(e) {
+                    e.preventDefault();
+                    return false;
+                })
+
                 $(document).bind("contextmenu", function(e) {
+                    e.preventDefault();
                     return false;
                 });
 
