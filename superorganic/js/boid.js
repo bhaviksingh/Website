@@ -1,65 +1,122 @@
 class Boid {
 
-    constructor(image) {
+    constructor(boidController) {
         this.position = createVector(random(width), random(height));
         this.velocity = p5.Vector.random2D();
         this.velocity.setMag(random(2, 4));
         this.acceleration = createVector();
-        this.maxForce = .2;
-        this.maxSpeed = 4;
-        this.perceptionRadius = 100;
-
         this.totalScroll = createVector();
-        this.enableScrollforce;
-        this.scrollFactor = .01;
+        this.enableScrollforce = true;
+
+        this.maxForce;
+        this.maxSpeed;
+        this.perceptionRadius;
+        this.aForceLimit;
+        this.sForceLimit;
+        this.cForceLimit;
+        this.alignFactor;
+        this.cohesionFactor;
+        this.separationFactor;
+        this.updateParams(boidController);
+        this.size;
 
         let useImage = false;
-
-        if (useImage && image) {
-            this.imageAsset = image;
-        } else {
-            this.imageAsset == undefined;
-        }
+        this.imageAsset == undefined;
 
     }
-
     edges() {
         //this.collideEdges();
         this.overflowEdges();
     }
 
-    align(boids) {
-        let desiredVelocity = createVector();
-        let steeringForce = createVector();
+    //I should probably use a dictionary here
+    updateParams(boidController) {
+        this.aForceLimit = boidController.aForceLimit;
+        this.sForceLimit = boidController.sForceLimit;
+        this.cForceLimit = boidController.cForceLimit;
+
+        this.maxForce = boidController.maxForce;
+        this.maxSpeed = boidController.maxSpeed;
+        this.perceptionRadius = boidController.perceptionRadius;
+        this.alignFactor = boidController.alignFactor;
+        this.cohesionFactor = boidController.cohesionFactor;
+        this.separationFactor = boidController.separationFactor;
+        this.size = boidController.size;
+    }
+
+    flock(boids) {
+
+        let averageVelocity = createVector();
+        let averagePosition = createVector();
+        let averageMovementAway = createVector();
         let numBoids = 0;
 
         //Go through every boid, and add up the velocities if its close to you
         for (let boid of boids) {
             let distanceBetweenBoids = dist(this.position.x, this.position.y, boid.position.x, boid.position.y);
             if (boid != this && distanceBetweenBoids < this.perceptionRadius) {
-                desiredVelocity.add(boid.velocity);
+                averageVelocity.add(boid.velocity);
+                averagePosition.add(boid.position);
+
+                //Calculate a vector away from the boid, inverseley proportional to the distance between us
+                let vectorAwayFromPair = p5.Vector.sub(this.position, boid.position);
+                vectorAwayFromPair.div(pow(distanceBetweenBoids, 2)); //TODO: note if distance between boids is 0 we're fucked!
+                averageMovementAway.add(vectorAwayFromPair);
+
                 numBoids++;
             }
         }
 
-        //If you found more than one boid close to you, then you can get the average velocity
-        //The steering force is the force *towards* that point, which is the desired thing (avg velocity) - your thing
-        if (numBoids > 0) {
-            desiredVelocity.div(numBoids);
-            desiredVelocity.setMag(this.maxSpeed);
-            steeringForce = desiredVelocity.sub(this.velocity);
-            this.acceleration.add(steeringForce);
+        if (numBoids == 0) {
+            return;
         }
+
+        averagePosition.div(numBoids);
+        averageVelocity.div(numBoids);
+        averageMovementAway.div(numBoids);
+        //These now are the average Position and velocity of the boids group
+
+        //Alignment force = force towards average velocity 
+        let alignmentSteeringForce = createVector();
+        alignmentSteeringForce = averageVelocity; //So start with average velocity  (mostly get direction)
+        alignmentSteeringForce.setMag(this.maxSpeed); //Thrust ourselves towards it (make it max magnitude)
+        alignmentSteeringForce.sub(this.velocity); // Then subtract our velocity to get the force
+
+        //Cohesion steering force = force towards average position
+        let cohesionSteeringForce = createVector();
+        averagePosition.sub(this.position); //Average position is now the delta positions
+        cohesionSteeringForce = averagePosition; //So the force is in direction of delta positions
+        cohesionSteeringForce.setMag(this.maxSpeed); //With max magnitude
+        cohesionSteeringForce.sub(this.velocity); //Minus my velocity 
+
+        //Seperation force = average velocity away from everyone else, with mag inverseley proportional to their distances
+        //We already have the velocity we need, it was calculated above so we just get the force
+        let seperationSteeringForce = createVector();
+        seperationSteeringForce = averageMovementAway;
+        seperationSteeringForce.setMag(this.maxSpeed);
+        seperationSteeringForce.sub(this.velocity)
+
+        alignmentSteeringForce.mult(this.alignFactor);
+        cohesionSteeringForce.mult(this.cohesionFactor);
+        seperationSteeringForce.mult(this.separationFactor);
+
+        alignmentSteeringForce.limit(this.aForceLimit);
+        cohesionSteeringForce.limit(this.cForceLimit);
+        seperationSteeringForce.limit(this.sForceLimit);
+
+
+        this.acceleration.add(alignmentSteeringForce);
+        this.acceleration.add(cohesionSteeringForce);
+        this.acceleration.add(seperationSteeringForce);
 
     }
 
 
     applyForce(boids) {
         //this.mouseForce();
-        // this.windupForce();
-        //this.enableScrollforce = false;
-        this.align(boids);
-        this.acceleration.limit(this.maxForce);
+        //this.windupForce();
+        this.flock(boids);
+        //this.acceleration.limit(this.maxForce);
     }
 
     update() {
@@ -76,11 +133,9 @@ class Boid {
 
 
         if (this.imageAsset) {
-            let size = 20;
-            image(this.imageAsset, this.position.x, this.position.y, size, size)
+            image(this.imageAsset, this.position.x, this.position.y, this.size, this.size)
         } else {
-            let size = 10;
-            ellipse(this.position.x, this.position.y, size, size);
+            ellipse(this.position.x, this.position.y, this.size, this.size);
         }
 
         //Reset acceleration

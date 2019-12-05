@@ -1,11 +1,25 @@
 <html>
 
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-136929663-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-136929663-1');
+    </script>
+
     <meta charset="UTF-8">
     <script src="js/jquery.min.js"></script>
     <script src="js/poisson-disc-sampler.js"></script>
     <script src="js/garden.js"></script>
     <script src="js/tutorial.js"></script>
+
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="assets/favicon.png" type="image/png" />
     <title> breathe </title>
@@ -43,6 +57,7 @@
                 $("#tutorial-image").hide();
                 $("#tutorial-image").attr("src", introImage);
                 $("#tutorial-image").fadeIn("slow").delay(1500).fadeOut("slow", function() {
+                    $('#cursor-overlay').addClass("down");
                     activeRenderer.start();
                     setupEvents();
 
@@ -75,7 +90,7 @@
 
 
                 $(buttonID).bind('touchstart mousedown', function(e) {
-                    startAnimationDown()
+                    startAnimationDown();
                 });
 
 
@@ -89,6 +104,7 @@
                     console.log("Animating up");
                     direction = "up";
                     renderNextFrame();
+
                 }
             }
 
@@ -96,7 +112,9 @@
                 if (!blockClicks) {
                     console.log("Animating down");
                     direction = "down";
+                    $('#cursor-overlay').removeClass("up").addClass("down");
                     renderNextFrame();
+
                 }
             }
 
@@ -111,6 +129,11 @@
                     return;
                 } else
                 if (direction == "down") {
+
+                    if ($("#cursor-overlay").hasClass("up")) {
+                        $('#cursor-overlay').removeClass("up").addClass("down");
+                    }
+
                     if (activeRenderer.reachedBottom(currentIndex)) {
                         console.log("Reached bottom");
                         direction = "pause";
@@ -120,12 +143,18 @@
                         currentIndex -= 1;
                     }
                 } else if (direction == "up") {
+
+                    if ($("#cursor-overlay").hasClass("down")) {
+                        $('#cursor-overlay').removeClass("down").addClass("up");
+                    }
+
                     //If the user reaches the top, stop and tell the system to add a new flower (which happens the next time we hit the bottom)
                     if (activeRenderer.reachedTop(currentIndex)) {
                         console.log("Reached top");
                         direction = "pause";
 
                         if (activeRenderer.isFinished()) {
+                            $('#cursor-overlay').removeClass("up").addClass("down");
                             activeRenderer = garden;
                             activeRenderer.start();
                         }
@@ -149,7 +178,7 @@
 <body>
     <div id="explainer">
         <div id="explainer-toggle">
-            ?
+            <img src="assets/question-icon.png">
         </div>
         <div id="explainer-content">
             <div class="row">
@@ -157,7 +186,7 @@
                     🌱 What is this?
                 </div>
                 <div class="body">
-                    This is a safe space on the internet. A space to get away from receiving, and to give. A space to give to yourself, and to give to slowness and growth. A space to pause, breathe, and think (or not think).
+                    This is a safe space on the internet. An opportunity to breathe. To get away from consuming, and to give to yourself, and to the slowness of time.
                 </div>
             </div>
             <div class="row">
@@ -165,15 +194,15 @@
                     🌸 What do I do here?
                 </div>
                 <div class="body">
-                    Press down (using your mouse, or touching your touch-screen) and breathe in. Release (your finger) and breathe out. Watch flowers grow. Repeat.
+                    Press down (using your mouse, or touching your touch-screen) and breathe in. Release (your finger) and breathe out. Watch flowers grow.
                 </div>
             </div>
             <div class="row">
                 <div class="header">
-                    🌳 Who built this?
+                    🌳I want to say something about this
                 </div>
                 <div class="body">
-                    I did! @bvksn on twitter, @by_bvk on Instagram. I'd love to hear what you (who-ever you are) think! So reach out on those places.
+                    Please please reach out to me! @by_bvk on Instagram, or @bvksn on Twitter.
                 </div>
             </div>
         </div>

@@ -1,7 +1,5 @@
 body {
     background: white;
-    cursor: pointer;
-    cursor: url('../assets/cursor.png'), auto;
 }
 
 body,
@@ -24,6 +22,15 @@ body,
     width: 100vw;
     height: 100vh;
     text-align: center;
+    cursor: none;
+}
+
+#cursor-overlay.down {
+    cursor: url('../assets/cursor-down.png'), auto;
+}
+
+#cursor-overlay.up {
+    cursor: url('../assets/cursor-up.png'), auto;
 }
 
 #entire-space {
@@ -91,6 +98,11 @@ body,
     text-align: center;
     z-index: 40;
     display: none;
+}
+
+#explainer-toggle img {
+    width: 20px;
+    height: auto;
 }
 
 #explainer-content {
