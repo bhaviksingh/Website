@@ -34,6 +34,15 @@
 
             var introImage = "assets/intro.gif";
 
+            function startTutorial() {
+                $('#cursor-overlay').addClass("down");
+                activeRenderer.start();
+                setupEvents();
+
+                $("#tutorial-image").delay(500).fadeIn("slow");
+                $("#explainer-toggle").delay(500).fadeIn("slow");
+            }
+
             function setup() {
 
                 var gardenWidth = $("#garden").width() - 100;
@@ -49,21 +58,20 @@
                 waitTime = garden.getTimeBetweenFrames(3000);
 
                 direction = "pause"; //We're started in a paused state
-                currentIndex = maxIndex; //We're starting at the last frame
+                currentIndex = maxIndex - 1; //We're starting at the last frame
                 //TODO: THIS IS EXTREMELY BROKEN AND JANK AND SHOULDN'T BE THIS WAY 
                 //IT ALSO MAKES NO SENSE TO READ THE MAXINDEX FROM GARDEN
                 //REALLY THE RENDERER SHOULD BE IN ITS OWN CLASS ETC ETC
+                // I JUST HAD TO ADD THE -1 TO MAKE SHIT WORK :P
 
-                $("#tutorial-image").hide();
-                $("#tutorial-image").attr("src", introImage);
-                $("#tutorial-image").fadeIn("slow").delay(1500).fadeOut("slow", function() {
-                    $('#cursor-overlay').addClass("down");
-                    activeRenderer.start();
-                    setupEvents();
 
-                    $("#tutorial-image").delay(500).fadeIn("slow");
-                    $("#explainer-toggle").delay(500).fadeIn("slow");
-                });
+                startTutorial();
+                // Comment this back in if you want the intro
+                // $("#tutorial-image").hide();
+                // $("#tutorial-image").attr("src", introImage);
+                // $("#tutorial-image").fadeIn("slow").delay(1500).fadeOut("slow", function() {
+                //     startTutorial();
+                // });
 
 
             }

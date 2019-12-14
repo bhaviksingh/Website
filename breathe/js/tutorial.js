@@ -3,14 +3,15 @@ class Tutorial {
         this.currentStage = 0;
         this.maxStage = 2;
         this.tutorialContainer = tutorialID;
-        this.stageURLs = ["assets/tutorial/pressdown/tutorial-pressdown", "assets/tutorial/letgo/tutorial-letgo"];
-        this.frameNumbers = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
+        this.stageURLs = ["assets/tutorial/down-2/down", "assets/tutorial/up-2/up"];
+        this.frameNumbers = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"];
         this.finished = false;
         this.preload()
     }
 
     start() {
-        $(this.tutorialContainer).attr("src", this.calculateSrcAtFrame(20));
+        var maxFrame = this.frameNumbers.length - 1;
+        $(this.tutorialContainer).attr("src", this.calculateSrcAtFrame(maxFrame));
     }
 
     isFinished() {
@@ -42,7 +43,12 @@ class Tutorial {
     }
 
     calculateSrcAtFrame(frameIndex) {
-        var src = this.stageURLs[this.currentStage] + this.frameNumbers[frameIndex] + '.png';
+        var frameToPlay = frameIndex;
+        //To reverse the first stage 
+        if (this.currentStage == 0) {
+            frameToPlay = this.frameNumbers.length - frameIndex - 1;
+        }
+        var src = this.stageURLs[this.currentStage] + this.frameNumbers[frameToPlay] + '.png';
         return src;
     }
 

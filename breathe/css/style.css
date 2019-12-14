@@ -134,11 +134,13 @@ body,
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 800px;
 }
 
 #tutorial-container img {
-    width: 40%;
+    width: 100%;
     margin: 0 auto;
+    margin-top: 20px;
 }
 
 .preload {
@@ -155,6 +157,13 @@ body,
     #garden-grass {
         width: 750px;
         height: 600px;
+    }
+    #tutorial-container {
+        width: 750px;
+        height: 600px;
+    }
+    #tutorial-container img {
+        width: 50%;
     }
     #explainer-content {
         width: 860px;
