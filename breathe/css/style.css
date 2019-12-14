@@ -164,6 +164,7 @@ body,
     }
     #tutorial-container img {
         width: 50%;
+        margin-top: 10%;
     }
     #explainer-content {
         width: 860px;
