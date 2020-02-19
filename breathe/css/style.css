@@ -22,16 +22,17 @@ body,
     width: 100vw;
     height: 100vh;
     text-align: center;
-    cursor: none;
+    /* cursor: none; */
 }
 
-#cursor-overlay.down {
+
+/* #cursor-overlay.down {
     cursor: url('../assets/cursor-down.png'), auto;
 }
 
 #cursor-overlay.up {
     cursor: url('../assets/cursor-up.png'), auto;
-}
+} */
 
 #entire-space {
     background-image: url("../assets/wind-slow/up00.png");
@@ -53,6 +54,7 @@ body,
 }
 
 #garden,
+.garden,
 #garden-grass,
 #explainer-content {
     background: none;
@@ -74,7 +76,8 @@ body,
     z-index: -1;
 }
 
-#garden img {
+#garden img,
+.garden img {
     width: 20%;
     height: auto;
     position: absolute;

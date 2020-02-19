@@ -17,204 +17,16 @@
     <meta charset="UTF-8">
     <script src="js/jquery.min.js"></script>
     <script src="js/poisson-disc-sampler.js"></script>
-    <script src="js/garden.js"></script>
-    <script src="js/tutorial.js"></script>
-
+    <script src="js/util.js"></script>
+    <script src="js/ticker.js"></script>
+    <script src="js/gardenAnimator.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="assets/favicon.png" type="image/png" />
     <title> breathe </title>
-    <script>
-        $(document).ready(function() {
-
-            var garden, tutorial;
-            var activeRenderer;
-            var direction, maxIndex, waitTime;
-            var background = new Background("#entire-space");
-            var buttonID = "#cursor-overlay";
-
-            var introImage = "assets/intro.gif";
-
-            function startTutorial() {
-                $('#cursor-overlay').addClass("down");
-                activeRenderer.start();
-                setupEvents();
-
-                $("#tutorial-image").delay(500).fadeIn("slow");
-                $("#explainer-toggle").delay(500).fadeIn("slow");
-            }
-
-            function setup() {
-
-                var gardenWidth = $("#garden").width() - 100;
-                var gardenHeight = $("#garden").height() - 100;
-
-                console.log(gardenWidth + " " + gardenHeight);
-
-                tutorial = new Tutorial("#tutorial-image");
-                garden = new Garden("#garden", gardenWidth, gardenHeight, 2);
-                activeRenderer = tutorial;
-
-                maxIndex = garden.getMaxIndex(); //We get the maxIndex from the garden
-                waitTime = garden.getTimeBetweenFrames(3000);
-
-                direction = "pause"; //We're started in a paused state
-                currentIndex = maxIndex - 1; //We're starting at the last frame
-                //TODO: THIS IS EXTREMELY BROKEN AND JANK AND SHOULDN'T BE THIS WAY 
-                //IT ALSO MAKES NO SENSE TO READ THE MAXINDEX FROM GARDEN
-                //REALLY THE RENDERER SHOULD BE IN ITS OWN CLASS ETC ETC
-                // I JUST HAD TO ADD THE -1 TO MAKE SHIT WORK :P
-
-
-                startTutorial();
-                // Comment this back in if you want the intro
-                // $("#tutorial-image").hide();
-                // $("#tutorial-image").attr("src", introImage);
-                // $("#tutorial-image").fadeIn("slow").delay(1500).fadeOut("slow", function() {
-                //     startTutorial();
-                // });
-
-
-            }
-            setup();
-
-
-            var blockClicks = false;
-
-            function setupEvents() {
-
-                $("#explainer-toggle").bind("click", function(e) {
-                    if ($("#explainer-content").is(":visible")) {
-                        $("#explainer-content").hide();
-                        blockClicks = false;
-                    } else {
-                        $("#explainer-content").show();
-                        blockClicks = true;
-                    }
-                });
-
-                $(document).bind("contextmenu", function(e) {
-                    return false;
-                });
-
-
-                $(buttonID).bind('touchstart mousedown', function(e) {
-                    startAnimationDown();
-                });
-
-
-                $(buttonID).bind('touchend mouseup keyup', function(e) {
-                    startAnimationUp()
-                });
-            }
-
-            function startAnimationUp() {
-                if (!blockClicks) {
-                    console.log("Animating up");
-                    direction = "up";
-                    renderNextFrame();
-
-                }
-            }
-
-            function startAnimationDown() {
-                if (!blockClicks) {
-                    console.log("Animating down");
-                    direction = "down";
-                    $('#cursor-overlay').removeClass("up").addClass("down");
-                    renderNextFrame();
-
-                }
-            }
-
-
-
-            function renderNextFrame() {
-
-                activeRenderer.updateToIndex(currentIndex);
-                background.updateToIndex(currentIndex);
-
-                if (direction == "pause") {
-                    return;
-                } else
-                if (direction == "down") {
-
-                    if ($("#cursor-overlay").hasClass("up")) {
-                        $('#cursor-overlay').removeClass("up").addClass("down");
-                    }
-
-                    if (activeRenderer.reachedBottom(currentIndex)) {
-                        console.log("Reached bottom");
-                        direction = "pause";
-                        return;
-
-                    } else {
-                        currentIndex -= 1;
-                    }
-                } else if (direction == "up") {
-
-                    if ($("#cursor-overlay").hasClass("down")) {
-                        $('#cursor-overlay').removeClass("down").addClass("up");
-                    }
-
-                    //If the user reaches the top, stop and tell the system to add a new flower (which happens the next time we hit the bottom)
-                    if (activeRenderer.reachedTop(currentIndex)) {
-                        console.log("Reached top");
-                        direction = "pause";
-
-                        if (activeRenderer.isFinished()) {
-                            $('#cursor-overlay').removeClass("up").addClass("down");
-                            activeRenderer = garden;
-                            activeRenderer.start();
-                        }
-
-                        return;
-                    } else {
-                        currentIndex += 1;
-                    }
-                }
-                setTimeout(function() {
-                    renderNextFrame()
-                }, waitTime);
-            }
-
-
-        });
-    </script>
-
 </head>
 
 <body>
-    <div id="explainer">
-        <div id="explainer-toggle">
-            <img src="assets/question-icon.png">
-        </div>
-        <div id="explainer-content">
-            <div class="row">
-                <div class="header">
-                    🌱 What is this?
-                </div>
-                <div class="body">
-                    This is a safe space on the internet. An opportunity to breathe. To get away from consuming, and to give to yourself, and to the slowness of time.
-                </div>
-            </div>
-            <div class="row">
-                <div class="header">
-                    🌸 What do I do here?
-                </div>
-                <div class="body">
-                    Press down (using your mouse, or touching your touch-screen) and breathe in. Release (your finger) and breathe out. Watch flowers grow.
-                </div>
-            </div>
-            <div class="row">
-                <div class="header">
-                    🌳I want to say something about this
-                </div>
-                <div class="body">
-                    Please please reach out to me! @by_bvk on Instagram, or @bvksn on Twitter.
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div id="cursor-overlay">
 
     </div>
@@ -230,9 +42,14 @@
         </div>
         <div id="garden-grass">
         </div>
-        <div id="garden">
+        <div id="garden2" class="garden">
+        </div>
+        <div id="garden" class="garden">
         </div>
     </div>
+    <script>
+        var ticker = new Ticker("cursor-overlay");
+    </script>
 </body>
 
 </html>
