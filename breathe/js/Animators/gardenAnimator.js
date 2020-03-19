@@ -3,7 +3,7 @@ class GardenAnimator {
     constructor(gardenID, gardenWidth, gardenHeight) {
 
         //Constants related to the image assets
-        this.flowerURLs = ["assets/cutie/cutie", "assets/bush/bush", "assets/hydranges/blue", "assets/tulips/red", "assets/cactus/cactus", "assets/falltones/falltones", "assets/bigleaf/bigleaf"]; //URL of all possible flowers
+        this.flowerURLs = ["assets/flowers/cutie/cutie", "assets/flowers/bush/bush", "assets/flowers/hydranges/blue", "assets/flowers/tulips/red", "assets/flowers/cactus/cactus", "assets/flowers/falltones/falltones", "assets/flowers/bigleaf/bigleaf"]; //URL of all possible flowers
         this.backgroundURL = ["assets/wind-slow/up"];
         this.frameNumbers = ["19", "18", "17", "16", "15", "14", "13", "12", "11", "10", "09", "08", "07", "06", "05", "04", "03", "02", "01", "00"]
 
@@ -22,10 +22,8 @@ class GardenAnimator {
         this.sampler = null;
 
         //We're doing this in a set timeout because we know that the tutorial is pre-loading at the same time and we want that to go first
-        //THIS IS EXTREMELY JANK AND SHOULD BE FIXED ASAP
-        //setTimeout(() => this.preload(), 300);
-        this.generateGarden();
-
+        setTimeout(() => this.preload(), 300);
+        this.firstPlay = true;
     }
 
     preload() {
@@ -43,12 +41,12 @@ class GardenAnimator {
 
     growGarden() {
         if (this.currentFrame >= this.frameNumbers.length && this.growNewFlower) {
-            displayProgress("Garden reached bottom");
+            //displayProgress("Garden reached bottom");
             this.addFlower();
             this.growNewFlower = false;
         }
         if (this.currentFrame <= 0) {
-            displayProgress("Garden reached top");
+            //displayProgress("Garden reached top");
             this.growNewFlower = true;
         }
     }
@@ -65,6 +63,10 @@ class GardenAnimator {
 
 
     tick(currentTick) {
+        if (this.firstPlay) {
+            this.generateGarden();
+            this.firstPlay = false;
+        }
         this.currentFrame += currentTick;
         this.growGarden();
         this.limitCurrentFrame();
@@ -129,4 +131,34 @@ class GardenAnimator {
 
     }
 
+}
+
+
+
+
+class Flower {
+
+    constructor(id, url, pos) {
+        this.id = id;
+        this.baseUrl = url;
+        this.leftPosition = pos[0];
+        this.topPosition = pos[1];
+    }
+
+    calculateSrcAtFrame(frameNumber) {
+        var flowerURL = this.baseUrl + frameNumber + ".png";
+        return flowerURL;
+    }
+
+    renderFlowerAtFrame(frameNumber) {
+        var flowerStyle = "style='left:" + this.leftPosition + "; top:" + this.topPosition + ";'";
+        var imgElement = $("<img src='" + this.calculateSrcAtFrame(frameNumber) + "' id='" + this.id + "'" + flowerStyle + "/>");
+        return imgElement;
+    }
+
+    updateMyDomSRCToFrame(frameNumber) {
+        var myDom = document.getElementById(this.id);
+        var flowerSrc = this.calculateSrcAtFrame(frameNumber);
+        myDom.src = flowerSrc;
+    }
 }

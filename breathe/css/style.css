@@ -25,19 +25,16 @@ body,
     /* cursor: none; */
 }
 
-
-/* #cursor-overlay.down {
+#cursor-overlay.down {
     cursor: url('../assets/cursor-down.png'), auto;
 }
 
 #cursor-overlay.up {
     cursor: url('../assets/cursor-up.png'), auto;
-} */
+}
 
 #entire-space {
-    background-image: url("../assets/wind-slow/up00.png");
-    background-size: 300px;
-    background-position: left;
+    background: #ccffff;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -74,6 +71,8 @@ body,
 #garden-grass {
     background: rgb(187, 255, 228);
     z-index: -1;
+    border-radius: 300%;
+    padding: 40px;
 }
 
 #garden img,
@@ -166,15 +165,15 @@ body,
         height: 600px;
     }
     #tutorial-container img {
-        width: 50%;
-        margin-top: 10%;
+        width: 45%;
+        margin-top: 14%;
     }
     #explainer-content {
         width: 860px;
         height: 700px;
     }
     #garden img {
-        width: 15%;
+        width: 12%;
     }
     #explainer-content {
         font-size: 24px;

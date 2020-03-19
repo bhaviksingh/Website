@@ -1,27 +1,3 @@
-class Flower {
-
-    constructor(id, url, pos) {
-        this.id = id;
-        this.baseUrl = url;
-        this.leftPosition = pos[0];
-        this.topPosition = pos[1];
-    }
-
-    calculateSrcAtFrame(frameNumber) {
-        return (this.baseUrl + frameNumber + ".png");
-    }
-
-    renderFlowerAtFrame(frameNumber) {
-        var flowerStyle = "style='left:" + this.leftPosition + "; top:" + this.topPosition + ";'";
-        var imgElement = $("<img src='" + this.calculateSrcAtFrame(frameNumber) + "' id='" + this.id + "'" + flowerStyle + "/>");
-        return imgElement;
-    }
-
-    updateMyDomSRCToFrame(frameNumber) {
-        document.getElementById(this.id).src = this.calculateSrcAtFrame(frameNumber);
-    }
-}
-
 class Garden {
 
     constructor(gardenID, gardenWidth, gardenHeight, initialNumFlowers) {
