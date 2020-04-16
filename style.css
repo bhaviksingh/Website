@@ -1,10 +1,13 @@
+body {
+    margin: 0px;
+}
+
 #container {
     width: 100vw;
     height: 100vh;
     width: calc(var(--vw, 1vw) * 100);
     height: calc(var(--vh, 1vh) * 100);
     margin: auto;
-    margin-top: calc(var(--vh, 1vh) * 5);
     font-family: Helvetica;
     font-size: 1em;
 }
@@ -21,6 +24,7 @@
 #canvas-holder #draw-canvas {
     width: 100%;
     height: 100%;
+    position: fixed;
 }
 
 
@@ -31,8 +35,6 @@
     height: 10%;
     position: absolute;
     top: 0px;
-    padding: 5%;
-    box-sizing: border-box;
     font-size: 32px;
 }
 
@@ -74,6 +76,14 @@ overflow: auto; */
 
 /* Fancy styling vibes*/
 
+:root {
+    --border-weight: 1px solid black;
+    --border-color: black;
+    --border-style: solid;
+    --border-all: 1px solid black;
+    --background-color: white;
+}
+
 .content.text {
     background: pink;
     padding: 8px;
@@ -85,12 +95,8 @@ overflow: auto; */
     padding: 0px;
     padding-top: var(--chrome-bar-height);
     border-radius: var(--chrome-radius);
-    background: #eeee;
-    border: 1px solid #e7eaed;
-    background: linear-gradient(#e7eaed 0%, #e7eaed var(--chrome-bar-height), white 100%);
-    background: white;
-    border: 1px solid black;
-    overflow: hidden;
+    background: var(--background-color);
+    border: var(--border-all);
 }
 
 .content.browser:before {
@@ -107,19 +113,8 @@ overflow: auto; */
 
 .content.browser .content-main {
     border-radius: 0px 0px var(--chrome-radius) var(--chrome-radius);
-    border-top: 1px solid black;
-}
-
-.content.browser:after {
-    content: "";
-    height: calc(var(--chrome-bar-height)/3);
-    width: calc(var(--chrome-bar-height)/3);
-    top: calc(var(--chrome-bar-height)/3);
-    left: calc(var(--chrome-bar-height)*0.9);
-    background: #dddddd;
-    border: 1px solid #d6d7d7;
-    border-radius: 100%;
-    position: absolute;
+    border-top: var(--border-all);
+    overflow: hidden;
 }
 
 .content.phone {
@@ -129,15 +124,14 @@ overflow: auto; */
     padding-left: calc(var(--phone-padding)/2);
     padding-right: calc(var(--phone-padding)/2);
     padding-bottom: calc(var(--phone-padding)*2);
-    background: black;
-    background: white;
-    border: 1px solid black;
-    box-sizing: border-box;
     border-radius: var(--phone-radius);
+    background: white;
+    border: var(--border-all);
+    box-sizing: border-box;
 }
 
 .content.phone .content-main {
-    border-radius: 20px;
+    border-radius: calc(var(--phone-radius) / 2);
     overflow: hidden;
 }
 

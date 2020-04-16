@@ -163,6 +163,7 @@
                 var leftPos = sample[0],
                     topPos = sample[1];
 
+                //TODO: FIX THIS
                 var boundingBox = content.getBoundingClientRect();
                 if (boundingBox.right > poissonSize[1]) {
                     console.log(content);
@@ -190,10 +191,10 @@
             var averageDiagonal = 0.5 * contentHolder.clientHeight;
             var areaForContent = [0.8 * areaSize[0], 2 * areaSize[1]];
             layoutContent(areaForContent, averageDiagonal);
-            //window.addEventListener("resize", () => layoutContent([window.innerWidth, window.innerHeight]));
 
         }
         setup();
+        window.addEventListener("resize", () => setup());
 
 
         //Related to drawing and  canvas
