@@ -18,11 +18,11 @@
 </head>
 
 <body>
+    <div id="header">
+        <div id="logo"> </div>
+        <div id="content"> Bhavik is an artist & technologist interested in creating digital experiences that help you express and understand yourself. </div>
+    </div>
     <div id="container">
-        <div id="header">
-            <div id="logo"> </div>
-            <div id="content"> Bhavik is an artist & technologist interested in creating digital experiences that help you express and understand yourself. </div>
-        </div>
         <div id="content-holder">
             <div class="content phone" data-priority="1.5">
                 <div class="content-caption"> Bento </div>
@@ -178,10 +178,15 @@
         }
 
 
-
+        function setUpWindowSizeCalc() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            let vw = window.innerWidth * 0.01;
+            document.documentElement.style.setProperty('--vw', `${vw}px`);
+        }
 
         function setup() {
-
+            setUpWindowSizeCalc();
             for (var i = 0; i < contentPieces.length; i++) {
                 var content = contentPieces[i];
                 resizeContent(content);
@@ -191,7 +196,6 @@
             var averageDiagonal = 0.5 * contentHolder.clientHeight;
             var areaForContent = [0.8 * areaSize[0], 2 * areaSize[1]];
             layoutContent(areaForContent, averageDiagonal);
-
         }
         setup();
         window.addEventListener("resize", () => setup());
