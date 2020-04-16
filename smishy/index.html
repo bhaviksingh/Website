@@ -1,800 +1,884 @@
 <!DOCTYPE html>
 <html>
-	<head>
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136929663-1"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-136929663-1');
-	</script>
-
-
-
-		<meta charset=utf-8>
-		<title>SMISHY TIME</title>
-		<style>
-			body { margin: 0; overflow-y: hidden;font-family: sans-serif;}
-			canvas { width: 100%; height: 100%;  background: white; cursor: cell;}
-
-			#menu-changer {
-				position: absolute;
-				background: black;
-				color:white;
-				height: 12px;
-				width: 200px;
-				padding: 12px;
-				cursor: pointer;
-			}
-			.container {
-				position: absolute;
-				top: 36px;
-				left: 0px;
-				z-index: 300;
-				background-color: white;
-				color: black;
-				width: 200px;
-				height: 100%;
-				overflow-y: scroll;
-				font-size: 14px;
-				line-height: 16px;
-				padding-top: 12px;
-				padding: 12px;
-			}
-
-			.header {
-				border-top: 1px solid rgb(180,180,180);
-				padding-top: 12px;
-				padding-bottom: 12px;
-			}
-			
-			.sub-container {
-				margin-bottom: 12px;
-			}
-			.sub-container ul {
-				padding-left: 16px;
-				margin-bottom: 0px;
-			}
-
-			.sub-container ul li {
-			}
-
-			.container .sub-container {
-			}
-
-			#options {
-				position: relative;
-				width: 100%;
-			}
-
-			#options div {
-				width: 100%;
-				margin-bottom: 16px;
-				cursor: pointer;
-			}
-
-			.container input {
-				border: 1px solid gray;
-				margin-bottom: 4px;
-				margin-top: 4px;
-				padding: 12px;
-			}
-
-			.container button {
-				color: blue;
-				padding: 0px 12px;
-				margin-bottom: 16px;
-			}
-
-			#options div.active {
-				color: blue;
-			}
-
-
-			#results {
-				position: relative;
-				top: 12px;
-				left: 8px;
-				width: 100%;
-				bottom: 0px;
-				vertical-align: top;
-			}
-			#results img {
-				margin-left: 4px;
-				cursor: pointer;
-			}
-				#results img:hover {
-					opacity: 0.8;
-				}
-
-			#credit-holder {
-			}
-
-			.header  {
-			}
-		</style>
-		<script src="js/three.js"></script>
-		<script src="js/loaders/OBJLoader.js"></script>
-		<script src="js/loaders/MTLLoader.js"></script>
-		<script src="js/cannon.js"></script>
-		<script src="js/CannonDebugRenderer.js"></script>
-	</head>
-	<body>
-
-
-		<div id="menu-changer" onclick="changeMe(this.id)"> + menu </div>
-		<div id="menu-content" class="container">
-			<div class="sub-container">
-				<div> 
-					
-					<b> Welcome to smishy </b> <br/> 
-					<ul>
-						<li> 🌟 Create new pieces of text, or objects. </li>
-						<li>🖕 Once created, click to add them into the scene. </li>
-						<li> 📸 Press TAB to capture screenshot  </li>
-					</ul> 
-				</div>
-			</div>
-			<div class="sub-container header" id="options">
-				<div> <b> Current text and objects: </b> </div>
-				<!-- <div id="TEXT" class="option" onClick="selectTag(this.id)"> welcome to nyc </div> -->
- 			</div>	
- 			<div class="sub-container header">
- 				<div> <b> Add objects / change options </b> </br> </div>
- 			</div>
- 			<div class="sub-container">
- 				<div> + Change object size </div>
-			  	<input type="range" min="2" max="20" value="10"  id="scale-slider" onchange="updateSlider(this.value)">
-			</div>
- 			<div class="sub-container">
- 				<div id="bg-changer" onclick="changeMe(this.id)" > + Change Background </div>
- 				<div id="bg-content" style="display:none">
-		 			<form id="bgform">
-						<input id="bginput" placeholder="background color in rgb" ></input>
-						<button>change bg color</button>
-					</form>
-				</div>
-			</div>
-			<div class="sub-container"> 
-				<div id="text-changer" onclick="changeMe(this.id)" > + Add new text </div>
-				<div id="text-content" style="display:none">
-		 			<form id="textadd">
-						<input id="textinput" placeholder="text content" ></input>
-						<input id="textcolor" placeholder="text color in rgb"></input>
-						<button>create text</button>
-					</form>
-				</div>
-			</div>
-			<div class="sub-container">
-				<div id="search-changer" onclick="changeMe(this.id)" > + Add new object </div>
-				<div id="search-content" style="display:none">
-					<form id="search">
-						<input id="query" placeholder="Search for something"></input>
-						<button id="button-search">search</button>
-					</form>
-					<span id="results"></span>
-				</div>
-			</div>
-			<div class="sub-container header">
-				<div id="credit-holder"> <b> Credits for 3D art go to - </b> Pizza, Bagel: poly by google </div>
-			</div>
-
-		</div>
-		<script>
-
-			//Scene variables
-			var renderer, scene, camera;
-			var containerWidth, containerHeight;
-			containerWidth = window.innerWidth;
-			containerHeight = window.innerHeight;
-
-			var backgroundColor = 0xff69b4;
-
-			//Object variables
-			var objects = [];
-			var physics_bodies = [];
-			var core_objects = {};
-			var current_tag;
-
-			//Variables for debugging
-			var cannonDebugRenderer;
-			var DEBUG = false;
-			var sphereMesh, sphereBody;
-			var scaleFactor = 10;
-
-			/* ***************************
-			🌎🌎🌎🌎🌎RENDERING 🌎🌎🌎🌎🌎
-			***************************** */
-
-			function setup() {
-
-				console.clear();
-
-				//Set up the scene and variables
-				var aspectRatio = containerWidth/containerHeight
-				scene = new THREE.Scene();
-
-				//Set up the renderer
-				renderer = new THREE.WebGLRenderer({alpha: true, antialias: true,  preserveDrawingBuffer: true });
-				renderer.setSize(containerWidth, containerHeight );
-				renderer.setClearColor(backgroundColor, 1);
-				document.body.appendChild( renderer.domElement );
-
-				//Add camera and zoom it out, and make it look at 0,0,0
-				camera = new THREE.PerspectiveCamera( 75, aspectRatio, 0.1, 1000 );
-				camera.position.set(-4,-6,35);
-				// /camera.up = new THREE.Vector3(0,1,0);
-				camera.lookAt(-4,-6,0);
-
-				//Add the canvas for the renderer
-
-				//Add lighting
-				var ambient = new THREE.HemisphereLight( 0xbbbbff, 0x886666, 0.75 );
-				ambient.position.set( -0.5, 0.75, -1 );
-				scene.add( ambient );
-
-				var light = new THREE.DirectionalLight( 0xffffff, 0.75 );
-				light.position.set( 1, 0.75, 0.5 );
-				scene.add( light );
-
-				//Set up the worlds physics
-				world = new CANNON.World()
-				world.broadphase = new CANNON.NaiveBroadphase();
-				world.gravity.set(0, -15, 0);
-
-				//Add BOUNDARY PLANES for physics. Non visible unless debug renderer is on
-
-				//Add "Y" plane at y = -20
-		        var planeShapeYmin = new CANNON.Plane();
-		        var planeYmin = new CANNON.Body({ mass: 0});
-		        planeYmin.addShape(planeShapeYmin);
-		        planeYmin.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
-		        planeYmin.position.set(0,-20,0);
-		        world.addBody(planeYmin);
-
-		        //Add X = -10 plane
-		        var planeShapeXmin = new CANNON.Plane();
-		        var planeXmin = new CANNON.Body({ mass: 0 });
-		        planeXmin.addShape(planeShapeXmin);
-		        planeXmin.quaternion.setFromAxisAngle(new CANNON.Vec3(0,1,0),Math.PI/2);
-		        planeXmin.position.set(-12,0,0);
-		        world.addBody(planeXmin);
-
-		        // Plane +x
-		        var planeShapeXmax = new CANNON.Plane();
-		        var planeXmax = new CANNON.Body({ mass: 0});
-		        planeXmax.addShape(planeShapeXmax);
-		        planeXmax.quaternion.setFromAxisAngle(new CANNON.Vec3(0,1,0),-Math.PI/2);
-		        planeXmax.position.set(12,0,0);
-		        world.addBody(planeXmax);
-
-				// Plane +z
-		        var planeShapeZmax = new CANNON.Plane();
-		        var planeZmax = new CANNON.Body({ mass: 0});
-		        planeZmax.addShape(planeShapeZmax);
-		        planeZmax.position.set(0,0,-10);
-		        world.addBody(planeZmax);
-
-		       	var planeShapeZmin = new CANNON.Plane();
-		        var planeZmin = new CANNON.Body({ mass: 0});
-		        planeZmin.addShape(planeShapeZmin);
-		        planeZmin.quaternion.setFromAxisAngle(new CANNON.Vec3(0,1,0),-Math.PI);
-		        planeZmin.position.set(0,0,10);
-		        world.addBody(planeZmin);
-
-		        //If DEBUG is on, sets up a test sphere and the debug renderer.
-		        if (DEBUG) {
-		        	//addTestSphere();
-		        	cannonDebugRenderer = new THREE.CannonDebugRenderer( scene, world );	
-		        }
-			}
-
-			//A simple wireframe sphere of size 1, at 0,0,0 with physics enabled
-			function addTestSphere(){
-				var sphereGeometry = new THREE.SphereGeometry(1);
-				var sphereMaterial = new THREE.MeshBasicMaterial({wireframe: true});
-				sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
-				scene.add(sphereMesh)
-
-
-				var sphereShape = new CANNON.Sphere(1); //Size
-				sphereBody = new CANNON.Body({mass:1});
-				sphereBody.addShape(sphereShape);
-				world.add(sphereBody);
-			}
-
-			//Loads arbirary object with material, a "TAG", and number of those objects to add
-			//Calls into addObject to be able to add the object 
-			function loadObject(objectOBJUrl, ObjectMTLUrl, TAG, iterations, path){
-
-				console.log("Loading: " + TAG);
-
-				
-				var object_url = objectOBJUrl;
-				var material_url = ObjectMTLUrl;
-
-				// instantiate a loader
-				var obj_loader = new THREE.OBJLoader();
-				var mtl_loader = new THREE.MTLLoader();
-				mtl_loader.setMaterialOptions( { ignoreZeroRGBs: true } );
-
-				if (path) {
-					mtl_loader.setResourcePath(path);
-					mtl_loader.setCrossOrigin( true );
-					console.log("Set texture path to " + path);
-				}
-
-				mtl_loader.load(
-					material_url,
-
-					function (materials) {
-
-						materials.preload();
-
-						//Now load the object file
-						obj_loader.setMaterials(materials);
-						obj_loader.load(
-							// resource URL
-							object_url,
-							// called when resource is loaded
-							function ( object ) {
-
-								var core_object = object;
-
-								// if (DEBUG) {
-								// 	core_object.children[0].material.wireframe = true;	
-								// }
-
-								if (core_objects[TAG]) {
-									TAG = TAG + "-1";
-								}
-
-								core_objects[TAG] = core_object;
-
-								var object_option_div = document.createElement("DIV");
-								object_option_div.className = "option";
-								object_option_div.id = TAG;
-								object_option_div.innerHTML = "Obj: " + TAG; 
-								object_option_div.onclick = function () { selectTag(TAG)};
-								options.appendChild(object_option_div);
-
-								addObject(core_object, iterations, "RANDOM");
-								selectTag(TAG);
-
-							},
-							// called when loading is in progresses
-							function ( xhr ) {
-
-								console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded model ' + objectOBJUrl);
-
-							},
-							// called when loading has errors
-							function ( error ) {
-
-								console.log( 'An error happened with loading model ' + objectOBJUrl);
-
-							}
-						);
-
-					}, 
-					function (xhr) {
-						console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded material '  + ObjectMTLUrl);
-					},
-					function (error) {
-						console.log( 'An error happened with loading material ' + ObjectMTLUrl);
-					}
-
-				)
-			}
-
-			//Loads text
-			function loadText(textString, textColor, iterations) {
-
-				if (!textColor) {
-					textColor = 0x0000ff;
-				} else {
-					textColor = textColor;
-				}
-
-				var text_material = new THREE.MeshPhongMaterial({
-		       	 	color: textColor
-	    		});
-				
-				var font_loader = new THREE.FontLoader();
-				var font_url = 'fonts/helvetiker_regular.typeface.json';
-
-				font_loader.load( font_url, function ( font ) {
-
-					console.log("Font loaded");
-
-					var text_geometry = new THREE.TextGeometry(textString, {
-						font: font,
-						size: 80,
-						height: 5,
-						curveSegments: 12,
-						bevelEnabled: true,
-						bevelThickness: 10,
-						bevelSize: 8,
-						bevelSegments: 5
-					} );
-
-					text_geometry.computeBoundingBox();
-					text_geometry.computeVertexNormals();
-
-					text_geometry = new THREE.BufferGeometry().fromGeometry( text_geometry );
-					var text_mesh = new THREE.Mesh(text_geometry, text_material);
-					
-					var text_object = new THREE.Object3D();
-					text_object.add(text_mesh);
-
-					//scene.add(text_mesh);
-
-					var TAG = textString;
-
-					if (core_objects[TAG]) {
-						TAG = TAG + "-1";
-					}
-
-					core_objects[TAG] = text_object;
-
-					var object_option_div = document.createElement("DIV");
-					object_option_div.className = "option";
-					object_option_div.id = TAG;
-					object_option_div.innerHTML = "Txt: " + TAG; 
-					object_option_div.onclick = function () { selectTag(TAG)};
-					options.appendChild(object_option_div);
-
-					addObject(text_object,iterations,"RANDOM");
-					selectTag(TAG);
-
-					console.log("Added text mesh " + textString + " with color " + textColor);
-				} );
-			}
-
-			//Actually adds the object to the scene, and sets up physics for it
-			//Object needs to be loaded and then passed in.
-			function addObject(core_object, iterations, loc) {
-				for (var i = 0; i < iterations; i++) {
-					
-					var child_object = core_object.clone();
-
-					//Position can be RANDOM or a specific x,y,z 
-					if (loc == "RANDOM") {
-						var x= (Math.random() * 5) * ( Math.random() < 0.5 ? -1 : 1);
-						var y = 2;
-						var z = (Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
-					} else {
-						var x = loc.x;
-						var y = loc.y;
-						var z = loc.z;
-					}
-
-					// *** SET UP OBJECT AND ITS BOUNDING BOX ****
-
-					// Make a box that is the bounding box of the object
-					var box = new THREE.Box3();
-					box.setFromObject( child_object );
-
-					//Recenter object inside the box
-					var center = box.getCenter();
-					center.y = box.min.y;
-					child_object.position.sub( center );
-
-					console.log("Adding object at " + x + " " + y + " " + z);
-
-					//Scale, position and resize
-					//TODO: Make resize a variable that you can control
-					var scaler = new THREE.Group();
-					scaler.add( child_object );
-
-					var boxSize = box.getSize();
-					var scaleDown = scaleFactor / box.getSize().length();
-					scaler.scale.setScalar(scaleDown);
-					scene.add( scaler );
-
-
-					// *** SET UP PHYSICS ****
-
-					//Create a box thats size is the same as the size and position of the bounding box of the group
-					//Also set up the "material" for it to so that it doesnt bounce wildly.
-					//TODO: get the box to line up perfectly
-
-					var trueXSize = boxSize.x * scaleDown;
-					var trueYSize = boxSize.y * scaleDown;
-					var trueZSize = boxSize.z * scaleDown;
-
-					var physics_box = new CANNON.Box(new CANNON.Vec3(trueXSize / 2, trueYSize / 2, trueZSize / 2));
-					//var physics_box = new CANNON.Sphere(1);
-					var physics_material = new CANNON.Material({friction: 100, restitution: 0});
-					var physics_body = new CANNON.Body({mass:20, material: physics_material});
-					physics_body.addShape(physics_box);
-
-					//set up material for the box so it is a pretty chill 
-
-					//The position of the physics object is copied over to group, so we just set position here 
-					physics_body.position.set(x,y,z);
-					world.add(physics_body);
-
-					// If debug, then just set up a listner for collision events
-					if (DEBUG) {
-						physics_body.addEventListener("collide",function(e){
-			              console.log("An object just collided");
-			              console.log("Collided with body:",e.body);
-			              console.log("Contact between bodies:",e.contact);
-			              console.log("*****");
-			          	});
-					}
-
-					//Add the object and the physics_body for it to a global list 
-					objects.push(scaler);
-					physics_bodies.push(physics_body);
-				}
-			}
-
-
-			//Actually render
-			function animate() {
-
-				requestAnimationFrame( animate );
-
-				if (renderer != null) {
-
-					//Update the positions of all objects
-					for (var i=0; i< objects.length; i++) {
-						var object = objects[i];
-						var physics_body = physics_bodies[i];
-						object.position.copy(physics_body.position);
-						object.quaternion.copy(physics_body.quaternion);
-					}
-
-					//If debug is on, this updates the sphere and debug renderer
-					if (DEBUG ){
-						//sphereMesh.position.copy(sphereBody.position);	
-						cannonDebugRenderer.update();      // Update the debug renderer
-					}
-
-					world.step(1/60);
-					renderer.render( scene, camera );
-
-				} else {
-					console.log("Renderer not set up yo")
-				}
-			}
-
-			/********* POLY BULLSHIT
-			****/
-
-
-			const API_KEY = 'AIzaSyDLQ7BgVGSW_WPy5ZMEssmzgPcMmaCStXw';
-
-			function searchPoly( keywords, onLoad ) {
-				console.log("calling search poly");
-				var url = `https://poly.googleapis.com/v1/assets?keywords=${keywords}&format=OBJ&key=${API_KEY}`;
-
-				var request = new XMLHttpRequest();
-				request.open( 'GET', url, true );
-				request.addEventListener( 'load', function ( event ) {
-					console.log("Received output from search poly")
-					onLoad( JSON.parse( event.target.response ) );
-
-				} );
-				request.send( null );
-
-			}
-
-			function createImage( asset ) {
-
-				var image = document.createElement( 'img' );
-				image.src = asset.thumbnail.url;
-				image.style.width = '75px';
-				image.style.height = '56px';
-
-				var format = asset.formats.find( format => { return format.formatType === 'OBJ'; } );
-
-				if ( format !== undefined ) {
-
-					image.onclick = function () {
-
-						// Remove previous results
-
-						//asset_name.textContent = asset.displayName;
-						//asset_author.textContent = asset.authorName;
-
-						var creditHTML = document.getElementById("credit-holder").innerHTML;
-						creditHTML = creditHTML + "," + asset.displayName + ":" + asset.authorName;
-						document.getElementById("credit-holder").innerHTML = creditHTML;
-
-						var name = asset.displayName;
-
-						var obj = format.root;
-						var mtl = format.resources.find( resource => { return resource.url.endsWith( 'mtl' ) } );
-						var path = obj.url.slice( 0, obj.url.indexOf( obj.relativePath.split(" ")[0] ) );
-
-						var objURL = obj.url;
-						var mtlURL = mtl.url;
-
-						loadObject(objURL, mtlURL, name, 0, path);
-
-					}
-
-				}
-
-				return image;
-
-			}
-
-			function onResults( data ) {
-
-				//Clear all the results
-				while ( results.childNodes.length ) {
-
-					results.removeChild( results.firstChild );
-
-				}
-
-				var assets = data.assets;
-
-				if ( assets ) {
-
-					for ( var i = 0; i < assets.length; i ++ ) {
-
-						var asset = assets[ i ];
-
-						var image = createImage( asset );
-						results.appendChild( image );
-
-					}
-
-				} else {
-
-					results.innerHTML = '<center>NO RESULTS</center>';
-
-				}
-
-			}
-
-			/* *****************************
-			🖕🖕🖕🖕🖕CLICK EVENTS 🖕🖕🖕🖕
-			****************************** */
-
-			//UI objects
-			var options = document.getElementById("options");
-
-			//Changes the currently active object
-			function selectTag(tag){
-				current_tag = tag;
-				console.log("Selecting element with id " + tag);
-
-				var selected_element = document.getElementById(tag);
-				var all_options = document.querySelectorAll('.option');
-				for (var i = 0; i<all_options.length; i++){
-					var current_element = all_options[i];
-					current_element.className="option";
-				}
-				selected_element.className="option active"
-			}
-
-			//Spacebar to pause and print
-			function openInWindow(base64URL){
-			    var win = window.open();
-			    win.document.write('<iframe src="' + base64URL  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
-			}
-
-			document.body.onkeyup = function(e){
-			    if(e.keyCode == 9){
-		        	var img = renderer.domElement.toDataURL( 'image/png' );
-					openInWindow(img);
-			    }
-			}
-
-			//Scale slider
-			function updateSlider(value){
-				scaleFactor = value;
-			}
-		
-
-			//Changers
-			function changeMe(id){
-				var new_id = id.split("-")[0] + "-content";
-				console.log("changing" + new_id);
-				var content_el = document.getElementById(new_id);
-				console.log(content_el);
-
-				if (content_el.style.display === "none") {
-				    content_el.style.display = "block";
-				  } else {
-				    content_el.style.display = "none";
-				 }
-			}
-
-			//Background form
-			var bgform = document.getElementById("bgform");
-
-			bgform.addEventListener('submit', function(event) {
-				event.preventDefault();
-				backgroundColor = bginput.value;
-				renderer.setClearColor(backgroundColor, 1);
-			});
-
-			//Text add form
-
-			var textadd = document.getElementById("textadd");
-
-			textadd.addEventListener('submit', function(event) {
-				event.preventDefault();
-				loadText(textinput.value, textcolor.value);
-			});
-
-			//Search form
-
-			var search = document.getElementById("search");
-			var button_search = document.getElementById("button-search");
-			var results = document.getElementById("results");
-
-			search.addEventListener( 'submit', function ( event ) {
-				event.preventDefault()
-				searchPoly( query.value, onResults );
-			} );
-
-			button_search.click();
-
-
-			//Adds an object at x,y,z based on click event. Currently just adds the first object loaded.
-			document.addEventListener( 'click', clickAdd, false );
-			document.addEventListener( 'touchstart', clickAdd, false );
-
-
-
-			function clickAdd(event) {
-
-				setTimeout(500);
-
-				if (! core_objects[current_tag]) {
-					console.log("ERROR NO OBJECT WITH TAG " +  current_tag + " EXISTS");
-					return 
-				}
-
-				var vec = new THREE.Vector3(); 
-				var pos = new THREE.Vector3(); 
-
-				var ev = event;
-
-				if(ev.touches) {
-					ev = ev.touches[0];
-				}
-
-				if (ev.clientX < 300 ){
-					return;
-				}
-
-				vec.set(
-				    ( ev.clientX / containerWidth) * 2 - 1,
-				    - ( ev.clientY / containerHeight ) * 2 + 1,
-				    0.5 );
-
-				vec.unproject( camera );
-
-				vec.sub( camera.position ).normalize();
-
-				var distance = - camera.position.z / vec.z;
-
-				pos.copy( camera.position ).add( vec.multiplyScalar( distance ) );
-
-				addObject(core_objects[current_tag], 1, pos);
-			}
-
-
-
-
-			setup();
-			current_tag = "BAGEL";
-			loadObject('models/Pizza/Pizza slice.obj', 'models/Pizza/Pizza slice.mtl', "PIZZA", 0);
-			loadObject('models/Bagel/bagel.obj', 'models/Bagel/bagel.mtl', "BAGEL", 0);
-			loadText("hello", "blue", 0);
-			animate();
-
-		</script>
-	</body>
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-136929663-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-136929663-1');
+    </script>
+
+
+
+    <meta charset=utf-8>
+    <title>SMISHY TIME</title>
+    <style>
+        body {
+            margin: 0;
+            overflow-y: hidden;
+            font-family: sans-serif;
+        }
+        
+        canvas {
+            width: 100%;
+            height: 100%;
+            background: white;
+            cursor: cell;
+        }
+        
+        #menu-changer {
+            position: absolute;
+            background: black;
+            color: white;
+            height: 12px;
+            width: 200px;
+            padding: 12px;
+            cursor: pointer;
+        }
+        
+        .container {
+            position: absolute;
+            top: 36px;
+            left: 0px;
+            z-index: 300;
+            background-color: white;
+            color: black;
+            width: 200px;
+            height: 100%;
+            overflow-y: scroll;
+            font-size: 14px;
+            line-height: 16px;
+            padding-top: 12px;
+            padding: 12px;
+        }
+        
+        .header {
+            border-top: 1px solid rgb(180, 180, 180);
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
+        
+        .sub-container {
+            margin-bottom: 12px;
+        }
+        
+        .sub-container ul {
+            padding-left: 16px;
+            margin-bottom: 0px;
+        }
+        
+        .sub-container ul li {}
+        
+        .container .sub-container {}
+        
+        #options {
+            position: relative;
+            width: 100%;
+        }
+        
+        #options div {
+            width: 100%;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        
+        .container input {
+            border: 1px solid gray;
+            margin-bottom: 4px;
+            margin-top: 4px;
+            padding: 12px;
+        }
+        
+        .container button {
+            color: blue;
+            padding: 0px 12px;
+            margin-bottom: 16px;
+        }
+        
+        #options div.active {
+            color: blue;
+        }
+        
+        #results {
+            position: relative;
+            top: 12px;
+            left: 8px;
+            width: 100%;
+            bottom: 0px;
+            vertical-align: top;
+        }
+        
+        #results img {
+            margin-left: 4px;
+            cursor: pointer;
+        }
+        
+        #results img:hover {
+            opacity: 0.8;
+        }
+        
+        #credit-holder {}
+        
+        .header {}
+    </style>
+    <script src="js/three.js"></script>
+    <script src="js/loaders/OBJLoader.js"></script>
+    <script src="js/loaders/MTLLoader.js"></script>
+    <script src="js/cannon.js"></script>
+    <script src="js/CannonDebugRenderer.js"></script>
+</head>
+
+<body>
+
+
+    <div id="menu-changer" onclick="changeMe(this.id)"> + menu </div>
+    <div id="menu-content" class="container">
+        <div class="sub-container">
+            <div>
+
+                <b> Welcome to smishy </b> <br/>
+                <ul>
+                    <li> 🌟 Create new pieces of text, or objects. </li>
+                    <li>🖕 Once created, click to add them into the scene. </li>
+                    <li> 📸 Press TAB to capture screenshot </li>
+                </ul>
+            </div>
+        </div>
+        <div class="sub-container header" id="options">
+            <div> <b> Current text and objects: </b> </div>
+            <!-- <div id="TEXT" class="option" onClick="selectTag(this.id)"> welcome to nyc </div> -->
+        </div>
+        <div class="sub-container header">
+            <div> <b> Add objects / change options </b> </br>
+            </div>
+        </div>
+        <div class="sub-container">
+            <div> + Change object size </div>
+            <input type="range" min="2" max="20" value="10" id="scale-slider" onchange="updateSlider(this.value)">
+        </div>
+        <div class="sub-container">
+            <div id="bg-changer" onclick="changeMe(this.id)"> + Change Background </div>
+            <div id="bg-content" style="display:none">
+                <form id="bgform">
+                    <input id="bginput" placeholder="background color in rgb"></input>
+                    <button>change bg color</button>
+                </form>
+            </div>
+        </div>
+        <div class="sub-container">
+            <div id="text-changer" onclick="changeMe(this.id)"> + Add new text </div>
+            <div id="text-content" style="display:none">
+                <form id="textadd">
+                    <input id="textinput" placeholder="text content"></input>
+                    <input id="textcolor" placeholder="text color in rgb"></input>
+                    <button>create text</button>
+                </form>
+            </div>
+        </div>
+        <div class="sub-container">
+            <div id="search-changer" onclick="changeMe(this.id)"> + Add new object </div>
+            <div id="search-content" style="display:none">
+                <form id="search">
+                    <input id="query" placeholder="Search for something"></input>
+                    <button id="button-search">search</button>
+                </form>
+                <span id="results"></span>
+            </div>
+        </div>
+        <div class="sub-container header">
+            <div id="credit-holder"> <b> Credits for 3D art go to - </b> Pizza, Bagel: poly by google </div>
+        </div>
+
+    </div>
+    <script>
+        //Scene variables
+        var renderer, scene, camera;
+        var containerWidth, containerHeight;
+        containerWidth = window.innerWidth;
+        containerHeight = window.innerHeight;
+
+        var backgroundColor = 0xffffff;
+
+        //Object variables
+        var objects = [];
+        var physics_bodies = [];
+        var core_objects = {};
+        var current_tag;
+
+        //Variables for debugging
+        var cannonDebugRenderer;
+        var DEBUG = false;
+        var sphereMesh, sphereBody;
+        var scaleFactor = 10;
+
+        //Plane to destroy 
+        var planeYmin;
+        var planeZmin;
+        var planeYexists = true;
+
+        //Background plane
+        var plane;
+        /* ***************************
+        🌎🌎🌎🌎🌎RENDERING 🌎🌎🌎🌎🌎
+        ***************************** */
+
+        function toggleBottomPlane() {
+            if (planeYexists) {
+                world.removeBody(planeYmin);
+                world.removeBody(planeZmin);
+                planeYexists = false;
+            } else {
+                world.addBody(planeYmin);
+                world.removeBody(planeZmin);
+                planeYexists = true;
+            }
+        }
+
+        function setup() {
+
+            console.clear();
+
+            //Set up the scene and variables
+            var aspectRatio = containerWidth / containerHeight
+            scene = new THREE.Scene();
+
+            //Set up the renderer
+            renderer = new THREE.WebGLRenderer({
+                alpha: true,
+                antialias: true,
+                preserveDrawingBuffer: true
+            });
+            renderer.setSize(containerWidth, containerHeight);
+            renderer.setClearColor(backgroundColor, 1);
+            document.body.appendChild(renderer.domElement);
+
+            //Add camera and zoom it out, and make it look at 0,0,0
+            camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000);
+            camera.position.set(-3, -6, 30);
+            // /camera.up = new THREE.Vector3(0,1,0);
+            camera.lookAt(-3, -6, 0);
+
+            //Add the canvas for the renderer
+
+            //Add lighting
+            var ambient = new THREE.HemisphereLight(0xbbbbff, 0x886666, 0.75);
+            ambient.position.set(-0.5, 0.75, -1);
+            scene.add(ambient);
+
+            var light = new THREE.DirectionalLight(0xffffff, 0.75);
+            light.position.set(1, 0.75, 0.5);
+            scene.add(light);
+
+            //Set up the worlds physics
+            world = new CANNON.World()
+            world.broadphase = new CANNON.NaiveBroadphase();
+            world.gravity.set(0, -15, 0);
+
+            var geometry = new THREE.PlaneGeometry(40, 45, 1);
+            var material = new THREE.MeshBasicMaterial({
+                color: 0xffff00,
+                side: THREE.DoubleSide
+            });
+            plane = new THREE.Mesh(geometry, material);
+            plane.position.set(1.7, -5, -10);
+            scene.add(plane);
+
+            //Add BOUNDARY PLANES for physics. Non visible unless debug renderer is on
+
+            //Add "Y" plane at y = -20
+            var planeShapeYmin = new CANNON.Plane();
+            planeYmin = new CANNON.Body({
+                mass: 0
+            });
+            planeYmin.addShape(planeShapeYmin);
+            planeYmin.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
+            planeYmin.position.set(0, -20, 0);
+            world.addBody(planeYmin);
+
+            //Add X = -10 plane
+            var planeShapeXmin = new CANNON.Plane();
+            var planeXmin = new CANNON.Body({
+                mass: 0
+            });
+            planeXmin.addShape(planeShapeXmin);
+            planeXmin.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 2);
+            planeXmin.position.set(-12, 0, 0);
+            world.addBody(planeXmin);
+
+            // Plane +x
+            var planeShapeXmax = new CANNON.Plane();
+            var planeXmax = new CANNON.Body({
+                mass: 0
+            });
+            planeXmax.addShape(planeShapeXmax);
+            planeXmax.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI / 2);
+            planeXmax.position.set(12, 0, 0);
+            world.addBody(planeXmax);
+
+            // Plane +z
+            var planeShapeZmax = new CANNON.Plane();
+            var planeZmax = new CANNON.Body({
+                mass: 0
+            });
+            planeZmax.addShape(planeShapeZmax);
+            planeZmax.position.set(0, 0, -5);
+            world.addBody(planeZmax);
+
+            var planeShapeZmin = new CANNON.Plane();
+            planeZmin = new CANNON.Body({
+                mass: 0
+            });
+            planeZmin.addShape(planeShapeZmin);
+            planeZmin.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI);
+            planeZmin.position.set(0, 0, 10);
+            world.addBody(planeZmin);
+
+            //If DEBUG is on, sets up a test sphere and the debug renderer.
+            if (DEBUG) {
+                //addTestSphere();
+                cannonDebugRenderer = new THREE.CannonDebugRenderer(scene, world);
+            }
+        }
+
+
+        //A simple wireframe sphere of size 1, at 0,0,0 with physics enabled
+        function addTestSphere() {
+            var sphereGeometry = new THREE.SphereGeometry(1);
+            var sphereMaterial = new THREE.MeshBasicMaterial({
+                wireframe: true
+            });
+            sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            scene.add(sphereMesh)
+
+
+            var sphereShape = new CANNON.Sphere(1); //Size
+            sphereBody = new CANNON.Body({
+                mass: 1
+            });
+            sphereBody.addShape(sphereShape);
+            world.add(sphereBody);
+        }
+
+        //Loads arbirary object with material, a "TAG", and number of those objects to add
+        //Calls into addObject to be able to add the object 
+        function loadObject(objectOBJUrl, ObjectMTLUrl, TAG, iterations, path) {
+
+            console.log("Loading: " + TAG);
+
+
+            var object_url = objectOBJUrl;
+            var material_url = ObjectMTLUrl;
+
+            // instantiate a loader
+            var obj_loader = new THREE.OBJLoader();
+            var mtl_loader = new THREE.MTLLoader();
+            mtl_loader.setMaterialOptions({
+                ignoreZeroRGBs: true
+            });
+
+            if (path) {
+                mtl_loader.setResourcePath(path);
+                mtl_loader.setCrossOrigin(true);
+                console.log("Set texture path to " + path);
+            }
+
+            mtl_loader.load(
+                material_url,
+
+                function(materials) {
+
+                    materials.preload();
+
+                    //Now load the object file
+                    obj_loader.setMaterials(materials);
+                    obj_loader.load(
+                        // resource URL
+                        object_url,
+                        // called when resource is loaded
+                        function(object) {
+
+                            var core_object = object;
+
+                            // if (DEBUG) {
+                            //     core_object.children[0].material.wireframe = true;
+                            // }
+
+                            if (core_objects[TAG]) {
+                                TAG = TAG + "-1";
+                            }
+
+                            core_objects[TAG] = core_object;
+
+                            var object_option_div = document.createElement("DIV");
+                            object_option_div.className = "option";
+                            object_option_div.id = TAG;
+                            object_option_div.innerHTML = "Obj: " + TAG;
+                            object_option_div.onclick = function() {
+                                selectTag(TAG)
+                            };
+                            options.appendChild(object_option_div);
+
+                            addObject(core_object, iterations, "RANDOM");
+                            selectTag(TAG);
+
+                        },
+                        // called when loading is in progresses
+                        function(xhr) {
+
+                            console.log((xhr.loaded / xhr.total * 100) + '% loaded model ' + objectOBJUrl);
+
+                        },
+                        // called when loading has errors
+                        function(error) {
+
+                            console.log('An error happened with loading model ' + objectOBJUrl);
+
+                        }
+                    );
+
+                },
+                function(xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded material ' + ObjectMTLUrl);
+                },
+                function(error) {
+                    console.log('An error happened with loading material ' + ObjectMTLUrl);
+                }
+
+            )
+        }
+
+        //Loads text
+        function loadText(textString, textColor, iterations) {
+
+            if (!textColor) {
+                textColor = 0x0000ff;
+            } else {
+                textColor = textColor;
+            }
+
+            var text_material = new THREE.MeshPhongMaterial({
+                color: textColor
+            });
+
+            var font_loader = new THREE.FontLoader();
+            var font_url = 'fonts/helvetiker_regular.typeface.json';
+
+            font_loader.load(font_url, function(font) {
+
+                console.log("Font loaded");
+
+                var text_geometry = new THREE.TextGeometry(textString, {
+                    font: font,
+                    size: 80,
+                    height: 5,
+                    curveSegments: 12,
+                    bevelEnabled: true,
+                    bevelThickness: 10,
+                    bevelSize: 8,
+                    bevelSegments: 5
+                });
+
+                text_geometry.computeBoundingBox();
+                text_geometry.computeVertexNormals();
+
+                text_geometry = new THREE.BufferGeometry().fromGeometry(text_geometry);
+                var text_mesh = new THREE.Mesh(text_geometry, text_material);
+
+                var text_object = new THREE.Object3D();
+                text_object.add(text_mesh);
+
+                //scene.add(text_mesh);
+
+                var TAG = textString;
+
+                if (core_objects[TAG]) {
+                    TAG = TAG + "-1";
+                }
+
+                core_objects[TAG] = text_object;
+
+                var object_option_div = document.createElement("DIV");
+                object_option_div.className = "option";
+                object_option_div.id = TAG;
+                object_option_div.innerHTML = "Txt: " + TAG;
+                object_option_div.onclick = function() {
+                    selectTag(TAG)
+                };
+                options.appendChild(object_option_div);
+
+                addObject(text_object, iterations, "RANDOM");
+                selectTag(TAG);
+
+                console.log("Added text mesh " + textString + " with color " + textColor);
+            });
+        }
+
+        //Actually adds the object to the scene, and sets up physics for it
+        //Object needs to be loaded and then passed in.
+        function addObject(core_object, iterations, loc) {
+            for (var i = 0; i < iterations; i++) {
+
+                var child_object = core_object.clone();
+
+                //Position can be RANDOM or a specific x,y,z 
+                if (loc == "RANDOM") {
+                    var x = (Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
+                    var y = 2;
+                    var z = (Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
+                } else {
+                    var x = loc.x;
+                    var y = loc.y;
+                    var z = loc.z;
+                }
+
+                // *** SET UP OBJECT AND ITS BOUNDING BOX ****
+
+                // Make a box that is the bounding box of the object
+                var box = new THREE.Box3();
+                box.setFromObject(child_object);
+
+                //Recenter object inside the box
+                var center = box.getCenter();
+                center.y = box.min.y;
+                child_object.position.sub(center);
+
+                console.log("Adding object at " + x + " " + y + " " + z);
+
+                //Scale, position and resize
+                //TODO: Make resize a variable that you can control
+                var scaler = new THREE.Group();
+                scaler.add(child_object);
+
+                var boxSize = box.getSize();
+                var scaleDown = scaleFactor / box.getSize().length();
+                scaler.scale.setScalar(scaleDown);
+                scene.add(scaler);
+
+
+                // *** SET UP PHYSICS ****
+
+                //Create a box thats size is the same as the size and position of the bounding box of the group
+                //Also set up the "material" for it to so that it doesnt bounce wildly.
+                //TODO: get the box to line up perfectly
+
+                var trueXSize = boxSize.x * scaleDown;
+                var trueYSize = boxSize.y * scaleDown;
+                var trueZSize = boxSize.z * scaleDown;
+
+                var physics_box = new CANNON.Box(new CANNON.Vec3(trueXSize / 2, trueYSize / 2, trueZSize / 2));
+                //var physics_box = new CANNON.Sphere(1);
+                var physics_material = new CANNON.Material({
+                    friction: 100,
+                    restitution: 0
+                });
+                var physics_body = new CANNON.Body({
+                    mass: 20,
+                    material: physics_material
+                });
+                physics_body.addShape(physics_box);
+
+                //set up material for the box so it is a pretty chill 
+
+                //The position of the physics object is copied over to group, so we just set position here 
+                physics_body.position.set(x, y, z);
+                world.add(physics_body);
+
+                // If debug, then just set up a listner for collision events
+                if (DEBUG) {
+                    physics_body.addEventListener("collide", function(e) {
+                        console.log("An object just collided");
+                        console.log("Collided with body:", e.body);
+                        console.log("Contact between bodies:", e.contact);
+                        console.log("*****");
+                    });
+                }
+
+                //Add the object and the physics_body for it to a global list 
+                objects.push(scaler);
+                physics_bodies.push(physics_body);
+            }
+        }
+
+
+        //Actually render
+        function animate() {
+
+            requestAnimationFrame(animate);
+
+            if (renderer != null) {
+
+                //Update the positions of all objects
+                for (var i = 0; i < objects.length; i++) {
+                    var object = objects[i];
+                    var physics_body = physics_bodies[i];
+                    object.position.copy(physics_body.position);
+                    object.quaternion.copy(physics_body.quaternion);
+                }
+
+                //If debug is on, this updates the sphere and debug renderer
+                if (DEBUG) {
+                    //sphereMesh.position.copy(sphereBody.position);	
+                    cannonDebugRenderer.update(); // Update the debug renderer
+                }
+
+                world.step(1 / 60);
+                renderer.render(scene, camera);
+
+            } else {
+                console.log("Renderer not set up yo")
+            }
+        }
+
+        /********* POLY BULLSHIT
+         ****/
+
+
+        const API_KEY = 'AIzaSyDLQ7BgVGSW_WPy5ZMEssmzgPcMmaCStXw';
+
+        function searchPoly(keywords, onLoad) {
+            console.log("calling search poly");
+            var url = `https://poly.googleapis.com/v1/assets?keywords=${keywords}&format=OBJ&key=${API_KEY}`;
+
+            var request = new XMLHttpRequest();
+            request.open('GET', url, true);
+            request.addEventListener('load', function(event) {
+                console.log("Received output from search poly")
+                onLoad(JSON.parse(event.target.response));
+
+            });
+            request.send(null);
+
+        }
+
+        function createImage(asset) {
+
+            var image = document.createElement('img');
+            image.src = asset.thumbnail.url;
+            image.style.width = '75px';
+            image.style.height = '56px';
+
+            var format = asset.formats.find(format => {
+                return format.formatType === 'OBJ';
+            });
+
+            if (format !== undefined) {
+
+                image.onclick = function() {
+
+                    // Remove previous results
+
+                    //asset_name.textContent = asset.displayName;
+                    //asset_author.textContent = asset.authorName;
+
+                    var creditHTML = document.getElementById("credit-holder").innerHTML;
+                    creditHTML = creditHTML + "," + asset.displayName + ":" + asset.authorName;
+                    document.getElementById("credit-holder").innerHTML = creditHTML;
+
+                    var name = asset.displayName;
+
+                    var obj = format.root;
+                    var mtl = format.resources.find(resource => {
+                        return resource.url.endsWith('mtl')
+                    });
+                    var path = obj.url.slice(0, obj.url.indexOf(obj.relativePath.split(" ")[0]));
+
+                    var objURL = obj.url;
+                    var mtlURL = mtl.url;
+
+                    loadObject(objURL, mtlURL, name, 0, path);
+
+                }
+
+            }
+
+            return image;
+
+        }
+
+        function onResults(data) {
+
+            //Clear all the results
+            while (results.childNodes.length) {
+
+                results.removeChild(results.firstChild);
+
+            }
+
+            var assets = data.assets;
+
+            if (assets) {
+
+                for (var i = 0; i < assets.length; i++) {
+
+                    var asset = assets[i];
+
+                    var image = createImage(asset);
+                    results.appendChild(image);
+
+                }
+
+            } else {
+
+                results.innerHTML = '<center>NO RESULTS</center>';
+
+            }
+
+        }
+
+        /* *****************************
+        🖕🖕🖕🖕🖕CLICK EVENTS 🖕🖕🖕🖕
+        ****************************** */
+
+        //UI objects
+        var options = document.getElementById("options");
+
+        //Changes the currently active object
+        function selectTag(tag) {
+            current_tag = tag;
+            console.log("Selecting element with id " + tag);
+
+            var selected_element = document.getElementById(tag);
+            var all_options = document.querySelectorAll('.option');
+            for (var i = 0; i < all_options.length; i++) {
+                var current_element = all_options[i];
+                current_element.className = "option";
+            }
+            selected_element.className = "option active"
+        }
+
+        //Spacebar to pause and print
+        function openInWindow(base64URL) {
+            var win = window.open();
+            win.document.write('<iframe src="' + base64URL + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+        }
+
+        document.body.onkeyup = function(e) {
+            if (e.keyCode == 9) {
+                // Commented out tab -> image behavior
+                // var img = renderer.domElement.toDataURL('image/png');
+                // openInWindow(img);
+            }
+
+            if (e.keyCode == 192) {
+                toggleBottomPlane();
+            }
+        }
+
+        //Scale slider
+        function updateSlider(value) {
+            scaleFactor = value;
+        }
+
+
+        //Changers
+        function changeMe(id) {
+            var new_id = id.split("-")[0] + "-content";
+            console.log("changing" + new_id);
+            var content_el = document.getElementById(new_id);
+            console.log(content_el);
+
+            if (content_el.style.display === "none") {
+                content_el.style.display = "block";
+            } else {
+                content_el.style.display = "none";
+            }
+        }
+
+        //Background form
+        var bgform = document.getElementById("bgform");
+
+        bgform.addEventListener('submit', function(event) {
+            event.preventDefault();
+            backgroundColor = bginput.value;
+            renderer.setClearColor(backgroundColor, 1);
+            var color = new THREE.Color(backgroundColor);
+            var hex = color.getHex();
+            plane.material.color.setHex(hex);
+        });
+
+        //Text add form
+
+        var textadd = document.getElementById("textadd");
+
+        textadd.addEventListener('submit', function(event) {
+            event.preventDefault();
+            loadText(textinput.value, textcolor.value);
+        });
+
+        //Search form
+
+        var search = document.getElementById("search");
+        var button_search = document.getElementById("button-search");
+        var results = document.getElementById("results");
+
+        search.addEventListener('submit', function(event) {
+            event.preventDefault()
+            searchPoly(query.value, onResults);
+        });
+
+        button_search.click();
+
+
+        //Adds an object at x,y,z based on click event. Currently just adds the first object loaded.
+        document.addEventListener('click', clickAdd, false);
+        document.addEventListener('touchstart', clickAdd, false);
+
+
+
+        function clickAdd(event) {
+
+            setTimeout(500);
+
+            if (!core_objects[current_tag]) {
+                console.log("ERROR NO OBJECT WITH TAG " + current_tag + " EXISTS");
+                return
+            }
+
+            var vec = new THREE.Vector3();
+            var pos = new THREE.Vector3();
+
+            var ev = event;
+
+            if (ev.touches) {
+                ev = ev.touches[0];
+            }
+
+            if (ev.clientX < 300) {
+                return;
+            }
+
+            vec.set(
+                (ev.clientX / containerWidth) * 2 - 1, -(ev.clientY / containerHeight) * 2 + 1,
+                0.5);
+
+            vec.unproject(camera);
+
+            vec.sub(camera.position).normalize();
+
+            var distance = -camera.position.z / vec.z;
+
+            pos.copy(camera.position).add(vec.multiplyScalar(distance));
+
+            addObject(core_objects[current_tag], 1, pos);
+        }
+
+
+
+
+        setup();
+        current_tag = "BAGEL";
+        loadObject('models/Pizza/Pizza slice.obj', 'models/Pizza/Pizza slice.mtl', "PIZZA", 0);
+        loadObject('models/Bagel/bagel.obj', 'models/Bagel/bagel.mtl', "BAGEL", 0);
+        loadText("hello", "blue", 0);
+        animate();
+    </script>
+</body>
+
 </html>

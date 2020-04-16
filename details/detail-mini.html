@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Mini</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="favicon.png" type="image/png" sizes="24x24">
+    <script src="jq.js"> </script>
+    <script>
+
+      $( document ).ready(function() {
+            console.log("Doing some shit");
+            var figure = $(".video").hover( hoverVideo, hideVideo );
+            function hoverVideo(e) {  
+                $('video', this).get(0).play(); 
+                console.log("Video playing");
+            }
+            function hideVideo(e) {
+                $('video', this).get(0).pause(); 
+            }
+      });
+    </script>
+  </head>
+  <body>
+  <table class="coretable">
+  		
+      <!-- Header -->
+      <tr >
+        <td colspan="2" class="header detail"> 
+            <div class="emojiwrapper"><span class="emoji">←</span> </div>
+            <a href="index.html"> Go back </a>
+        </td>
+        </td>
+      </tr>
+
+      <!-- Minis -->
+  		<tr class="tight-bottom">
+  			<td class="description"> 
+          <div class="emojiwrapper"><span class="emoji">💼</span></div>
+          <div class="title"> Minis </div>
+          <div class="subtitle product"> product, </br> 2017-18 </div>
+        </td>
+        <td class="image"> 
+          <div class="video" > 
+            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+            <video class="one" muted loop poster="Images/Tech/Mini/create_poster.png"> 
+              <source src="Images/Tech/Mini/create.mp4" type="video/mp4"/> 
+            </video>
+          </div> 
+        </td>
+        <td class="image"> 
+          <div class="video" > 
+            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+            <video class="one" muted loop poster="Images/Tech/Mini/customize_poster.png"> 
+              <source src="Images/Tech/Mini/customize.mp4" type="video/mp4"/> 
+            </video>
+          </div> 
+        </td>
+        <td class="image"> 
+          <div class="video" > 
+            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
+            <video class="one" muted loop poster="Images/Tech/Mini/send_poster.png"> 
+              <source src="Images/Tech/Mini/send.mp4" type="video/mp4"/> 
+            </video>
+          </div> 
+        </td>
+  		</tr>
+
+      <tr>
+        <td class="description"> 
+        </td>
+         <td colspan="3" class="image three">
+          Minis was created by Expression, a team of artists and technologists at Google, over two years. I was the lead Product Manager for the project. It lets anyone create a digital avatar of themselves, starting with a picture. We use neural networks to help generate a starting point for an avatar, and offer customization features so users can create the perfect character that looks and feels like them.  These characters are then used in a large variety of stickers that express different emotions, and can be shared in messaging apps. Minis is currently available on Google's keyboard, GBoard on <a href="https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin&hl=en_US"> Android</a> and <a href="https://itunes.apple.com/us/app/gboard-the-google-keyboard/id1091700242?mt=8">iOS</a>.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="description"> 
+            <span class="body"> Personas </span>
+        </td>
+        <td colspan="3" class="image three caption">
+           <img class="three" src="Images/Tech/Mini/style-banner.png"/> 
+           <p> Minis has <b>three personas</b>: Emoji, Sweet and Bold. This lets users create multiple characters, reflecting different parts of their own personality. Each of these personas, through their tone, conveys a different perspective. We've seen users use different personas in communication depending on who their talking to.</p>
+        </td>
+      </tr>
+
+      <tr class="tight-bottom">
+        <td class="description"> 
+          <span class="body"> Stickers </span>
+        </td>
+        <td colspan="3" class="image three caption">
+           <img class="three" src="Images/Tech/Mini/sticker-banner.png"/> 
+           <p> Once a character is created, it can be situation in a <b> variety of scenes called Stickers </b. These stickers are then shared, via GBoard, into messaging applications and can be used to clarify emotion, or add delight to a conversation. The stickers are refreshed every week - to reflect current seasons, events and topics of interest. 
+            </p>
+        </td>
+      </tr>
+
+      <tr class="tight-bottom">
+        <td class="description"> 
+          <span class="body"> Personalization </span>
+        </td>
+        <td colspan="3" class="image three caption">
+           <img class="three" src="Images/Tech/Mini/people-banner.png"/> 
+           <p> Minis has a <b> broad set of personalization attributes and options  </b> in a variety of categories, ranging from face shape, to earrings and hair color. This enables more than 5 Quadrillion possible characters, and lets anyone create a character that they can identify with. We've seen users create both realistic, as well as abstract and zany characters to represent their identity. </td>
+          </p>
+      </tr>
+
+      <tr class="tight-bottom">
+        <td class="description"> 
+           <span class="body">  More info </span>
+        </td>
+        <td colspan="2" class="image two">
+            <b> Links, and articles </b>
+            <ul>
+              <li>
+                Try it on GBoard <a href="https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin&hl=en_US"> Android</a> and <a href="https://itunes.apple.com/us/app/gboard-the-google-keyboard/id1091700242?mt=8">iOS</a>.
+              </li>
+              <li>
+                  <a href="https://ai.googleblog.com/2017/05/neural-network-generated-illustrations.html"> Research paper, Google Blog </a>
+              </li>
+              <li>
+                  <a href="https://design.google/library/2017-design-google/"> Winner, Google's Design Best of 2017 </a>
+              <li>
+                  <a href="https://techcrunch.com/2017/05/11/googles-neural-network-generated-custom-face-stickers-are-like-bitmoji-that-arent-horrible/"> Initial launch review on Techcrunch </a>
+              </li>
+              <li>
+                 <a href="https://mashable.com/article/google-gboard-mini-stickers-how-to/"> GBoard launch announcement, Mashable </a>
+              </li>
+            </ul>
+        </td>
+      </tr>
+
+      <tr class="tight-bottom">
+        <td class="description"> 
+        </td>
+        <td colspan="2" class="image two">
+            <b> Made possible by </b>
+            <ul>
+              <li> Expression art: Jennifer Daniel, Shannon May, Ryan Sands, Helen Tseng,  Aster Hung, and more </li>
+              <li> Expression eng: Koji Ashida, Kunal Punera, Utkarsh Srivastava, Neetika Bansal, and more </li>
+              <li> Google's computer vision and machine learning teams </li>
+          </ul>
+        </td>
+      </tr>
+
+
+
+  </table>
+  </body>
+</html>

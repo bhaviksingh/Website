@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+ <head>
+ 	<style>
+ 	#dumpoutput {
+ 		width: 100%;
+ 		text-transform: lowercase;
+ 	}
+ </style>
+ </head>
+ <body>
+ 	<div id="dumpoutput"></div>
+ 	<script>
+ 		console.log("HELLO");
+
+ 		var dict = [{'name':'Baby', 'num':436},{'name':'Boo', 'num':139},{'name':'Babe', 'num':96},{'name':'Sweetie', 'num':46},{'name':'Chicken', 'num':30},{'name':'Cutie', 'num':16},{'name':'Lovey', 'num':3},{'name':'Bubba', 'num':3},{'name':'Poopie', 'num':2},{'name':'come', 'num':607},{'name':'home', 'num':579},{'name':'go', 'num':568},{'name':'soon', 'num':340},{'name':'sleep', 'num':310},{'name':'eat', 'num':297},{'name':'time', 'num':289},{'name':'miss u', 'num':204},{'name':'together', 'num':177},{'name':'bus', 'num':138},{'name':'wru', 'num':175},{'name':'mins', 'num':71},{'name':'hours', 'num':43},{'name':'separately', 'num':14},{'name':'love', 'num':946}];
+
+ 		var shuffled = [];
+
+ 		function shuffle(array) {
+		  var currentIndex = array.length, temporaryValue, randomIndex;
+
+		  // While there remain elements to shuffle...
+		  while (0 !== currentIndex) {
+
+		    // Pick a remaining element...
+		    randomIndex = Math.floor(Math.random() * currentIndex);
+		    currentIndex -= 1;
+
+		    // And swap it with the current element.
+		    temporaryValue = array[currentIndex];
+		    array[currentIndex] = array[randomIndex];
+		    array[randomIndex] = temporaryValue;
+		  }
+
+		  for (var i =0 ; i< array.length; i++) {
+		  	 	document.getElementById("dumpoutput").append(array[i] + " ");
+		  }
+		}
+
+ 		function dump(array){
+
+ 			for (var i =0; i<dict.length; i++) {
+ 				var current = dict[i];
+ 				var num = current['num'];
+ 				var txt = current['name'];
+ 				for (var j =0 ; j < num; j++) {
+ 					shuffled.push(txt);
+ 				}
+ 			}
+
+ 			shuffle(shuffled);
+ 		}
+
+ 		dump(dict)
+
+ 	
+ 	</script>
+ </body>
+
+</html>

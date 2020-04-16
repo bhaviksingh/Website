@@ -1,179 +1,214 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
-    <title>Bhavik Singh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>bvk</title>
     <link rel="shortcut icon" href="favicon.png" type="image/png" sizes="24x24">
-    <link rel="stylesheet" type="text/css" href="style.css"/>
-    <script src="jq.js"> </script>
-    <script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="jslib/poisson.js"></script>
+    <script src="jslib/fabric.min.js"></script>
 
-      $( document ).ready(function() {
-            console.log("Doing some shit");
-            var figure = $(".video").hover( hoverVideo, hideVideo );
-            function hoverVideo(e) {  
-                $('video', this).get(0).play(); 
-                console.log("Video playing");
-            }
-            function hideVideo(e) {
-                $('video', this).get(0).pause(); 
-            }
-      });
+    <script src="jslib/utils.js">
+        setUpWindowSizeCalc();
+        // This correct sets VW and VH as necessary
     </script>
-  </head>
-  <body>
-  <table class="coretable home">
-  		
-      <!-- Header -->
-      <tr >
-        <td class="header"> 
-            <div class="emojiwrapper"><span class="emoji">👋</span> </div>
-            This is bhavik </br> singh dot com
-        </td>
-        <td class="about">
-          Hey! I'm a Product Manager, Designer and Developer currently working at Google in San Francisco. I like projects that combine technology with art. A selection of my recent works is below. Email me at bhaviksingh@gmail.com.
-         <!--  <ul>
-            <li> I'm an engineer, product manager, artist and designer! </li>
-            <li> I like projects at the intersection of art and technology </li>
-            <li> I work at  Google in San Francisco </li>
-            <li> I can be reached at bhaviksingh@gmail.com </li>
-            <li> A selection of recent work is below. Hover to play videos </li>
-          </ul> -->
-        </td>
-      </tr>
-    </table>
-    <table class="coretable home">
+</head>
 
-      <!-- Minis -->
-  		<tr >
-  			<td class="description" onclick="location.href='detail-mini.html';"> 
-          <div class="emojiwrapper"><span class="emoji">💼</span></div>
-          <div class="title"> Minis </div>
-          <div class="subtitle product"> product, 2017-18</div>
-          <div class="body"> Digital avatars that look and feel like you, generated with a selfie.
-            <br/>  </br> Powered by illustration and neural nets.  Built with the Expression team at Google. </div>
-          <div class="link"> →  <a href="detail-mini.html">learn more </a> </div>
-        </td>
-        <td class="image"> 
-          <div class="video" > 
-            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
-            <video class="one" muted loop poster="Images/Tech/Mini/create_poster.png"> 
-              <source src="Images/Tech/Mini/create.mp4" type="video/mp4"/> 
-            </video>
-          </div> 
-        </td>
-        <td class="image"> 
-          <div class="video" > 
-            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
-            <video class="one" muted loop poster="Images/Tech/Mini/customize_poster.png"> 
-              <source src="Images/Tech/Mini/customize.mp4" type="video/mp4"/> 
-            </video>
-          </div> 
-        </td>
-        <td class="image"> 
-          <div class="video" > 
-            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
-            <video class="one" muted loop poster="Images/Tech/Mini/send_poster.png"> 
-              <source src="Images/Tech/Mini/send.mp4" type="video/mp4"/> 
-            </video>
-          </div> 
-        </td>
-  		</tr>
-
-      <!-- Expressive Camera -->
-      <tr>
-        <td class="description" onclick="location.href='detail-mag.html';"> 
-          <div class="emojiwrapper"><span class="emoji">💼</span></div>
-          <div class="title"> ExCam</div>
-          <div class="subtitle product"> product, 2018 </div>
-          <div class="body">Capture moments, or clarify your emotion with immersive effects and expressive image editing.
-           </br> </br> Powered by 2D/3D art and computer vision. Built with the Expression team at Google.  </div>
-          <div class="link"> →  <a href="detail-mag.html">learn more</a> </div>
-        </td>
-        <td class="image"> 
-          <div class="video" > 
-            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
-            <video class="one" muted loop poster="Images/MAG/mag-banner.png">
-              <source src="Images/MAG/flow.mp4" type="video/mp4"/> 
-            </video>
-          </div> 
-        </td>
-        <td class="image"> 
-          <div class="video" > 
-            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
-            <video class="one" muted loop poster="Images/Bauhaus/face-suggestion-poster.png"> 
-              <source src="Images/Bauhaus/face-suggestion.mp4" type="video/mp4"/> 
-            </video>
-          </div> 
-        </td>
-        <td class="image"> 
-          <div class="video" > 
-            <div class="emojiwrapper"><span class="emoji">▶️</span></div>
-            <video class="one" muted loop poster="Images/Bauhaus/sticker-add-poster.png"> 
-              <source src="Images/Bauhaus/sticker-add.mp4" type="video/mp4"/> 
-            </video>
-          </div> 
-        </td>
-      </tr>
+<body>
+    <div id="container">
+        <div id="header">
+            <div id="logo"> </div>
+            <div id="content"> Bhavik is an artist & technologist interested in creating digital experiences that help you express and understand yourself. </div>
+        </div>
+        <div id="content-holder">
+            <div class="content phone" data-priority="1.5">
+                <div class="content-caption"> Bento </div>
+                <div class="content-main"> <img draggable="false" src="Images/home/bento.png" alt="An image" /> </div>
+            </div>
+            <div class="content browser" data-priority="1">
+                <div class="content-caption"> breathe </div>
+                <div class="content-main"> <img draggable="false" src="Images/home/breathe.png" alt="An image" /> </div>
+            </div>
+            <div class="content browser" data-priority="1">
+                <div class="content-caption"> emoji kitchen </div>
+                <div class="content-main"> <img draggable="false" src="Images/home/emoji-kitchen.png" alt="An image" /> </div>
+            </div>
+            <div class="content phone" data-priority="2">
+                <div class="content-caption"> mag </div>
+                <div class="content-main"> <img draggable="false" src="Images/home/expression-mag.png" alt="An image" /> </div>
+            </div>
+            <div class="content paper" data-priority="2">
+                <div class="content-caption"> dinner at ians</div>
+                <div class="content-main"> <img draggable="false" src="Images/home/ians.png" alt="An image" /> </div>
+            </div>
+            <div class="content phone" data-priority="2">
+                <div class="content-caption"> minis </div>
+                <div class="content-main"> <img draggable="false" src="Images/home/mini.png" alt="An image" /> </div>
+            </div>
+            <div class="content paper" data-priority="2">
+                <div class="content-caption"> shandar phool </div>
+                <div class="content-main"> <img draggable="false" src="Images/home/shandar-phool.png" alt="An image" /> </div>
+            </div>
+            <div class="content browser" data-priority="1">
+                <div class="content-caption"> shared-room </div>
+                <div class="content-main"> <img draggable="false" src="Images/home/shared-room.png" alt="An image" /> </div>
+            </div>
+            <div class="content phone" data-priority="2">
+                <div class="content-caption"> shoelace </div>
+                <div class="content-main"> <img draggable="false" src="Images/home/shoelace.png" alt="An image" /> </div>
+            </div>
+            <div class="content paper" data-priority="2">
+                <div class="content-caption"> slow life </div>
+                <div class="content-main"> <img draggable="false" src="Images/home/slow-life.png" alt="An image" /> </div>
+            </div>
+            <div class="content browser" data-priority="2">
+                <div class="content-caption"> smishy </div>
+                <div class="content-main"> <img draggable="false" src="Images/home/smishy.png" alt="An image" /> </div>
+            </div>
+        </div>
+        <div id="canvas-holder">
+            <canvas id="draw-canvas"></canvas>
+        </div>
+    </div>
+    <script>
+        displayProgress(" JS is starting");
+        var contentHolder = document.getElementById("content-holder");
+        var contentPieces = contentHolder.children;
 
 
-      <!-- Vibes -->
-      <tr>
-        <td class="description" onclick="location.href='detail-vibes.html';"> 
-          <div class="emojiwrapper"><span class="emoji">📱</span></div>
-          <div class="title"> Vibes </div>
-          <div class="subtitle tech"> design + code, 2018 </div>
-          <div class="body"> An app that explores how groups can create stories and form memories together. 
-          </br> </br> Powered by React Native, Sketch. Built by me and friends. </div>
-          <div class="link"> → <a href="detail-vibes.html"> learn more</a> </div>
-        </td>
-        <td class="image"> <img class="one" src="Images/Vibes/Intro.png"/> </td>
-        <td class="image"> <img class="one" src="Images/Vibes/Home.png"/> </td>
-        <td class="image"> <img class="one" src="Images/Vibes/Vibe.png"/> </td>
-      </tr>
+
+        function makeDraggable(content) {
+            let mouseDown = false;
+            content.addEventListener("mousedown", () => {
+                mouseDown = true;
+            })
+            document.addEventListener("mouseup", () => {
+                mouseDown = false;
+            });
+            document.addEventListener("mousemove", (e) => {
+                if (mouseDown) {
+                    displayProgress("Moving the content", [e, content]);
+                    var xPos = e.pageX;
+                    var yPos = e.pageY;
+                    content.style.left = xPos + "px";
+                    content.style.top = yPos + "px";
+                }
+            })
+        }
+
+        //TODO make this more like legit and not jank
+        function getImageForContent(content) {
+            var contentMain = content.children[1];
+            var contentImg = contentMain.children[0];
+            return contentImg;
+        }
+
+        var windowSizeFactor = .4;
+        var totalDiagonal = 0,
+            totalArea = 0;
+
+        function resizeContent(content) {
+            //First figure out if it has an image
+            var contentImage = getImageForContent(content);
+            if (!contentImage)
+                return;
+
+            //Get the priority of the image, default to 1
+            var priority = content.dataset.priority;
+            if (!priority)
+                priority = 1;
+
+            //Set the major/minor axis according to the aspect ratio of the image
+            var sizeFactor = windowSizeFactor / priority;
+            var majorAxisLength;
+            if (contentImage.clientWidth > contentImage.clientHeight) {
+                majorAxisLength = sizeFactor * window.innerWidth;
+                contentImage.style.width = majorAxisLength + "px";
+                contentImage.style.height = "auto"
+            } else {
+                majorAxisLength = sizeFactor * window.innerWidth;
+                contentImage.style.height = majorAxisLength + "px";
+                contentImage.style.width = "auto"
+            }
+
+            //Calculate some major functions for later
+            var contentWidth = contentImage.clientWidth;
+            var contentHeight = contentImage.clientHeight;
+            var contentDiagonal = Math.sqrt(Math.pow(contentWidth, 2) + Math.pow(contentHeight, 2));
+            totalDiagonal += contentDiagonal;
+            totalArea += contentWidth * contentHeight;
+
+            displayProgress("Resizing /content to " + majorAxisLength, [contentImage]);
+        }
 
 
-      <!-- Art -->
-      <tr>
-        <td class="description" onclick="location.href='detail-sketch.html';"> 
-          <div class="emojiwrapper"><span class="emoji">🎨</span></div>
-          <div class="title"> Memory Sketchbook </div>
-          <div class="subtitle art"> art, 2018 </div>
-          <div class="body"> Sketches that explore how memories are formed, stored and recalled.
-          </br> </br> Powered by Photoshop, Instagram, my camera and a sketchbook. Built by me. </div>
-          <div class="link">  <a href="detail-sketch.html">→ learn more</a> </div>
-        </td>
-        <td class="image"> <img class="one" src="Images/Art/Finished/jai-browner.png"/> </td>
-        <td class="image"> <img class="one" src="Images/Art/Finished/rob-bloom.jpg"/> </td>
-        <td class="image"> <img class="one" src="Images/Art/Finished/self-final.jpg"/> </td>
-        <td class="image"> <img class="one" src="Images/Art/Finished/jobs.png"/> </td>
-        <td class="buffer">  </td>
-      </tr>
+        function layoutContent(poissonSize, distanceBetweenContent) {
+            var sampler = poissonDiscSampler(poissonSize[0], poissonSize[1], distanceBetweenContent);
+            displayProgress("Sampler initiated with distance " + distanceBetweenContent + " w: " + poissonSize[0] + " h: " + poissonSize[1]);
+
+            for (var i = 0; i < contentPieces.length; i++) {
+                var sample = sampler();
+                if (!sample) {
+                    displayWarning("Bad stuff, trying again");
+                    layoutContent(poissonSize, distanceBetweenContent - 10);
+                    return;
+                }
+
+                var content = contentPieces[i];
+
+                //Left right edge detection and move
+                var leftPos = sample[0],
+                    topPos = sample[1];
+
+                var boundingBox = content.getBoundingClientRect();
+                if (boundingBox.right > poissonSize[1]) {
+                    console.log(content);
+                    console.log(boundingBox);
+                }
+
+                //Set position
+                content.style.left = sample[0] + "px";
+                content.style.top = sample[1] + "px";
+
+            }
+        }
 
 
-      <!-- Spot -->
-      <tr>
-        <td class="description nolink"> 
-          <div class="emojiwrapper"><span class="emoji">📱</span></div>
-          <div class="title"> Spot </div>
-          <div class="subtitle tech"> design + code, 2018 </div>
-          <div class="body"> An app that explores the boundary between digital and analogue worlds, through dogs. 
-          </br> </br> Powered by react native, Sketch and puppies. Built by me and friends.  </div>
-        </td>
-        <td class="image"> <img class="one" src="Images/Spot/Capture.png"/> </td>
-        <td class="image"> <img class="one" src="Images/Spot/Dogs.png"/> </td>
-        <td class="image" > <img class="one" src="Images/Spot/Spotted.png"/> </td>
-      </tr>
 
 
-  		<tr>
-  			<td class="description two nolink"> 
-          <div class="emojiwrapper"><span class="emoji">🙏</span></div>
-         <div class="title"> Bye</div>
-         <div class="body" style="padding-bottom: 120px"> Thanks for stopping by. </div>
-       </td>
-  		</tr>
+        function setup() {
 
-  </table>
-  </body>
+            for (var i = 0; i < contentPieces.length; i++) {
+                var content = contentPieces[i];
+                resizeContent(content);
+                makeDraggable(content);
+            }
+            var areaSize = [contentHolder.clientWidth, contentHolder.clientHeight];
+            var averageDiagonal = 0.5 * contentHolder.clientHeight;
+            var areaForContent = [0.8 * areaSize[0], 2 * areaSize[1]];
+            layoutContent(areaForContent, averageDiagonal);
+            //window.addEventListener("resize", () => layoutContent([window.innerWidth, window.innerHeight]));
+
+        }
+        setup();
+
+
+        //Related to drawing and  canvas
+        var canvas = new fabric.Canvas("draw-canvas", {
+            isDrawingMode: true
+        });
+
+        function setCanvasSize() {
+            canvas.setHeight(window.innerHeight);
+            canvas.setWidth(window.innerWidth);
+        }
+        setCanvasSize();
+        window.addEventListener("resize", () => setCanvasSize());
+    </script>
+    ]
+</body>
+
 </html>

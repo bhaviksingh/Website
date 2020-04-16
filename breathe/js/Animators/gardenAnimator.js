@@ -9,7 +9,7 @@ class GardenAnimator {
 
         //Flower management in Garden, changes dynamically
         this.flowers = [];
-        this.numFlowers = 1;
+        this.numFlowers = 20;
 
         //Manages playback of flowers
         this.currentFrame = 0;

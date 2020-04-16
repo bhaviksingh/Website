@@ -1,296 +1,164 @@
-body {
-	margin: 0;
-	padding: 0;
-	background-color: rgb(252,252,252);
-	/*background-color: #ccffff;*/
-	background-color: white;
-/*    background-image: url("Images/background-tile.png");
-    background-repeat: repeat;
-    background-size: 48px 48px;*/
-    background-image: linear-gradient(to right, rgba(200,200,200,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(200,200,200,0.25) 1px, transparent 1px);
-    background-size: 48px 48px;
-    font-family: Helvetica, sans-serif;
-}
-
-/*.coretable td.header .text_wrapper .text {
-	background-color: rgba(252,252,252,0.5);
-}
-*/
-td.image img, td.image video {
-	border: 1px solid rgba(200,200,200);
-	box-sizing: border-box;
-}
-
-a { color: inherit; } 
-
-
-
-td, tr {
-	border: none;
-	/*border: 1px dashed rgba(100,100,100,0.2); */
+#container {
+    width: 100vw;
+    height: 100vh;
+    width: calc(var(--vw, 1vw) * 100);
+    height: calc(var(--vh, 1vh) * 100);
+    margin: auto;
+    margin-top: calc(var(--vh, 1vh) * 5);
+    font-family: Helvetica;
+    font-size: 1em;
 }
 
 
-tr:first-child {
-	border-bottom: none;
+/* Canvas related stuff */
+
+#container #canvas-holder {
+    z-index: -2;
+    width: 100%;
+    height: 100%;
 }
 
-ul {
-	list-style-type: square;
-	margin: 0;
-	padding: 0;
-	padding-left: 16px;
-}
-
-li {
-	margin-bottom: 2px;
-}
-
-@font-face {
-    font-family: Gibson-SemiBold;
-    font-weight: bold;
-    src: url("Gibson-SemiBold.otf") format("opentype");
+#canvas-holder #draw-canvas {
+    width: 100%;
+    height: 100%;
 }
 
 
-.coretable {
-	border-collapse: collapse;
-	margin-top: 48px;
-	margin-left: 142px;
+/* Major content containers related stuff */
+
+#container #header {
+    width: 100%;
+    height: 10%;
+    position: absolute;
+    top: 0px;
+    padding: 5%;
+    box-sizing: border-box;
+    font-size: 32px;
 }
 
-.coretable.secondary {
-	margin-top: 0px;
+#container #content-holder {
+    width: 100%;
+    height: 90%;
+    position: absolute;
+    top: 10%;
+    z-index: 2;
+    pointer-events: none;
 }
 
-.coretable td {
-	vertical-align: top;
+
+/* Within content */
+
+#content-holder .content {
+    position: absolute;
+    display: flex;
+    cursor: crosshair;
+    cursor: grab;
+    pointer-events: auto;
+    /* resize: both;
+overflow: auto; */
 }
 
 
-.coretable td.header {
-	font-size: 36px;
-	font-family:  Gibson-SemiBold, Helvetica, sans-serif;
-	padding-bottom: 48px;
-	font-weight: bold;
-	line-height: 42px;
-	padding-top: 4px;
+/* Content itself*/
 
+.content .content-main {
+    display: flex;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 
-.coretable.home td.header {
-	width: 288px;
+
+/* Fancy styling vibes*/
+
+.content.text {
+    background: pink;
+    padding: 8px;
 }
 
-.coretable td.header .text_wrapper {
-	position: relative;
+.content.browser {
+    --chrome-radius: 8px;
+    --chrome-bar-height: 28px;
+    padding: 0px;
+    padding-top: var(--chrome-bar-height);
+    border-radius: var(--chrome-radius);
+    background: #eeee;
+    border: 1px solid #e7eaed;
+    background: linear-gradient(#e7eaed 0%, #e7eaed var(--chrome-bar-height), white 100%);
+    background: white;
+    border: 1px solid black;
+    overflow: hidden;
 }
 
-.coretable td.header .text_wrapper .text {
-	top: -12px;
-    left: -24px;
-    border: 1px gray solid;
-    border-radius: 50%;
-    width: 300px;
-    padding-top: 20px;
-    padding-bottom: 10px;
-    text-align: center;
+.content.browser:before {
+    content: "";
+    height: calc(var(--chrome-bar-height)/3);
+    width: calc(var(--chrome-bar-height)/3);
+    top: calc(var(--chrome-bar-height)/3);
+    left: calc(var(--chrome-bar-height)/3);
+    background: #dddddd;
+    border: 1px solid #d6d7d7;
+    border-radius: 100%;
     position: absolute;
 }
 
-.coretable.home td.header {
-	padding-bottom: 8px;
+.content.browser .content-main {
+    border-radius: 0px 0px var(--chrome-radius) var(--chrome-radius);
+    border-top: 1px solid black;
 }
 
-.coretable td.about {
-	color: rgb(60,60,60);
-	font-size: 16px;
-	line-height: 16px;
-    padding-left: 54px;
-    padding-top: 15px;
-
+.content.browser:after {
+    content: "";
+    height: calc(var(--chrome-bar-height)/3);
+    width: calc(var(--chrome-bar-height)/3);
+    top: calc(var(--chrome-bar-height)/3);
+    left: calc(var(--chrome-bar-height)*0.9);
+    background: #dddddd;
+    border: 1px solid #d6d7d7;
+    border-radius: 100%;
+    position: absolute;
 }
 
-.coretable.home td.about {
-	width: 432px;
+.content.phone {
+    --phone-radius: 16px;
+    --phone-padding: 12px;
+    padding-top: var(--phone-padding);
+    padding-left: calc(var(--phone-padding)/2);
+    padding-right: calc(var(--phone-padding)/2);
+    padding-bottom: calc(var(--phone-padding)*2);
+    background: black;
+    background: white;
+    border: 1px solid black;
+    box-sizing: border-box;
+    border-radius: var(--phone-radius);
 }
 
-.coretable td > .emojiwrapper {
-	position: relative;
-	font-size: 24px;
-}
-
-.coretable td > .emojiwrapper > .emoji {
-	position: absolute;
-	top: -12px;
-	left: -32px;
-}
-
-.coretable td.description {
-	font-size: 18px;
-	padding-right: 60px;
-	width: 180px;
-}
-
-.coretable.home td.description > div {
-	cursor: e-resize;
-}
-
-.coretable.home td.description > div:hover {
-	text-decoration: underline;
-	cursor: default;
-}
-
-.coretable.home td.description.nolink div:hover {
-	text-decoration: none;
-}
-
-	.coretable td.description > div {
-		width: 180px; /*Have to put it here because the description cell doesnt want it*/
-		padding-right: 0px;
-		margin-right: 0px;
-	}
-
-	.coretable td.description .title {
-		font-family: Helvetica;
-		font-weight: bold;
-		font-size: 20px;
-		line-height: 20px;
-	}
-
-	.coretable td.description .subtitle {
-		font-size: 16px;
-	}
-
-		.coretable td.description .subtitle.product {
-			color: #0500FF;
-		}
-
-		.coretable td.description .subtitle.tech {
-			color: #BD10E0;
-		}
-
-		.coretable td.description .subtitle.art {
-			color: #1797B1;
-		}
-
-	.coretable td.description .body {
-		color: rgb(60,60,60);
-		margin-top: 12px;
-		font-size: 16px;
-	}
-
-
-	.coretable td.description .link {
-		color: #9B9B9B;
-		margin-top: 24px;
-		font-size: 16px;
-		/*text-decoration: underline;*/
-	}
-
-/*.coretable td.caption {
-	text-align: center;
-	font-size: 14px;
-}
-*/
-
-/*TODO CLEAN THIS SHIT UPPP*/
-
-.coretable td .video .emojiwrapper {
-	position: relative;
-	font-size: 20px;
-}
-
-.coretable td .video .emojiwrapper > .emoji {
-	position: absolute;
-	top: -12px;
-	left: -6px;
-	cursor: default;
-}
-
-/*This one is the container, equivalent to one, and the image style*/
-.coretable td.image { 
-	padding-bottom: 36px; /*Have to put it here because the fricken row doesnt want it!! */
-	padding-right: 12px;
-	width: 240px;
-}
-
-td.image img.one, td.image video.one{
-	/*width: calc(360px * 0.7);*/
-	width: 248px;
-	height: auto;
+.content.phone .content-main {
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 
-/* Smaller bottom margins in some cases */
+/* Caption */
 
-.coretable tr.tight-bottom td.image {
-	padding-bottom: 12px;
+.content .content-caption {
+    display: none;
+    position: absolute;
+    bottom: -2%;
+    left: 20%;
+    padding: 6%;
+    background: white;
+    border: 1px solid black;
 }
 
-/* Tighter for the grids in the detail page, where full grid is tight */ 
-
-.coretable.tight td.image { 
-	padding-bottom: 12px; 
-	padding-right: 12px;
-	width: 183px;
+.content:hover .content-caption {
+    display: inline-block;
 }
 
-.coretable.tight td.image img.one, .coretable.tight td.image video.one{
-	/*width: calc(360px * 0.7);*/
-	width: 180px;
-	height: auto;
+.content .content-main a,
+.content .content-caption a {
+    cursor: ne-resize;
 }
-
-.coretable.tight td.image img.two, .coretable.tight td.image video.two {
-	width: calc(366px + 12px);
-	height: auto;
-}
-
-
-/*Video bullshit*/
-
-.video {
-/*  height: 330px;
-  width: 600px;
-  margin-bottom: 50px;*/
-
-}
-
-/* Hide Play button + controls on iOS */
-video::-webkit-media-controls {
-    /*display:none !important;*/
-}
-
-/*This one is the container, equivalent to 3 width, and the image style*/
-
-.coretable td.image.three {
-	width: calc((240px * 3) + (24px * 2));
-}
-
-
-td.image img.three, td.image video.three{
-	/*width: calc(360px * 0.7);*/
-	width: calc((240px * 3) + (24px * 2));
-	height: auto;
-}
-
-
-.coretable td.buffer {
-	width: 300px;
-}
-
-/*Detail specific*/
-
-.coretable td.header.detail {
-	font-size: 18px;
-}
-
-
-.coretable td.header > .emojiwrapper > .emoji {
-	font-family: Helvetica, san-serif;
-	position: absolute;
-	top: -5px;
-	left: -32px;
-}
-
