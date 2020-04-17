@@ -1,19 +1,21 @@
-body {
-    margin: 0px;
-    font-family: Helvetica;
-    font-size: 1em;
-}
-
 :root {
     --vw: 1vw;
     --vh: 1vh;
-    --FGColor: pink;
-    --BGColor: hsl(55, 100%, 50%);
-    --BrushColor: blue;
+    --FGColor: yellow;
+    --BGColor: hsl(0, 0%, 90%);
+    --BrushColor: black;
     --CaptionColor: white;
     --border-weight: 1px;
     --border-style: solid;
     --border-all: var(--border-weight) solid var(--BrushColor);
+    --docPadding: 32px;
+}
+
+body {
+    margin: 0px;
+    font-family: Helvetica;
+    font-size: 1em;
+    background: var(--BGColor);
 }
 
 #container {
@@ -23,6 +25,11 @@ body {
     height: calc(var(--vh, 1vh) * 100);
     margin: auto;
     background: var(--BGColor);
+    overflow-x: hidden;
+}
+
+::selection {
+    background-color: var(--FGColor)
 }
 
 
@@ -40,7 +47,6 @@ body {
     width: 100%;
     height: 100%;
     position: absolute;
-    background: var(--BGColor);
 }
 
 
@@ -48,17 +54,35 @@ body {
 
 #header {
     width: 100%;
-    height: 10%;
-    position: fixed;
+    position: relative;
     top: 0px;
+    box-sizing: border-box;
+    font-family: 'EB Garamond', 'Times New Roman', Times, serif;
+    padding: var(--docPadding);
     font-size: 32px;
-    z-index: 100;
+    line-height: 39px;
+    font-weight: 400;
+    word-wrap: break-word;
+    pointer-events: auto;
+    z-index: 3;
+}
+
+#header a {
+    font-style: italic;
+    text-decoration: underline;
+    word-wrap: break-word;
+    cursor: ne-resize;
+}
+
+#header .half {
+    width: 40%;
+    display: inline-block;
+    vertical-align: top;
 }
 
 #container #content-holder {
     width: 100%;
     height: 100%;
-    top: 10%;
     pointer-events: none;
     z-index: 1;
 }
@@ -157,8 +181,8 @@ overflow: auto; */
     width: 100%;
     height: 100%;
     position: absolute;
-    top: 10%;
-    left: -10%;
+    top: 3%;
+    left: -5%;
     background: var(--FGColor);
     z-index: -1;
     border: var(--border-all)
@@ -170,7 +194,7 @@ overflow: auto; */
 }
 
 
-/* Caption */
+/* Within content specifics */
 
 .content .content-caption {
     display: none;
@@ -189,4 +213,42 @@ overflow: auto; */
 .content .content-main a,
 .content .content-caption a {
     cursor: ne-resize;
+}
+
+#tools-container {
+    position: fixed;
+    bottom: var(--docPadding);
+    left: var(--docPadding);
+    z-index: 4;
+}
+
+#tools-container #play {
+    display: inline-block;
+    background-color: var(--FGColor);
+    border: var(--border-all);
+    padding: 12px;
+}
+
+.content .content-main input {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+
+/* If "desktop" native approach */
+
+
+/* Phone portrait */
+
+@media only screen and (max-width: 850px) {
+    /* Mobile related CSS goes here (400px and under) */
+     :root {
+        --docPadding: 24px;
+    }
+    #header .half {
+        display: inline;
+    }
+    .content .content-caption {
+        display: inline-block;
+    }
 }

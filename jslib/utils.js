@@ -34,3 +34,17 @@ function isDesktop() {
     else
         return true;
 }
+
+function getWindowSize() {
+    if (isDesktop()) {
+        return {
+            'height': window.innerHeight,
+            'width': window.innerWidth
+        }
+    } else {
+        return {
+            'height': document.documentElement.clientHeight,
+            'width': document.documentElement.clientWidth
+        }
+    }
+}

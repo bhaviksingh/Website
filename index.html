@@ -8,6 +8,9 @@
     <title>bvk</title>
     <link rel="shortcut icon" href="favicon.png" type="image/png" sizes="24x24">
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+
     <script src="jslib/poisson.js"></script>
     <script src="jslib/fabric.min.js"></script>
 
@@ -20,9 +23,22 @@
 <body>
     <div id="header">
         <div id="logo"> </div>
-        <div id="content"> Bhavik is an artist & technologist interested in creating digital experiences that help you express and understand yourself. He encourages you to play with this site. </div>
+        <div id="content">
+            <div class="half"> <i>Bhavik </i> is an artist and technologist interested in creating digital experiences that help you express and understand yourself. </div>
+            <div class="half">He's in <i>Brooklyn</i> where it is 1:40PM. You can reach him at <a>bhaviksingh@gmail.com</a>, on <a>Instagram</a>, or <a>Arena</a>. </div>
+        </div>
+    </div>
+    <div id="tools-container">
+        <div id="play">
+            <div class="slider-container">
+                ForeGround:<input type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)"> </br>
+                BackGround: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BGColor', this.value)"> </br>
+                Brush color: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)">
+            </div>
+        </div>
     </div>
     <div id="container">
+
         <div id="content-holder">
             <div class="content phone" data-priority="1.5">
                 <div class="content-caption"> Bento </div>
@@ -78,11 +94,50 @@
     </div>
     <script>
         displayProgress(" JS is starting");
+
         var contentHolder = document.getElementById("content-holder");
         var contentPieces = contentHolder.children;
+        var windowSizeFactor = .4; //Controls how large the largest piece of content will be
 
+        function setup() {
+            setUpWindowSizeCalc();
+            //Set up the right event listenere
+            if (isDesktop()) {
+                createCanvas();
+                window.addEventListener("resize", () => setCanvasSize());
+                window.addEventListener("resize", () => setup());
+            }
+            //Pass 1: First resize all the content, and make it draggable
+            for (var i = 0; i < contentPieces.length; i++) {
+                var content = contentPieces[i];
+                if (content.id == "play") {
+                    continue;
+                }
+                resizeContent(content);
+                makeDraggable(content);
+            }
+            //Pass 2: layout all the content
+            if (!isDesktop() || getWindowSize().width < 800) {
+                displayProgress("Entering mobile mode");
+                arrangeVertically();
+            } else {
+                var areaSize = [contentHolder.clientWidth, contentHolder.clientHeight];
+                var distanceBetweenContent = 0.4 * areaSize[1];
+                var areaForContent = [0.8 * areaSize[0], 2 * areaSize[1]];
+                layoutContent(areaForContent, distanceBetweenContent);
 
+            }
+            //Pass 3: Reposition the edge offenders
+            for (var i = 0; i < contentPieces.length; i++) {
+                var content = contentPieces[i];
+                borderDetection(content);
+            }
+        }
 
+        //🖼🖼🖼🖼 CONTENT LAYOUT RELATED FUNCTIONS 
+
+        //Makes content draggable. 
+        //TODO: Maybe consider making this only for a certin area.
         function makeDraggable(content) {
             let mouseDown = false;
             content.addEventListener("mousedown", () => {
@@ -96,13 +151,17 @@
                     displayProgress("Moving the content", [e, content]);
                     var xPos = e.pageX;
                     var yPos = e.pageY;
+
+
+
                     content.style.left = xPos + "px";
                     content.style.top = yPos + "px";
                 }
             })
         }
 
-        //TODO make this more like legit and not jank
+        //Gets the image for the content
+        //TODO: Make this not jank
         function getImageForContent(content) {
             var contentMain = content.children[1];
             if (!contentMain)
@@ -111,77 +170,95 @@
             return contentImg;
         }
 
-        var windowSizeFactor = .4;
-        var totalDiagonal = 0,
-            totalArea = 0;
 
+        //Resize every piece of content.
         function resizeContent(content) {
             //First figure out if it has an image
             var contentImage = getImageForContent(content);
             if (!contentImage)
                 return;
-
             //Get the priority of the image, default to 1
             var priority = content.dataset.priority;
             if (!priority)
                 priority = 1;
-
             //Set the major/minor axis according to the aspect ratio of the image
             var sizeFactor = windowSizeFactor / priority;
-            var majorAxisLength;
+            var majorAxisLength, windowMajorAxis;
             if (contentImage.clientWidth > contentImage.clientHeight) {
-                majorAxisLength = sizeFactor * window.innerWidth;
+                majorAxisLength = sizeFactor * getWindowSize().width;
                 contentImage.style.width = majorAxisLength + "px";
                 contentImage.style.height = "auto"
             } else {
-                majorAxisLength = sizeFactor * window.innerWidth;
+                majorAxisLength = sizeFactor * getWindowSize().height;
                 contentImage.style.height = majorAxisLength + "px";
                 contentImage.style.width = "auto"
             }
-
-            //Calculate some major functions for later
-            var contentWidth = contentImage.clientWidth;
-            var contentHeight = contentImage.clientHeight;
-            var contentDiagonal = Math.sqrt(Math.pow(contentWidth, 2) + Math.pow(contentHeight, 2));
-            totalDiagonal += contentDiagonal;
-            totalArea += contentWidth * contentHeight;
-
             displayProgress("Resizing /content to " + majorAxisLength, [contentImage]);
         }
 
 
+        //Position all the content
         function layoutContent(poissonSize, distanceBetweenContent) {
             var sampler = poissonDiscSampler(poissonSize[0], poissonSize[1], distanceBetweenContent);
-            displayProgress("Sampler initiated with distance " + distanceBetweenContent + " w: " + poissonSize[0] + " h: " + poissonSize[1]);
 
             for (var i = 0; i < contentPieces.length; i++) {
                 var sample = sampler();
                 if (!sample) {
-                    displayWarning("Bad stuff, trying again");
                     layoutContent(poissonSize, distanceBetweenContent - 10);
                     return;
                 }
-
                 var content = contentPieces[i];
-
                 //Left right edge detection and move
                 var leftPos = sample[0],
                     topPos = sample[1];
 
-                //TODO: FIX THIS
-                var boundingBox = content.getBoundingClientRect();
-                if (boundingBox.right > poissonSize[1]) {
-                    console.log(content);
-                    console.log(boundingBox);
-                }
-
+                var headerBottom = document.getElementById("header").getBoundingClientRect().bottom + 12;
+                topPos = Math.max(topPos, headerBottom);
                 //Set position
-                content.style.left = sample[0] + "px";
-                content.style.top = sample[1] + "px";
+                content.style.left = leftPos + "px";
+                content.style.top = topPos + "px";
 
+            }
+            displayProgress("Sampler completed with distance " + distanceBetweenContent + " w: " + poissonSize[0] + " h: " + poissonSize[1]);
+        }
+
+        //Arrange vertically 
+        function arrangeVertically() {
+            var paddingBetweenContent = 24;
+            var currentTop = document.getElementById("header").getBoundingClientRect().bottom + paddingBetweenContent;
+            for (var i = 0; i < contentPieces.length; i++) {
+                var content = contentPieces[i];
+
+                var contentTop = currentTop + Math.floor(Math.random() * 12);
+                var spaceLeft = 0.5 * (getWindowSize().width - content.offsetWidth);
+                var contentLeft = Math.floor(Math.random() * spaceLeft);
+
+                displayProgress("Placing content at t " + contentTop + "  l " + contentLeft);
+
+                content.style.top = contentTop + "px";
+                content.style.left = contentLeft + "px";
+                console.log(content.offsetHeight);
+                currentTop = contentTop + content.offsetHeight + paddingBetweenContent;
             }
         }
 
+        function borderDetection(content) {
+            var rightEdge = content.getBoundingClientRect().right;
+            if (rightEdge > getWindowSize().width) {
+                var offset = getWindowSize().width - rightEdge;
+                displayProgress("Woah! Moving content because it fell off right edge", [content, offset]);
+                var newLeftPos = content.getBoundingClientRect().left + (offset - 16);
+                content.style.left = newLeftPos + "px";
+            }
+
+            // var bottomEdge = content.getBoundingClientRect().bottom;
+            // if (bottomEdge > container.offsetHeight) {
+            //     var offset = container.offsetHeight - bottomEdge;
+            //     var newTopPos = content.getBoundingClientRect().top + (offset);
+            //     displayProgress("Woah! Moving content because it fell off top edge", [content, offset]);
+            //     content.style.top = newTopPos + "px"
+            // }
+        }
 
         function setUpWindowSizeCalc() {
             let vh = window.innerHeight * 0.01;
@@ -190,21 +267,7 @@
             document.documentElement.style.setProperty('--vw', `${vw}px`);
         }
 
-        function setup() {
-            setUpWindowSizeCalc();
-            for (var i = 0; i < contentPieces.length; i++) {
-                var content = contentPieces[i];
-                resizeContent(content);
-                makeDraggable(content);
-            }
-            var areaSize = [contentHolder.clientWidth, contentHolder.clientHeight];
-            var averageDiagonal = 0.5 * contentHolder.clientHeight;
-            var areaForContent = [0.8 * areaSize[0], 2 * areaSize[1]];
-            layoutContent(areaForContent, averageDiagonal);
-        }
-        setup();
-        window.addEventListener("resize", () => setup());
-        setCaptionColor();
+        // 🚦 USER DRIVEN UPDATES 
 
         function setCaptionColor() {
             var bgColorHSL = getComputedStyle(document.documentElement)
@@ -219,16 +282,28 @@
             var newHSL = `${bgFrontPart},${newLightness}%)`;
 
 
-            console.log(bgColorHSL);
-            console.log(bgLightness);
-            console.log(newHSL);
-
-
             document.documentElement.style.setProperty('--CaptionColor', newHSL);
         }
 
 
-        //Related to drawing and  canvas
+        var saturation = 100;
+        var lightness = 50;
+
+        function updateColorHue(color, newHue) {
+            var newHSL = "hsl(" + newHue + ", 100%, 50%)";
+            var colorVaraible = "--" + color;
+            document.documentElement.style.setProperty(colorVaraible, newHSL);
+
+            if (color == "BrushColor" && isDesktop()) {
+                setCanvasBrushColor();
+            }
+
+            if (color == "BGColor") {
+                setCaptionColor();
+            }
+        }
+
+        //🔥🔥🔥🔥🔥🔥 CANVAS!
 
         var canvas;
 
@@ -251,12 +326,8 @@
             canvas.setWidth(window.innerWidth);
         }
 
-        if (isDesktop()) {
-            createCanvas();
-            window.addEventListener("resize", () => setCanvasSize());
-        }
+        setup();
     </script>
-    ]
 </body>
 
 </html>

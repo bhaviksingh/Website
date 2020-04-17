@@ -10,8 +10,6 @@ function poissonDiscSampler(width, height, radius, rng) {
 
     var gridWidth = Math.ceil(width / cellSize);
     var gridHeight = Math.ceil(height / cellSize);
-
-    console.log(gridWidth + " " + gridHeight);
     var grid = new Array(gridWidth * gridHeight);
 
     var queue = [];
