@@ -20,3 +20,17 @@ function displayMessage(msg, info) {
     else
         console.log(info);
 }
+
+const mobile = (navigator.userAgent.match(/Android/i) ||
+    navigator.userAgent.match(/webOS/i) ||
+    navigator.userAgent.match(/iPhone/i) ||
+    navigator.userAgent.match(/BlackBerry/i) ||
+    navigator.userAgent.match(/Windows Phone/i)
+);
+
+function isDesktop() {
+    if (mobile)
+        return false;
+    else
+        return true;
+}

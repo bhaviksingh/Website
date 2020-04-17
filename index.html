@@ -20,7 +20,7 @@
 <body>
     <div id="header">
         <div id="logo"> </div>
-        <div id="content"> Bhavik is an artist & technologist interested in creating digital experiences that help you express and understand yourself. </div>
+        <div id="content"> Bhavik is an artist & technologist interested in creating digital experiences that help you express and understand yourself. He encourages you to play with this site. </div>
     </div>
     <div id="container">
         <div id="content-holder">
@@ -39,6 +39,9 @@
             <div class="content phone" data-priority="2">
                 <div class="content-caption"> mag </div>
                 <div class="content-main"> <img draggable="false" src="/Images/home/expression-mag.png" alt="An image" /> </div>
+            </div>
+            <div class="content text" data-priority="2">
+                <div class="content-main"> Some text here</div>
             </div>
             <div class="content paper" data-priority="2">
                 <div class="content-caption"> dinner at ians</div>
@@ -102,6 +105,8 @@
         //TODO make this more like legit and not jank
         function getImageForContent(content) {
             var contentMain = content.children[1];
+            if (!contentMain)
+                return null
             var contentImg = contentMain.children[0];
             return contentImg;
         }
@@ -199,19 +204,57 @@
         }
         setup();
         window.addEventListener("resize", () => setup());
+        setCaptionColor();
+
+        function setCaptionColor() {
+            var bgColorHSL = getComputedStyle(document.documentElement)
+                .getPropertyValue('--BGColor');
+
+
+            var bgFrontPart = bgColorHSL.split(",")[0] + "," + bgColorHSL.split(",")[1];
+            var bgLightnessStr = bgColorHSL.split(",")[2].split(")")[0].split("%")[0].trim();
+            var bgLightness = parseInt(bgLightnessStr);
+
+            var newLightness = 95;
+            var newHSL = `${bgFrontPart},${newLightness}%)`;
+
+
+            console.log(bgColorHSL);
+            console.log(bgLightness);
+            console.log(newHSL);
+
+
+            document.documentElement.style.setProperty('--CaptionColor', newHSL);
+        }
 
 
         //Related to drawing and  canvas
-        var canvas = new fabric.Canvas("draw-canvas", {
-            isDrawingMode: true
-        });
+
+        var canvas;
+
+        function createCanvas() {
+            canvas = new fabric.Canvas("draw-canvas", {
+                isDrawingMode: true
+            });
+            setCanvasSize();
+            setCanvasBrushColor();
+        }
+
+        function setCanvasBrushColor() {
+            var color = getComputedStyle(document.documentElement)
+                .getPropertyValue('--BrushColor'); // #999999
+            canvas.freeDrawingBrush.color = color;
+        }
 
         function setCanvasSize() {
             canvas.setHeight(window.innerHeight);
             canvas.setWidth(window.innerWidth);
         }
-        setCanvasSize();
-        window.addEventListener("resize", () => setCanvasSize());
+
+        if (isDesktop()) {
+            createCanvas();
+            window.addEventListener("resize", () => setCanvasSize());
+        }
     </script>
     ]
 </body>
