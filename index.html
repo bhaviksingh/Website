@@ -102,7 +102,7 @@
         function setup() {
             setUpWindowSizeCalc();
             //Set up the right event listenere
-            if (isDesktop()) {
+            if (isDesktop() && !canvas) {
                 createCanvas();
                 window.addEventListener("resize", () => setCanvasSize());
                 window.addEventListener("resize", () => setup());
@@ -117,7 +117,7 @@
                 makeDraggable(content);
             }
             //Pass 2: layout all the content
-            if (!isDesktop() || getWindowSize().width < 800) {
+            if (!isDesktop() || getWindowSize().width < 850) {
                 displayProgress("Entering mobile mode");
                 arrangeVertically();
             } else {
@@ -226,6 +226,8 @@
         function arrangeVertically() {
             var paddingBetweenContent = 24;
             var currentTop = document.getElementById("header").getBoundingClientRect().bottom + paddingBetweenContent;
+
+
             for (var i = 0; i < contentPieces.length; i++) {
                 var content = contentPieces[i];
 
