@@ -71,7 +71,6 @@ body,
 #garden-grass {
     background: rgb(187, 255, 228);
     z-index: -1;
-    border-radius: 300%;
     padding: 40px;
 }
 
@@ -157,8 +156,11 @@ body,
     }
     #garden,
     #garden-grass {
-        width: 750px;
+        width: 600px;
         height: 600px;
+    }
+    #garden {
+        top: 60%;
     }
     #tutorial-container {
         width: 750px;

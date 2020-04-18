@@ -25,68 +25,134 @@
         <div id="logo"> </div>
         <div id="content">
             <div class="half"> <i>Bhavik </i> is an artist and technologist interested in creating digital experiences that help you express and understand yourself. </div>
-            <div class="half">He's in <i>Brooklyn</i> where it is 1:40PM. You can reach him at <a>bhaviksingh@gmail.com</a>, on <a>Instagram</a>, or <a>Arena</a>. </div>
+            <div class="half">He's in <i>Brooklyn</i> where it is <span id="clock">x:xxPM</span>. You can reach him at <a href="mailto:bhaviksingh@gmail.com" target="_blank">bhaviksingh@gmail.com</a>, on <a href="instagram.com/bvksn">Instagram</a>, or <a href="https://www.are.na/bhavik-singh/">Arena</a>.
+            </div>
         </div>
     </div>
     <div id="tools-container">
         <div id="play">
             <div class="slider-container">
-                ForeGround:<input type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)"> </br>
-                BackGround: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BGColor', this.value)"> </br>
-                Brush color: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)">
+                Move stuff / <span style="text-decoration: underline; cursor: pointer;" onclick="layoutContent()"> refresh layout. </span></br>
+                FG: <input type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)"> </br>
+                BG: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BGColor', this.value)"> </br>
+                Br: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)">
             </div>
         </div>
     </div>
     <div id="container">
 
         <div id="content-holder">
-            <div class="content phone" data-priority="1.5">
-                <div class="content-caption"> Bento </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/bento.png" alt="An image" /> </div>
+
+            <!-- Breathe -->
+            <div class="content browser not-google" data-priority="1">
+                <div class="content-caption">
+                    <div class="title"> <a href="bhaviksingh.com/breathe">Breathe</a> (2019/20)</div>
+                    <div> a safe space!</div>
+                </div>
+                <div class="content-main">
+                    <video muted loop poster="/Images/home/breathe-web-static.png" loop>
+                    <source src="/Images/home/breathe-web.mov" type="video/mp4">
+                  </video>
+                </div>
             </div>
-            <div class="content browser" data-priority="1">
-                <div class="content-caption"> breathe </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/breathe.png" alt="An image" /> </div>
+            <!-- Breathe -->
+            <div class="content browser not-google" data-priority="1.3">
+                <div class="content-caption">
+                    <div class="title"> <a href="bhaviksingh.com/breathe">Breathe</a> (2019/20)</div>
+                </div>
+                <div class="content-main">
+                    <video muted loop poster="/Images/home/breathe-phone-static.png" loop>
+                      <source src="/Images/home/breathe-phone.mov" type="video/mp4">
+                    </video>
+                </div>
             </div>
-            <div class="content browser" data-priority="1">
-                <div class="content-caption"> emoji kitchen </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/emoji-kitchen.png" alt="An image" /> </div>
+            <!-- Dinner at Ians -->
+            <div class="content paper" data-priority="1">
+                <div class="content-caption">
+                    <div class="title"> <a href="dinneratians.com">Dinner at Ian's</a> (2019/20)</div>
+                    <div> community dinner </div>
+                </div>
+                <div class="content-main"> <img draggable="false" src="/Images/home/dinner-at-ians.jpg" /> </div>
             </div>
-            <div class="content phone" data-priority="2">
-                <div class="content-caption"> mag </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/expression-mag.png" alt="An image" /> </div>
+            <!-- Shandar Phool -->
+            <div class="content paper" data-priority="1">
+                <div class="content-caption">
+                    <div class="title"> Shandar Phool </a> (2020)</div>
+                    <div> indian languages, flowers </div>
+                </div>
+                <div class="content-main" style="background: white"> <img draggable="false" src="/Images/home/shandar-phool.png" /> </div>
             </div>
-            <div class="content text" data-priority="2">
-                <div class="content-main"> Some text here</div>
+            <!-- Emoji kitchen -->
+            <div class="content browser" data-priority="1.2">
+                <div class="content-caption">
+                    <div class="title"> <a href="emoji.kitchen"> Emoji Kitchen</a> (2019) </div>
+                    <div> make it ur own, emojis! </div>
+                </div>
+                <div class="content-main">
+                    <video loop muted poster="/Images/home/emoji-kitchen-static.png" loop>
+                      <source src="/Images/home/emoji-kitchen.mov" type="video/mp4">
+                    </video>
+                </div>
             </div>
-            <div class="content paper" data-priority="2">
-                <div class="content-caption"> dinner at ians</div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/ians.png" alt="An image" /> </div>
+            <!-- Smishy -->
+            <div class="content paper" data-priority="1">
+                <div class="content-caption">
+                    <div class="title"> <a href="bhaviksingh.com/smishy"> Smishy </a> (2019)</div>
+                    <div> creation as catharsis </div>
+                </div>
+                <div class="content-main">
+                    <video muted loop poster="/Images/home/smishy-explainer-static.png" loop>
+                  <source src="/Images/home/smishy-explainer.mov" type="video/mp4">
+                </video>
+                </div>
             </div>
-            <div class="content phone" data-priority="2">
-                <div class="content-caption"> minis </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/mini.png" alt="An image" /> </div>
+            <!-- Illustrations -->
+            <div class="content paper" data-priority="1">
+                <div class="content-caption">
+                    <div class="title"> <a href="instagram.com/bybvk"> Misc illustrated vibes </a> (2019) </div>
+                </div>
+                <div class="content-main"> <img draggable="false" src="/Images/home/businessmen.jpg" /> </div>
             </div>
-            <div class="content paper" data-priority="2">
-                <div class="content-caption"> shandar phool </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/shandar-phool.png" alt="An image" /> </div>
+            <!-- Livegame.show -->
+            <div class="content phone google" data-priority="1.5">
+                <div class="content-caption">
+                    <div class="title"><a href="www.livegame.show">Livegame.show</a> (2019) </div>
+                    <div> Design @ Google </div>
+                </div>
+                <div class="content-main"> <img draggable="false" src="/Images/home/live-game-show.png" /> </div>
             </div>
-            <div class="content browser" data-priority="1">
-                <div class="content-caption"> shared-room </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/shared-room.png" alt="An image" /> </div>
+            <!-- Minis  -->
+            <div class="content phone google" data-priority="2">
+                <div class="content-caption">
+                    <div class="title"> <a href="details/detail-mini.html"> Minis </a> (2018/19)</div>
+                    <div> Product Mgmt @ Google </div>
+                </div>
+                <div class="content-main">
+                    <video muted loop poster="/Images/home/minis-create-flow-static.png">
+                    <source src="/Images/home/minis-create-flow.mp4" type="video/mp4">
+                   </video> </div>
             </div>
-            <div class="content phone" data-priority="2">
-                <div class="content-caption"> shoelace </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/shoelace.png" alt="An image" /> </div>
+            <!-- Make a gif -->
+            <div class="content phone google" data-priority="2">
+                <div class="content-caption">
+                    <div class="title"> <a href="details/detail-mag.html"> Make a gif </a> (2018/19)</div>
+                    <div> Product Mgmt @ Google </div>
+                </div>
+                <div class="content-main">
+                    <video muted loop poster="/Images/home/excam.png">
+                     <source src="/Images/home/excam.mp4" type="video/mp4">
+                    </video>
+                </div>
             </div>
-            <div class="content paper" data-priority="2">
-                <div class="content-caption"> slow life </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/slow-life.png" alt="An image" /> </div>
+            <!-- Portraits -->
+            <div class="content paper" data-priority="1.5">
+                <div class="content-caption">
+                    <div class="title"> <a href="instagram.com/bybvk"> Slow life, portrait series </a> (2018)</div>
+                </div>
+                <div class="content-main"> <img draggable="false" src="/Images/home/self-01.png" /> </div>
             </div>
-            <div class="content browser" data-priority="2">
-                <div class="content-caption"> smishy </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/smishy.png" alt="An image" /> </div>
-            </div>
+
+
         </div>
         <div id="canvas-holder">
             <canvas id="draw-canvas"></canvas>
@@ -117,21 +183,11 @@
                 makeDraggable(content);
             }
             //Pass 2: layout all the content
-            if (!isDesktop() || getWindowSize().width < 850) {
-                displayProgress("Entering mobile mode");
-                arrangeVertically();
-            } else {
-                var areaSize = [contentHolder.clientWidth, contentHolder.clientHeight];
-                var distanceBetweenContent = 0.4 * areaSize[1];
-                var areaForContent = [0.8 * areaSize[0], 2 * areaSize[1]];
-                layoutContent(areaForContent, distanceBetweenContent);
+            layoutContent();
 
-            }
-            //Pass 3: Reposition the edge offenders
-            for (var i = 0; i < contentPieces.length; i++) {
-                var content = contentPieces[i];
-                borderDetection(content);
-            }
+            //Pass 3: Setup all the video hovers
+            setupVideoHover();
+
         }
 
         //🖼🖼🖼🖼 CONTENT LAYOUT RELATED FUNCTIONS 
@@ -143,21 +199,21 @@
             content.addEventListener("mousedown", () => {
                 mouseDown = true;
             })
+
             document.addEventListener("mouseup", () => {
                 mouseDown = false;
             });
+
             document.addEventListener("mousemove", (e) => {
                 if (mouseDown) {
                     displayProgress("Moving the content", [e, content]);
                     var xPos = e.pageX;
                     var yPos = e.pageY;
-
-
-
                     content.style.left = xPos + "px";
                     content.style.top = yPos + "px";
                 }
-            })
+            });
+
         }
 
         //Gets the image for the content
@@ -196,31 +252,26 @@
             displayProgress("Resizing /content to " + majorAxisLength, [contentImage]);
         }
 
+        //Controller for layout
+        function layoutContent() {
 
-        //Position all the content
-        function layoutContent(poissonSize, distanceBetweenContent) {
-            var sampler = poissonDiscSampler(poissonSize[0], poissonSize[1], distanceBetweenContent);
-
-            for (var i = 0; i < contentPieces.length; i++) {
-                var sample = sampler();
-                if (!sample) {
-                    layoutContent(poissonSize, distanceBetweenContent - 10);
-                    return;
-                }
-                var content = contentPieces[i];
-                //Left right edge detection and move
-                var leftPos = sample[0],
-                    topPos = sample[1];
-
-                var headerBottom = document.getElementById("header").getBoundingClientRect().bottom + 12;
-                topPos = Math.max(topPos, headerBottom);
-                //Set position
-                content.style.left = leftPos + "px";
-                content.style.top = topPos + "px";
-
+            //Arrange content as per constraints 
+            if (!isDesktop() || getWindowSize().width < 850) {
+                displayProgress("Entering mobile mode");
+                arrangeVertically();
+            } else {
+                var areaSize = [contentHolder.clientWidth, contentHolder.clientHeight];
+                var distanceBetweenContent = 0.4 * areaSize[1];
+                var areaForContent = [0.8 * areaSize[0], 2 * areaSize[1]];
+                arrangePoisson(areaForContent, distanceBetweenContent);
             }
-            displayProgress("Sampler completed with distance " + distanceBetweenContent + " w: " + poissonSize[0] + " h: " + poissonSize[1]);
+            //Then like go ahead and do some basic edge detection cuz why not
+            for (var i = 0; i < contentPieces.length; i++) {
+                var content = contentPieces[i];
+                borderDetection(content);
+            }
         }
+
 
         //Arrange vertically 
         function arrangeVertically() {
@@ -244,6 +295,34 @@
             }
         }
 
+
+
+        //Poisson arrangement
+        function arrangePoisson(poissonSize, distanceBetweenContent) {
+            var sampler = poissonDiscSampler(poissonSize[0], poissonSize[1], distanceBetweenContent);
+
+            for (var i = 0; i < contentPieces.length; i++) {
+                var sample = sampler();
+                if (!sample) {
+                    arrangePoisson(poissonSize, distanceBetweenContent - 10);
+                    return;
+                }
+                var content = contentPieces[i];
+                //Left right edge detection and move
+                var leftPos = sample[0],
+                    topPos = sample[1];
+
+                var headerBottom = document.getElementById("header").getBoundingClientRect().bottom + 12;
+                topPos = Math.max(topPos, headerBottom);
+                //Set position
+                content.style.left = leftPos + "px";
+                content.style.top = topPos + "px";
+
+            }
+            displayProgress("Sampler completed with distance " + distanceBetweenContent + " w: " + poissonSize[0] + " h: " + poissonSize[1]);
+        }
+
+        //Border detection and movement
         function borderDetection(content) {
             var rightEdge = content.getBoundingClientRect().right;
             if (rightEdge > getWindowSize().width) {
@@ -252,14 +331,6 @@
                 var newLeftPos = content.getBoundingClientRect().left + (offset - 16);
                 content.style.left = newLeftPos + "px";
             }
-
-            // var bottomEdge = content.getBoundingClientRect().bottom;
-            // if (bottomEdge > container.offsetHeight) {
-            //     var offset = container.offsetHeight - bottomEdge;
-            //     var newTopPos = content.getBoundingClientRect().top + (offset);
-            //     displayProgress("Woah! Moving content because it fell off top edge", [content, offset]);
-            //     content.style.top = newTopPos + "px"
-            // }
         }
 
         function setUpWindowSizeCalc() {
@@ -270,6 +341,30 @@
         }
 
         // 🚦 USER DRIVEN UPDATES 
+
+        function setupVideoHover() {
+            var videoElements = document.getElementsByTagName("video");
+            console.log(videoElements);
+            for (var i = 0; i < videoElements.length; i++) {
+                let videoElement = videoElements[i];
+                let contentMain = videoElement.parentElement;
+                let containerElement = contentMain.parentElement;
+                containerElement.addEventListener("mouseover", () => {
+                    onVideoElHover(videoElement);
+                })
+                containerElement.addEventListener("mouseout", () => {
+                    onVideoElLeave(videoElement);
+                })
+            }
+
+            function onVideoElHover(videoEl) {
+                videoEl.play();
+            }
+
+            function onVideoElLeave(videoEl) {
+                videoEl.pause();
+            }
+        }
 
         function setCaptionColor() {
             var bgColorHSL = getComputedStyle(document.documentElement)
@@ -327,6 +422,28 @@
             canvas.setHeight(window.innerHeight);
             canvas.setWidth(window.innerWidth);
         }
+
+        //Time because im so lazy
+        function startTime() {
+            var today = new Date();
+            var hours = today.getHours();
+            var txt = hours > 12 ? "pm" : "am";
+            var m = today.getMinutes();
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            m = checkTime(m);
+            document.getElementById('clock').innerHTML =
+                hours + ":" + m + " " + txt;
+            var t = setTimeout(startTime, 5000);
+        }
+
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i
+            }; // add zero in front of numbers < 10
+            return i;
+        }
+        startTime();
 
         setup();
     </script>
