@@ -97,7 +97,6 @@ body {
 #content-holder .content {
     position: absolute;
     display: flex;
-    cursor: crosshair;
     cursor: grab;
     pointer-events: auto;
     z-index: 3;
@@ -264,16 +263,7 @@ overflow: auto; */
     .content .content-caption {
         display: inline-block;
     }
-    #play {
-        display: flex;
-        padding-top: 12px;
-        width: 100%;
-    }
-    #play div {
-        display: inline-flex;
-        margin-top: 6px;
-    }
-    #play #refresh {
+    #tools-container #play {
         display: none;
     }
 }

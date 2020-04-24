@@ -435,11 +435,12 @@
 
         //🔥🔥🔥🔥🔥🔥 CANVAS!
 
-        var canvas;
+        var canvas, isOver;
 
         function createCanvas() {
             canvas = new fabric.Canvas("draw-canvas", {
-                isDrawingMode: true
+                isDrawingMode: true,
+                hoverCursor: "pointer"
             });
             setCanvasSize();
             setCanvasBrushColor();
