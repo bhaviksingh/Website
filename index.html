@@ -17,8 +17,6 @@
     <script src="jslib/moment.js"></script>
     <script src="jslib/moment-timezone-with-data.js"></script>
 
-    setUpWindowSizeCalc(); // This correct sets VW and VH as necessary
-    </script>
 </head>
 
 <body>
@@ -33,10 +31,13 @@
     <div id="tools-container">
         <div id="play">
             <div class="slider-container">
-                Move stuff / <span style="text-decoration: underline; cursor: pointer;" onclick="layoutContent()"> refresh layout. </span></br>
-                FG: <input type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)"> </br>
-                BG: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BGColor', this.value)"> </br>
-                Br: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)">
+                <div> <span id="refresh" style="text-decoration: underline; cursor: pointer;" onclick="layoutContent()"> Refresh layout </span>
+                </div>
+                <div>FG: <input type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)"> </br>
+                </div>
+                <div> BG: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BGColor', this.value)"> </br>
+                </div>
+                <div> Br: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)"></div>
             </div>
         </div>
     </div>
@@ -62,8 +63,8 @@
                     <div class="title"> <a href="bhaviksingh.com/breathe">Breathe</a> (2019/20)</div>
                 </div>
                 <div class="content-main">
-                    <video muted loop poster="/Images/home/breathe-phone-static.png" loop>
-                      <source src="/Images/home/breathe-phone.mov" type="video/mp4">
+                    <video width="1920" height="1080" muted loop poster="/Images/home/breathe-phone-static.png" loop>
+                      <source src="/Images/home/breathe-phone.mov"  type="video/mp4">
                     </video>
                 </div>
             </div>
@@ -90,7 +91,7 @@
                     <div> make it ur own, emojis! </div>
                 </div>
                 <div class="content-main">
-                    <video loop muted poster="/Images/home/emoji-kitchen-static.png" loop>
+                    <video autoplay loop muted poster="/Images/home/emoji-kitchen-static.png" loop>
                       <source src="/Images/home/emoji-kitchen.mov" type="video/mp4">
                     </video>
                 </div>
@@ -102,7 +103,7 @@
                     <div> creation as catharsis </div>
                 </div>
                 <div class="content-main">
-                    <video muted loop poster="/Images/home/smishy-explainer-static.png" loop>
+                    <video muted loop poster="/Images/home/smishy-explainer-static.png" width="1104" height="704" loop>
                   <source src="/Images/home/smishy-explainer-small.mov" type="video/mp4">
                 </video>
                 </div>
@@ -241,15 +242,41 @@
             //Set the major/minor axis according to the aspect ratio of the image
             var sizeFactor = windowSizeFactor / priority;
             var majorAxisLength, windowMajorAxis;
-            if (contentImage.clientWidth > contentImage.clientHeight) {
+
+            var contentWidth = contentImage.width;
+            var contentHeight = contentImage.height;
+
+            if (contentWidth == 0 || contentHeight == 0) {
+                contentWidth = contentImage.clientWidth;
+                contentHeight = contentImage.clientHeight;
+            }
+            var aspect = contentWidth / contentHeight;
+
+            var objectToResize = contentImage;
+
+
+            if (contentWidth > contentHeight) {
                 majorAxisLength = sizeFactor * getWindowSize().width;
                 contentImage.style.width = majorAxisLength + "px";
-                contentImage.style.height = "auto"
+                contentImage.style.height = "auto";
+
+                if (contentImage.tagName == "VIDEO") {
+                    content.style.width = majorAxisLength + "px";
+                    content.style.height = majorAxisLength / aspect + "px";
+                }
+
             } else {
                 majorAxisLength = sizeFactor * getWindowSize().height;
                 contentImage.style.height = majorAxisLength + "px";
-                contentImage.style.width = "auto"
+                contentImage.style.width = "auto";
+
+                if (contentImage.tagName == "VIDEO") {
+                    content.style.height = majorAxisLength + "px";
+                    content.style.width = majorAxisLength * aspect + "px";
+                }
             }
+            // content.style.width = contentImage.clientWidth + "px";
+            // content.style.height = contentImage.clientHeight + "px";
             displayProgress("Resizing /content to " + majorAxisLength, [contentImage]);
         }
 
@@ -291,7 +318,6 @@
 
                 content.style.top = contentTop + "px";
                 content.style.left = contentLeft + "px";
-                console.log(content.offsetHeight);
                 currentTop = contentTop + content.offsetHeight + paddingBetweenContent;
             }
         }
@@ -345,7 +371,6 @@
 
         function setupVideoHover() {
             var videoElements = document.getElementsByTagName("video");
-            console.log(videoElements);
             for (var i = 0; i < videoElements.length; i++) {
                 let videoElement = videoElements[i];
                 let contentMain = videoElement.parentElement;
@@ -359,7 +384,14 @@
             }
 
             function onVideoElHover(videoEl) {
-                videoEl.play();
+                var promise = videoEl.play();
+                if (promise !== undefined) {
+                    promise.then(function() {
+                        console.log("Whatever")
+                    }).catch(function(error) {
+                        console.log("The video isnt going to play on hover")
+                    });
+                }
             }
 
             function onVideoElLeave(videoEl) {
@@ -430,19 +462,12 @@
             var timeZone = "America/New_York";
             var timeString = moment().tz(timeZone).format(format);
             document.getElementById("clock").innerHTML = timeString;
-
-
+            setTimeout(startTime, 50000);
         }
 
-        function checkTime(i) {
-            if (i < 10) {
-                i = "0" + i
-            }; // add zero in front of numbers < 10
-            return i;
-        }
         startTime();
 
-        setup();
+        setTimeout(setup(), 500);
     </script>
 </body>
 

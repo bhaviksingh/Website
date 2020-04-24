@@ -16,6 +16,10 @@ body {
     font-family: Helvetica;
     font-size: 1em;
     background: var(--BGColor);
+    width: 100vw;
+    height: 100vh;
+    width: calc(var(--vw, 1vw) * 100);
+    height: calc(var(--vh, 1vh) * 100);
 }
 
 #container {
@@ -29,7 +33,7 @@ body {
 }
 
 ::selection {
-    background-color: var(--FGColor)
+    background-color: var(--FGColor);
 }
 
 
@@ -57,7 +61,7 @@ body {
     position: relative;
     top: 0px;
     box-sizing: border-box;
-    font-family: 'EB Garamond', 'Times New Roman', Times, serif;
+    font-family: "EB Garamond", "Times New Roman", Times, serif;
     padding: var(--docPadding);
     font-size: 32px;
     line-height: 39px;
@@ -117,6 +121,10 @@ overflow: auto; */
     pointer-events: none;
 }
 
+.content-main video {
+    object-fit: fill;
+}
+
 
 /* Fancy styling vibes*/
 
@@ -137,10 +145,10 @@ overflow: auto; */
 
 .content.browser:before {
     content: "";
-    height: calc(var(--chrome-bar-height)/3);
-    width: calc(var(--chrome-bar-height)/3);
-    top: calc(var(--chrome-bar-height)/3);
-    left: calc(var(--chrome-bar-height)/3);
+    height: calc(var(--chrome-bar-height) / 3);
+    width: calc(var(--chrome-bar-height) / 3);
+    top: calc(var(--chrome-bar-height) / 3);
+    left: calc(var(--chrome-bar-height) / 3);
     background: var(--FGColor);
     border: var(--border-all);
     border-radius: 100%;
@@ -157,9 +165,9 @@ overflow: auto; */
     --phone-radius: 16px;
     --phone-padding: 12px;
     padding-top: var(--phone-padding);
-    padding-left: calc(var(--phone-padding)/2);
-    padding-right: calc(var(--phone-padding)/2);
-    padding-bottom: calc(var(--phone-padding)*2);
+    padding-left: calc(var(--phone-padding) / 2);
+    padding-right: calc(var(--phone-padding) / 2);
+    padding-bottom: calc(var(--phone-padding) * 2);
     border-radius: var(--phone-radius);
     background: var(--FGColor);
     border: var(--border-all);
@@ -187,7 +195,7 @@ overflow: auto; */
     left: -5%;
     background: var(--FGColor);
     z-index: -1;
-    border: var(--border-all)
+    border: var(--border-all);
 }
 
 .content.text {
@@ -256,12 +264,24 @@ overflow: auto; */
     .content .content-caption {
         display: inline-block;
     }
+    #play {
+        display: flex;
+        padding-top: 12px;
+        width: 100%;
+    }
+    #play div {
+        display: inline-flex;
+        margin-top: 6px;
+    }
+    #play #refresh {
+        display: none;
+    }
 }
 
 
 /* A ton of resets for input */
 
-input[type=range] {
+input[type="range"] {
     -webkit-appearance: none;
     /* Hides the slider so that custom slider can be made */
     width: 100%;
@@ -270,16 +290,16 @@ input[type=range] {
     /* Otherwise white in Chrome */
 }
 
-input[type=range]::-webkit-slider-thumb {
+input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
 }
 
-input[type=range]:focus {
+input[type="range"]:focus {
     outline: none;
     /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
 }
 
-input[type=range]::-ms-track {
+input[type="range"]::-ms-track {
     width: 100%;
     cursor: pointer;
     /* Hides the slider so custom styles can be added */
@@ -291,7 +311,7 @@ input[type=range]::-ms-track {
 
 /* Special styling for WebKit/Blink */
 
-input[type=range]::-webkit-slider-thumb {
+input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: 1px solid #000000;
     height: 34px;
@@ -307,7 +327,7 @@ input[type=range]::-webkit-slider-thumb {
 
 /* All the same stuff for Firefox */
 
-input[type=range]::-moz-range-thumb {
+input[type="range"]::-moz-range-thumb {
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
     border: 1px solid #000000;
     height: 12px;
@@ -320,7 +340,7 @@ input[type=range]::-moz-range-thumb {
 
 /* All the same stuff for IE */
 
-input[type=range]::-ms-thumb {
+input[type="range"]::-ms-thumb {
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
     border: 1px solid #000000;
     height: 36px;
