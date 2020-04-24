@@ -13,10 +13,11 @@
 
     <script src="jslib/poisson.js"></script>
     <script src="jslib/fabric.min.js"></script>
+    <script src="jslib/utils.js"></script>
+    <script src="jslib/moment.js"></script>
+    <script src="jslib/moment-timezone-with-data.js"></script>
 
-    <script src="jslib/utils.js">
-        setUpWindowSizeCalc();
-        // This correct sets VW and VH as necessary
+    setUpWindowSizeCalc(); // This correct sets VW and VH as necessary
     </script>
 </head>
 
@@ -25,7 +26,7 @@
         <div id="logo"> </div>
         <div id="content">
             <div class="half"> <i>Bhavik </i> is an artist and technologist interested in creating digital experiences that help you express and understand yourself. </div>
-            <div class="half">He's in <i>Brooklyn</i> where it is <span id="clock">x:xxPM</span>. You can reach him at <a href="mailto:bhaviksingh@gmail.com" target="_blank">bhaviksingh@gmail.com</a>, on <a href="instagram.com/bvksn">Instagram</a>, or <a href="https://www.are.na/bhavik-singh/">Arena</a>.
+            <div class="half">He's in <i>Brooklyn</i> where it is <span id="clock">x:xx</span>. You can reach him at <a href="mailto:bhaviksingh@gmail.com" target="_blank">bhaviksingh@gmail.com</a>, on <a href="instagram.com/bvksn">Instagram</a>, or <a href="https://www.are.na/bhavik-singh/">Arena</a>.
             </div>
         </div>
     </div>
@@ -425,16 +426,12 @@
 
         //Time because im so lazy
         function startTime() {
-            var today = new Date();
-            var hours = today.getHours();
-            var txt = hours > 12 ? "pm" : "am";
-            var m = today.getMinutes();
-            hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
-            m = checkTime(m);
-            document.getElementById('clock').innerHTML =
-                hours + ":" + m + " " + txt;
-            var t = setTimeout(startTime, 5000);
+            var format = 'h:m a';
+            var timeZone = "America/New_York";
+            var timeString = moment().tz(timeZone).format(format);
+            document.getElementById("clock").innerHTML = timeString;
+
+
         }
 
         function checkTime(i) {
