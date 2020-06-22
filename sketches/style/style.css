@@ -1,6 +1,8 @@
 body {
-    background: black;
     font-family: teletype, sans-serif;
+    --bgColor: #eee;
+    --textColor: black;
+    background: var(--bgColor);
 }
 
 .container {
@@ -8,17 +10,18 @@ body {
     height: 1200px;
     margin: 0 auto;
     margin-top: 2.5vh;
-    border: 1px solid black;
+    border: 1px solid white;
 }
 
 #budget-container {
     overflow: scroll;
     background: white;
+    border-radius: 0px;
 }
 
 #budget-container .budget-item {
     display: inline-block;
-    cursor: pointer;
+    cursor: crosshair;
     text-align: center;
     vertical-align: center;
     width: 30px;
@@ -33,9 +36,7 @@ body {
     /* background: black; */
 }
 
-#budget-container .budget-item.police:hover {
-    background: black;
-}
+#budget-container .budget-item.police:hover {}
 
 .budget-item .name {
     display: none;
@@ -49,23 +50,34 @@ body {
     padding: 2px;
 }
 
-#links-container {
+.links-container {
     width: 1200px;
     margin: 0 auto;
     height: 20px;
     margin-top: 24px;
     font-size: 14px;
+    color: var(--textColor);
 }
 
-#links-container div {
+.links-container div {
     display: inline-block;
-    color: white;
-    margin-right: 32px;
+}
+
+.links-container .link {
+    margin-left: 32px;
     cursor: pointer;
 }
 
-#links-container div:hover {
-    text-decoration: underline;
+#defund-links-container .link {
+    padding-bottom: 2px;
+}
+
+.links-container .link:hover {
+    border-bottom: 1px dotted var(--textColor);
+}
+
+.link.active-link {
+    border-bottom: 1px solid var(--textColor);
 }
 
 

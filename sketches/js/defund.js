@@ -10,6 +10,7 @@ console.log(budget);
 const totalElements = 1586;
 const vizContainer = document.getElementById("budget-container");
 let domElements = [];
+let currentDistribution = "🌳";
 
 
 function createBudgetVisualization(city) {
@@ -31,7 +32,6 @@ function createBudgetVisualization(city) {
 
 function renderAllElements() {
     vizContainer.innerHTML = "";
-
     console.log("Num elements rendering is" + domElements.length)
     for (var i = 0; i < domElements.length; i++) {
         let domElement = domElements[i];
@@ -53,6 +53,9 @@ function generateBudgetRowDOM(budgetItem) {
     if (isPolice(budgetItem)) {
         parentContainer.classList = "police budget-item";
         parentContainer.innerHTML = "🚨";
+        parentContainer.addEventListener("mouseover", () => {
+            parentContainer.innerHTML = currentDistribution;
+        })
 
     } else {
         parentContainer.classList = "budget-item";
@@ -68,19 +71,54 @@ function generateBudgetRowDOM(budgetItem) {
 }
 
 //Setup 
-function createLink(name, jsonID) {
+
+function createLink(name, callback) {
     let link = document.createElement("div");
     link.innerHTML = name;
+    link.classList = "link";
     link.addEventListener("click", (e) => {
-        createBudgetVisualization(jsonID);
+        callback();
+        let myParent = link.parentNode;
+        let anyActiveLink = myParent.querySelector(".active-link");
+        anyActiveLink.classList.remove("active-link");
+        link.classList.add("active-link")
     })
     return link;
 }
 
-function setup() {
+function setupCityLinks() {
+    let linksContainer = document.getElementById("city-links-container");
+
+    let phoenixLink = createLink("Phoenix", () => createBudgetVisualization("Phoenix"));
+    linksContainer.appendChild(phoenixLink);
+
+    let NYCLink = createLink("NYC", () => createBudgetVisualization("NYC"));
+    linksContainer.appendChild(NYCLink);
+
     createBudgetVisualization("Phoenix");
-    let linksContainer = document.getElementById("links-container");
-    linksContainer.appendChild(createLink("Phoenix", "Phoenix"));
-    linksContainer.appendChild(createLink("NYC", "NYC"));
+    phoenixLink.classList.add("active-link");
 }
+
+function setupRedistributeLinks() {
+    let linksContainer = document.getElementById("defund-links-container");
+
+    let treeLink = createLink("🌳", () => { currentDistribution = "🌳" });
+    linksContainer.appendChild(treeLink);
+
+    let bookLink = createLink("📖", () => { currentDistribution = "📖" });
+    linksContainer.appendChild(bookLink);
+
+    let careLink = createLink("🏥", () => { currentDistribution = "🏥" });
+    linksContainer.appendChild(careLink);
+
+    currentDistribution = "🌳";
+    treeLink.classList.add("active-link");
+}
+
+function setup() {
+    setupCityLinks();
+    setupRedistributeLinks();
+}
+
+
 setup();
