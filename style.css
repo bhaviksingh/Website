@@ -82,6 +82,7 @@ body {
     width: 40%;
     display: inline-block;
     vertical-align: top;
+    margin-right: 32px;
 }
 
 #container #content-holder {
@@ -269,6 +270,16 @@ overflow: auto; */
     }
     #tools-container #play {
         display: none;
+    }
+}
+
+@media (min-width: 1400px) {
+    #header {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    #header .half {
+        width: 45%;
     }
 }
 
