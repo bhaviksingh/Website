@@ -1,0 +1,87 @@
+body {
+    background: black;
+    font-family: teletype, sans-serif;
+}
+
+.container {
+    width: 1200px;
+    height: 1200px;
+    margin: 0 auto;
+    margin-top: 2.5vh;
+    border: 1px solid black;
+}
+
+#budget-container {
+    overflow: scroll;
+    background: white;
+}
+
+#budget-container .budget-item {
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: center;
+    width: 30px;
+    height: 27px;
+    padding-top: 2px;
+    font-size: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#budget-container .budget-item.police {
+    /* background: black; */
+}
+
+#budget-container .budget-item.police:hover {
+    background: black;
+}
+
+.budget-item .name {
+    display: none;
+    font-size: 12px;
+}
+
+.budget-item:hover .name {
+    display: block;
+    position: absolute;
+    background: white;
+    padding: 2px;
+}
+
+#links-container {
+    width: 1200px;
+    margin: 0 auto;
+    height: 20px;
+    margin-top: 24px;
+    font-size: 14px;
+}
+
+#links-container div {
+    display: inline-block;
+    color: white;
+    margin-right: 32px;
+    cursor: pointer;
+}
+
+#links-container div:hover {
+    text-decoration: underline;
+}
+
+
+/* Debug below this.... */
+
+
+/* 
+#budget-container div {
+    background: red;
+    border: 1px solid cyan;
+}
+
+#budget-container div:nth-child(odd) {
+    background: white;
+}
+
+#budget-container div.police {
+    background: yellow;
+} */
