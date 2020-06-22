@@ -24,20 +24,32 @@
         <div id="logo"> </div>
         <div id="content">
             <div class="half"> <i>Bhavik </i> is an artist and technologist interested in creating digital experiences that help you express and understand yourself. </div>
-            <div class="half">He's in <i>Brooklyn</i> where it is <span id="clock">x:xx</span>. You can reach him at <a href="mailto:bhaviksingh@gmail.com" target="_blank">bhaviksingh@gmail.com</a>, on <a href="instagram.com/bvksn">Instagram</a>, or <a href="https://www.are.na/bhavik-singh/">Arena</a>.
+            <div class="half">He's in <i>Brooklyn</i> where it is <span id="clock">x:xx</span>. You can reach him at <a href="mailto:bhaviksingh@gmail.com" target="_blank">bhaviksingh@gmail.com</a>, on <a target="_blank" href="http://www.instagram.com/by_bvk">instagram</a>,
+                or <a target="_blank" href="https://www.are.na/bhavik-singh/">arena</a>.
             </div>
         </div>
     </div>
     <div id="tools-container">
         <div id="play">
             <div class="slider-container">
-                <div> <span id="refresh" style="text-decoration: underline; cursor: pointer;" onclick="layoutContent()"> Refresh layout </span>
+                <div>
+                    <span id="refresh" style="text-decoration: underline; cursor: pointer;" onclick="layoutContent()"> Refresh layout </span>
                 </div>
-                <div>FG: <input type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)"> </br>
+                <div>
+                    <label> FG: 
+                        <input type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)"> 
+                    </label>
                 </div>
-                <div> BG: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BGColor', this.value)"> </br>
+                <div>
+                    <label> BG: 
+                        <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BGColor', this.value)"> 
+                    </label>
                 </div>
-                <div> Br: <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)"></div>
+                <div>
+                    <label>Br: 
+                        <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)"> 
+                    </label>
+                </div>
             </div>
         </div>
     </div>
@@ -111,7 +123,7 @@
             <!-- Illustrations -->
             <div class="content paper" data-priority="1">
                 <div class="content-caption">
-                    <div class="title"> <a href="instagram.com/bybvk"> Misc illustrated vibes </a> (2019) </div>
+                    <div class="title"> <a href="http://www.instagram.com/by_bvk" target="_blank"> Misc illustrated vibes </a> (2019) </div>
                 </div>
                 <div class="content-main"> <img draggable="false" src="/Images/home/businessmen.jpg" /> </div>
             </div>
@@ -124,24 +136,24 @@
                 <div class="content-main"> <img draggable="false" src="/Images/home/live-game-show.png" /> </div>
             </div>
             <!-- Minis  -->
-            <div class="content phone google" data-priority="2">
+            <div class="content phone google" data-priority="1.5">
                 <div class="content-caption">
                     <div class="title"> <a href="details/detail-mini.html"> Minis </a> (2018/19)</div>
                     <div> Product Mgmt @ Google </div>
                 </div>
                 <div class="content-main">
-                    <video muted loop poster="/Images/home/minis-create-flow-static.png">
+                    <video width="1080" height="1920" muted loop poster="/Images/home/minis-create-flow-static.png">
                     <source src="/Images/home/minis-create-flow.mp4" type="video/mp4">
                    </video> </div>
             </div>
             <!-- Make a gif -->
-            <div class="content phone google" data-priority="2">
+            <div class="content phone google" data-priority="1.5">
                 <div class="content-caption">
                     <div class="title"> <a href="details/detail-mag.html"> Make a gif </a> (2018/19)</div>
                     <div> Product Mgmt @ Google </div>
                 </div>
                 <div class="content-main">
-                    <video muted loop poster="/Images/home/excam.png">
+                    <video width="1080" height="1920" muted loop poster="/Images/home/excam.png">
                      <source src="/Images/home/excam.mp4" type="video/mp4">
                     </video>
                 </div>

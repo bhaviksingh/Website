@@ -233,7 +233,7 @@ overflow: auto; */
     z-index: 4;
 }
 
-#tools-container #play {
+#tools-container #play .slider-container div {
     display: inline-block;
     background-color: var(--FGColor);
     border: var(--border-all);
@@ -274,7 +274,6 @@ overflow: auto; */
 input[type="range"] {
     -webkit-appearance: none;
     /* Hides the slider so that custom slider can be made */
-    width: 100%;
     /* Specific width is required for Firefox. */
     background: transparent;
     /* Otherwise white in Chrome */
@@ -304,12 +303,11 @@ input[type="range"]::-ms-track {
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: 1px solid #000000;
-    height: 34px;
+    height: 16px;
     width: 16px;
-    border-radius: 3px;
+    border-radius: 500%;
     background: #ffffff;
     cursor: pointer;
-    margin-top: -14px;
     /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
     /* Add cool effects to your sliders! */
 }
