@@ -104,6 +104,10 @@ body {
 overflow: auto; */
 }
 
+#content-holder .content:active {
+    cursor: grabbing;
+}
+
 
 /* Content itself*/
 

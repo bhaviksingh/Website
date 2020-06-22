@@ -1,5 +1,5 @@
 var logging = true;
-var details = false;
+var details = true;
 
 function displayProgress(msg, info) {
     displayMessage("🏁" + msg, info);

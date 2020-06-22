@@ -60,11 +60,12 @@
             <!-- Breathe -->
             <div class="content browser not-google" data-priority="1">
                 <div class="content-caption">
-                    <div class="title"> <a href="bhaviksingh.com/breathe">Breathe</a> (2019/20)</div>
+                    <div class="title">
+                        <a href="/breathe">Breathe</a> (2019/20)</div>
                     <div> a safe space!</div>
                 </div>
                 <div class="content-main">
-                    <video muted loop poster="/Images/home/breathe-web-static.png" loop>
+                    <video width="870" height="746" muted loop poster="/Images/home/breathe-web-static.png" loop>
                     <source src="/Images/home/breathe-web.mov" type="video/mp4">
                   </video>
                 </div>
@@ -72,7 +73,7 @@
             <!-- Breathe -->
             <div class="content browser not-google" data-priority="1.3">
                 <div class="content-caption">
-                    <div class="title"> <a href="bhaviksingh.com/breathe">Breathe</a> (2019/20)</div>
+                    <div class="title"> <a href="/breathe">Breathe</a> (2019/20)</div>
                 </div>
                 <div class="content-main">
                     <video width="1920" height="1080" muted loop poster="/Images/home/breathe-phone-static.png" loop>
@@ -83,7 +84,7 @@
             <!-- Dinner at Ians -->
             <div class="content paper" data-priority="1">
                 <div class="content-caption">
-                    <div class="title"> <a href="dinneratians.com">Dinner at Ian's</a> (2019/20)</div>
+                    <div class="title"> <a href="http://www.dinneratians.com">Dinner at Ian's</a> (2019/20)</div>
                     <div> community dinner </div>
                 </div>
                 <div class="content-main"> <img draggable="false" src="/Images/home/dinner-at-ians.jpg" /> </div>
@@ -99,23 +100,23 @@
             <!-- Emoji kitchen -->
             <div class="content browser" data-priority="1.2">
                 <div class="content-caption">
-                    <div class="title"> <a href="emoji.kitchen"> Emoji Kitchen</a> (2019) </div>
+                    <div class="title"> <a href="http://emoji.kitchen"> Emoji Kitchen</a> (2019) </div>
                     <div> make it ur own, emojis! </div>
                 </div>
                 <div class="content-main">
-                    <video autoplay loop muted poster="/Images/home/emoji-kitchen-static.png" loop>
+                    <video width="644" height="680" autoplay loop muted poster="/Images/home/emoji-kitchen-static.png" loop>
                       <source src="/Images/home/emoji-kitchen.mov" type="video/mp4">
                     </video>
                 </div>
             </div>
             <!-- Smishy -->
-            <div class="content paper" data-priority="1">
+            <div class="content paper" data-priority="1.5">
                 <div class="content-caption">
-                    <div class="title"> <a href="bhaviksingh.com/smishy"> Smishy </a> (2019)</div>
+                    <div class="title"> <a href="/smishy"> Smishy </a> (2019)</div>
                     <div> creation as catharsis </div>
                 </div>
                 <div class="content-main">
-                    <video muted loop poster="/Images/home/smishy-explainer-static.png" width="1104" height="704" loop>
+                    <video width="1104" height="704" muted loop poster="/Images/home/smishy-explainer-static.png" loop>
                   <source src="/Images/home/smishy-explainer-small.mov" type="video/mp4">
                 </video>
                 </div>
@@ -130,7 +131,7 @@
             <!-- Livegame.show -->
             <div class="content phone google" data-priority="1.5">
                 <div class="content-caption">
-                    <div class="title"><a href="www.livegame.show">Livegame.show</a> (2019) </div>
+                    <div class="title"><a href="http://www.livegame.show">Livegame.show</a> (2019) </div>
                     <div> Design @ Google </div>
                 </div>
                 <div class="content-main"> <img draggable="false" src="/Images/home/live-game-show.png" /> </div>
@@ -138,7 +139,7 @@
             <!-- Minis  -->
             <div class="content phone google" data-priority="1.5">
                 <div class="content-caption">
-                    <div class="title"> <a href="details/detail-mini.html"> Minis </a> (2018/19)</div>
+                    <div class="title"> Minis (2018/19)</div>
                     <div> Product Mgmt @ Google </div>
                 </div>
                 <div class="content-main">
@@ -149,7 +150,7 @@
             <!-- Make a gif -->
             <div class="content phone google" data-priority="1.5">
                 <div class="content-caption">
-                    <div class="title"> <a href="details/detail-mag.html"> Make a gif </a> (2018/19)</div>
+                    <div class="title"> Make a gif (2018/19)</div>
                     <div> Product Mgmt @ Google </div>
                 </div>
                 <div class="content-main">
@@ -161,7 +162,7 @@
             <!-- Portraits -->
             <div class="content paper" data-priority="1.5">
                 <div class="content-caption">
-                    <div class="title"> <a href="instagram.com/bybvk"> Slow life, portrait series </a> (2018)</div>
+                    <div class="title"> <a href="http://www.instagram.com/by_bvk"> Slow life, portrait series </a> (2018)</div>
                 </div>
                 <div class="content-main"> <img draggable="false" src="/Images/home/self-01.png" /> </div>
             </div>
@@ -208,23 +209,31 @@
 
         //Makes content draggable. 
         //TODO: Maybe consider making this only for a certin area.
+        let offsetX = 0,
+            offsetY = 0;
+
         function makeDraggable(content) {
             let mouseDown = false;
-            content.addEventListener("mousedown", () => {
+            content.addEventListener("mousedown", (e) => {
                 mouseDown = true;
+                offsetX = e.pageX - parseInt(content.offsetLeft);
+                offsetY = e.pageY - parseInt(content.offsetTop);
+
             })
 
             document.addEventListener("mouseup", () => {
                 mouseDown = false;
+                offsetX = 0;
+                offsetY = 0;
             });
 
             document.addEventListener("mousemove", (e) => {
                 if (mouseDown) {
-                    displayProgress("Moving the content", [e, content]);
-                    var xPos = e.pageX;
-                    var yPos = e.pageY;
-                    content.style.left = xPos + "px";
-                    content.style.top = yPos + "px";
+                    let leftPos = e.pageX - offsetX;
+                    let topPos = e.pageY - offsetY;;
+                    content.style.left = leftPos + "px";
+                    content.style.top = topPos + "px";
+                    displayProgress("Moving the content", [e, content, leftPos, topPos]);
                 }
             });
 
