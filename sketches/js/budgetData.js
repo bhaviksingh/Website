@@ -1,205 +1,356 @@
 export var budget = {
-    "NYC": {
-        "total": 7104,
-        "budget": [{
-            "name": "Education",
-            "icon": "📖",
-            "amount": 1388,
-            "percent": 0.195382882882883
-        }, {
-            "name": "Misc",
-            "icon": "◆",
-            "amount": 1155,
-            "percent": 0.162584459459459
-        }, {
-            "name": "Pension contributions",
-            "icon": "🍯",
-            "amount": 1125,
-            "percent": 0.158361486486486
-        }, {
-            "name": "Social services",
-            "icon": "🤗",
-            "amount": 902,
-            "percent": 0.126970720720721
-        }, {
-            "name": "Police",
-            "icon": "🚨",
-            "amount": 604,
-            "percent": 0.0850225225225225
-        }, {
-            "name": "Debt Service",
-            "icon": "💰",
-            "amount": 323,
-            "percent": 0.0454673423423423
-        }, {
-            "name": "Fire",
-            "icon": "🔥",
-            "amount": 211,
-            "percent": 0.0297015765765766
-        }, {
-            "name": "Sanitation",
-            "icon": "🗑",
-            "amount": 199,
-            "percent": 0.0280123873873874
-        }, {
-            "name": "Correction/City persecutor",
-            "icon": "⛓",
-            "amount": 167,
-            "percent": 0.0235078828828829
-        }, {
-            "name": "Environmental Protection",
-            "icon": "🌏",
-            "amount": 143,
-            "percent": 0.0201295045045045
-        }, {
-            "name": "Childrens services",
-            "icon": "👩‍👧‍👧",
-            "amount": 117,
-            "percent": 0.0164695945945946
-        }, {
-            "name": "Homeless services",
-            "icon": "🏠",
-            "amount": 112,
-            "percent": 0.0157657657657658
-        }, {
-            "name": "City University",
-            "icon": "🎓",
-            "amount": 97,
-            "percent": 0.0136542792792793
-        }, {
-            "name": "Health and Mental Hygeine",
-            "icon": "🏥",
-            "amount": 91,
-            "percent": 0.0128096846846847
-        }, {
-            "name": "Transportation",
-            "icon": "🚃",
-            "amount": 69,
-            "percent": 0.00971283783783784
-        }, {
-            "name": "Youth and Community Development",
-            "icon": "🚸",
-            "amount": 68,
-            "percent": 0.00957207207207207
-        }, {
-            "name": "Info Tech and Telecomm",
-            "icon": "💻",
-            "amount": 57,
-            "percent": 0.00802364864864865
-        }, {
-            "name": "Health and Hospitals",
-            "icon": "🏥",
-            "amount": 56,
-            "percent": 0.00788288288288288
-        }, {
-            "name": "Parks and Recreation",
-            "icon": "🌳",
-            "amount": 49,
-            "percent": 0.00689752252252252
-        }, {
-            "name": "Citywide Admin",
-            "icon": "📝",
-            "amount": 38,
-            "percent": 0.0053490990990991
-        }, {
-            "name": "Finance",
-            "icon": "📊",
-            "amount": 34,
-            "percent": 0.00478603603603604
-        }, {
-            "name": "Aging",
-            "icon": "👵",
-            "amount": 29,
-            "percent": 0.00408220720720721
-        }, {
-            "name": "Law",
-            "icon": "⚖️",
-            "amount": 25,
-            "percent": 0.00351914414414414
-        }, {
-            "name": "Housing",
-            "icon": "🏘",
-            "amount": 23,
-            "percent": 0.00323761261261261
-        }, {
-            "name": "Cultural Affairs",
-            "icon": "🎉",
-            "amount": 22,
-            "percent": 0.00309684684684685
-        }]
+    NYC: {
+        total: 6333,
+        budget: [{
+                name: "Police",
+                icon: "🚨",
+                amount: 604,
+                percent: 0.0953734407074057,
+            },
+            {
+                name: "Corrections/City Persecutor",
+                icon: "⛓",
+                amount: 167,
+                percent: 0.0263698089373125,
+            },
+            {
+                name: "Education",
+                icon: "📖",
+                amount: 1388,
+                percent: 0.219169429969998,
+            },
+            {
+                name: "Misc",
+                icon: "◆",
+                amount: 1155,
+                percent: 0.182378019895784,
+            },
+            {
+                name: "Pension contributions",
+                icon: "🍯",
+                amount: 1125,
+                percent: 0.177640928469919,
+            },
+            {
+                name: "Social services",
+                icon: "🤗",
+                amount: 902,
+                percent: 0.142428548870993,
+            },
+            {
+                name: "Debt Service",
+                icon: "💰",
+                amount: 323,
+                percent: 0.051002684351808,
+            },
+            {
+                name: "Fire",
+                icon: "🔥",
+                amount: 211,
+                percent: 0.0333175430285805,
+            },
+            {
+                name: "Sanitation",
+                icon: "🗑",
+                amount: 199,
+                percent: 0.0314227064582346,
+            },
+            {
+                name: "Environmental Protection",
+                icon: "🌏",
+                amount: 143,
+                percent: 0.0225801357966209,
+            },
+            {
+                name: "Childrens services",
+                icon: "👩‍👧‍👧",
+                amount: 117,
+                percent: 0.0184746565608716,
+            },
+            {
+                name: "Homeless services",
+                icon: "🏠",
+                amount: 112,
+                percent: 0.0176851413232275,
+            },
+            {
+                name: "City University",
+                icon: "🎓",
+                amount: 97,
+                percent: 0.0153165956102953,
+            },
+            {
+                name: "Health and Mental Hygeine",
+                icon: "🏥",
+                amount: 91,
+                percent: 0.0143691773251224,
+            },
+            {
+                name: "Transportation",
+                icon: "🚃",
+                amount: 69,
+                percent: 0.0108953102794884,
+            },
+            {
+                name: "Youth and Community Development",
+                icon: "🚸",
+                amount: 68,
+                percent: 0.0107374072319596,
+            },
+            {
+                name: "Info Tech and Telecomm",
+                icon: "💻",
+                amount: 57,
+                percent: 0.00900047370914259,
+            },
+            {
+                name: "Health and Hospitals",
+                icon: "🏥",
+                amount: 56,
+                percent: 0.00884257066161377,
+            },
+            {
+                name: "Parks and Recreation",
+                icon: "🌳",
+                amount: 49,
+                percent: 0.00773724932891205,
+            },
+            {
+                name: "Citywide Admin",
+                icon: "📝",
+                amount: 38,
+                percent: 0.00600031580609506,
+            },
+            {
+                name: "Finance",
+                icon: "📊",
+                amount: 34,
+                percent: 0.00536870361597979,
+            },
+            {
+                name: "Aging",
+                icon: "👵",
+                amount: 29,
+                percent: 0.0045791883783357,
+            },
+            {
+                name: "Law",
+                icon: "⚖️",
+                amount: 25,
+                percent: 0.00394757618822043,
+            },
+            {
+                name: "Housing",
+                icon: "🏘",
+                amount: 23,
+                percent: 0.0036317700931628,
+            },
+            {
+                name: "Cultural Affairs",
+                icon: "🎉",
+                amount: 22,
+                percent: 0.00347386704563398,
+            },
+        ],
     },
-    "Phoenix": {
-        "total": 779,
-        "budget": [{
-            "name": "Education",
-            "icon": "📖",
-            "amount": 24,
-            "percent": 0.030808729139923
-        }, {
-            "name": "Social services",
-            "icon": "🤗",
-            "amount": 12,
-            "percent": 0.0154043645699615
-        }, {
-            "name": "Police",
-            "icon": "🚨",
-            "amount": 339,
-            "percent": 0.435173299101412
-        }, {
-            "name": "Debt Service",
-            "icon": "💰",
-            "amount": 15,
-            "percent": 0.0192554557124519
-        }, {
-            "name": "Fire",
-            "icon": "🔥",
-            "amount": 194,
-            "percent": 0.249037227214377
-        }, {
-            "name": "Correction/City persecutor",
-            "icon": "⛓",
-            "amount": 10,
-            "percent": 0.0128369704749679
-        }, {
-            "name": "Environmental Protection",
-            "icon": "🌏",
-            "amount": 3,
-            "percent": 0.00385109114249037
-        }, {
-            "name": "Transportation",
-            "icon": "🚃",
-            "amount": 11,
-            "percent": 0.0141206675224647
-        }, {
-            "name": "Youth and Community Development",
-            "icon": "🚸",
-            "amount": 8,
-            "percent": 0.0102695763799743
-        }, {
-            "name": "Info Tech and Telecomm",
-            "icon": "💻",
-            "amount": 25,
-            "percent": 0.0320924261874198
-        }, {
-            "name": "Parks and Recreation",
-            "icon": "🌳",
-            "amount": 58,
-            "percent": 0.0744544287548139
-        }, {
-            "name": "Citywide Admin",
-            "icon": "📝",
-            "amount": 6,
-            "percent": 0.00770218228498075
-        }, {
-            "name": "Law",
-            "icon": "⚖️",
-            "amount": 25,
-            "percent": 0.0320924261874198
-        }, {
-            "name": "Cultural Affairs",
-            "icon": "🎉",
-            "amount": 3,
-            "percent": 0.00385109114249037
-        }]
-    }
-}
+    Phoenix: {
+        total: 430,
+        budget: [{
+                name: "Police",
+                icon: "🚨",
+                amount: 339,
+                percent: 0.435173299101412,
+            },
+            {
+                name: "Corrections/City Persecutor",
+                icon: "⛓",
+                amount: 10,
+                percent: 0.0232558139534884,
+            },
+            {
+                name: "Education",
+                icon: "📖",
+                amount: 24,
+                percent: 0.0558139534883721,
+            },
+            {
+                name: "Social services",
+                icon: "🤗",
+                amount: 12,
+                percent: 0.027906976744186,
+            },
+            {
+                name: "Debt Service",
+                icon: "💰",
+                amount: 15,
+                percent: 0.0348837209302326,
+            },
+            {
+                name: "Fire",
+                icon: "🔥",
+                amount: 194,
+                percent: 0.451162790697674,
+            },
+            {
+                name: "Environmental Protection",
+                icon: "🌏",
+                amount: 3,
+                percent: 0.00697674418604651,
+            },
+            {
+                name: "Transportation",
+                icon: "🚃",
+                amount: 11,
+                percent: 0.0255813953488372,
+            },
+            {
+                name: "Youth and Community Development",
+                icon: "🚸",
+                amount: 8,
+                percent: 0.0186046511627907,
+            },
+            {
+                name: "Info Tech and Telecomm",
+                icon: "💻",
+                amount: 25,
+                percent: 0.0581395348837209,
+            },
+            {
+                name: "Parks and Recreation",
+                icon: "🌳",
+                amount: 58,
+                percent: 0.134883720930233,
+            },
+            {
+                name: "Citywide Admin",
+                icon: "📝",
+                amount: 6,
+                percent: 0.013953488372093,
+            },
+            {
+                name: "Law",
+                icon: "⚖️",
+                amount: 25,
+                percent: 0.0581395348837209,
+            },
+            {
+                name: "Cultural Affairs",
+                icon: "🎉",
+                amount: 3,
+                percent: 0.00697674418604651,
+            },
+        ],
+    },
+    Louisville: {
+        total: 544,
+        budget: [{
+                name: "Police",
+                icon: "🚨",
+                amount: 292,
+                percent: 0.300411522633745,
+            },
+            {
+                name: "Corrections/City Persecutor",
+                icon: "⛓",
+                amount: 92,
+                percent: 0.0946502057613169,
+            },
+            {
+                name: "Misc",
+                icon: "◆",
+                amount: 8,
+                percent: 0.00823045267489712,
+            },
+            {
+                name: "Fire",
+                icon: "🔥",
+                amount: 89,
+                percent: 0.0915637860082305,
+            },
+            {
+                name: "Health and Mental Hygeine",
+                icon: "🏥",
+                amount: 29,
+                percent: 0.0298353909465021,
+            },
+            {
+                name: "Youth and Community Development",
+                icon: "🚸",
+                amount: 19,
+                percent: 0.0195473251028807,
+            },
+            {
+                name: "Info Tech and Telecomm",
+                icon: "💻",
+                amount: 27,
+                percent: 0.0277777777777778,
+            },
+            {
+                name: "Parks and Recreation",
+                icon: "🌳",
+                amount: 29,
+                percent: 0.0298353909465021,
+            },
+            {
+                name: "Citywide Admin",
+                icon: "📝",
+                amount: 65,
+                percent: 0.0668724279835391,
+            },
+            {
+                name: "Finance",
+                icon: "📊",
+                amount: 24,
+                percent: 0.0246913580246914,
+            },
+            {
+                name: "Aging",
+                icon: "👵",
+                amount: 56,
+                percent: 0.0576131687242798,
+            },
+            {
+                name: "Public works",
+                icon: "💧",
+                amount: 75,
+                percent: 0.0771604938271605,
+            },
+            {
+                name: "Library",
+                icon: "📖",
+                amount: 31,
+                percent: 0.0318930041152263,
+            },
+            {
+                name: "Economic development",
+                icon: "💰",
+                amount: 24,
+                percent: 0.0246913580246914,
+            },
+            {
+                name: "Emergency services",
+                icon: "🚨",
+                amount: 68,
+                percent: 0.0699588477366255,
+            },
+            {
+                name: "Codes and regulationss",
+                icon: "📝",
+                amount: 16,
+                percent: 0.0164609053497942,
+            },
+            {
+                name: "Youth detention services",
+                icon: "⛓",
+                amount: 15,
+                percent: 0.0154320987654321,
+            },
+            {
+                name: "Zoo",
+                icon: "🐯",
+                amount: 13,
+                percent: 0.0133744855967078,
+            },
+        ],
+    },
+};

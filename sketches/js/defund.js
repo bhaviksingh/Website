@@ -1,46 +1,78 @@
 import { budget } from "./budgetData.js";
 
+/* Todo:
+ ** Add more options
+ ** Fix the # of elemenets
+ ** Fix emojis
+ ** Fix styling / font vibes
+ */
 
 //Test if we're importing data
 console.log(budget);
 const vizContainer = document.getElementById("budget-container");
 const captionContainer = document.getElementById("budget-caption");
-const totalElements = (vizContainer.clientWidth * vizContainer.clientWidth) / (32 * 32);
+const totalElements =
+    (vizContainer.clientWidth * vizContainer.clientHeight) / (32 * 32);
 const emailContainer = document.getElementById("email");
 const emailParentContainer = document.getElementById("email-container");
+const redistLinksContainer = document.getElementById("defund-links-container");
 
 // ***** 🌳🌳🌳🌳🌳🌳🌳🌳 ********
 // **** Parse Data - > Generate DOM ***
 // ******🌳🌳🌳🌳🌳🌳🌳🌳 ********
 let domElements = [];
+let redistributionText = "",
+    totalPolice = 0,
+    policeChanged = 0,
+    policeChangedTo = {};
+
+function resetState() {
+    domElements = [];
+    totalPolice = 0;
+    policeChanged = 0;
+    policeChangedTo = {};
+    redistLinksContainer.innerHTML = "";
+}
 
 function createBudgetVisualization(city) {
     console.log("trying to render budget for..." + city);
     let budgetForCity = budget[city].budget;
-    domElements = [];
+
+    //Create DOM elements
+    resetState();
     budgetForCity.forEach((budgetRow) => {
         let numElementsEach = Math.floor(budgetRow.percent * totalElements);
 
+        if (!isPolice(budgetRow)) {
+            setupRedistributeLink(budgetRow);
+        }
         for (var i = 0; i <= numElementsEach; i++) {
             let domElement = generateBudgetRowDOM(budgetRow);
             domElements.push(domElement);
-
         }
     });
-    //domElements.sort(() => Math.random() - 0.5);
+    renderAllElements();
+
+    //Update the DOM for the header
     let totalForCity = budget[city].total;
     let actualNumElements = domElements.length;
     let amountPerEmoji = totalForCity / actualNumElements;
-
     document.getElementById("cityname").innerHTML = city;
-    document.getElementById("emoji-amt").innerHTML = (amountPerEmoji).toFixed(2);
+    document.getElementById("total-amt").innerHTML = totalForCity;
+    //document.getElementById("emoji-amt").innerHTML = (amountPerEmoji).toFixed(2);
+    let policePercent = totalPolice / domElements.length;
+    document.getElementById("police-percent").innerHTML = (
+        100 * policePercent
+    ).toFixed(2);
+    document.getElementById("police-amt").innerHTML = Math.floor(
+        totalForCity * policePercent
+    );
     document.getElementById("percent-amt").innerHTML = 0;
-    renderAllElements();
 }
 
 function renderAllElements() {
     vizContainer.innerHTML = "";
-    console.log("Num elements rendering is" + domElements.length)
+    console.log("Num elements rendering is" + domElements.length);
     for (var i = 0; i < domElements.length; i++) {
         let domElement = domElements[i];
         vizContainer.appendChild(domElement);
@@ -52,29 +84,22 @@ function renderAllElements() {
 // ******💰💰💰💰💰💰💰💰💰 ********
 
 let currentDistribution = "🌳";
-let redistributionText = "",
-    totalPolice = 0,
-    policeChanged = 0,
-    policeChangedTo = {};
-
 
 function isPolice(budgetItem) {
-    return budgetItem.name.includes("Police") || budgetItem.name.includes("Correction");
+    let isPo = budgetItem.name == "Police" || budgetItem.name == "Correction";
+    return isPo;
 }
 
 function generateBudgetRowDOM(budgetItem) {
     let parentContainer = document.createElement("div");
     parentContainer.innerHTML = budgetItem.icon;
 
-
     if (isPolice(budgetItem)) {
         parentContainer.classList = "police budget-item";
         parentContainer.addEventListener("mouseover", () => {
             redistribute(parentContainer);
-        })
+        });
         totalPolice += 1;
-        //TODO: there is a better way to do this
-
     } else {
         parentContainer.classList = "budget-item";
     }
@@ -88,8 +113,21 @@ function generateBudgetRowDOM(budgetItem) {
 }
 
 function redistribute(budgetItemDom) {
+    //First, lets see if its the first time we're doing this
+    if (budgetItemDom.classList.contains("police")) {
+        //First time
+        policeChanged += 1;
+        budgetItemDom.classList.remove("police");
+    } else {
+        //Remove it from the other place
+        let currentKey = budgetItemDom.dataset.key;
+        policeChangedTo[currentKey] = policeChangedTo[currentKey] - 1;
+    }
+
+    //Now update it to the new situation
     budgetItemDom.innerHTML = currentDistribution;
-    policeChanged += 1;
+    budgetItemDom.dataset.key = currentDistribution;
+
     if (policeChangedTo[currentDistribution]) {
         let currentValue = policeChangedTo[currentDistribution] + 1;
         policeChangedTo[currentDistribution] = currentValue;
@@ -97,7 +135,8 @@ function redistribute(budgetItemDom) {
         policeChangedTo[currentDistribution] = 1;
     }
 
-    let redistributed = (100 * policeChanged / totalPolice).toFixed(2);
+    //Then change the redistribution percentage
+    let redistributed = ((100 * policeChanged) / totalPolice).toFixed(2);
     document.getElementById("percent-amt").innerHTML = redistributed;
 }
 
@@ -105,18 +144,17 @@ function createEmail() {
     let emailString = "";
 
     emailString += "I would like to redistribute ";
-    let amountChanged = (100 * policeChanged / totalPolice).toFixed(2);
+    let amountChanged = ((100 * policeChanged) / totalPolice).toFixed(2);
     emailString += amountChanged + "% of police funds";
     emailString += "I want these funds to go in these places: </br> ";
 
     Object.keys(policeChangedTo).forEach((key) => {
         let value = policeChangedTo[key];
-        let perAgencyChanged = (100 * value / totalPolice).toFixed(2);
+        let perAgencyChanged = ((100 * value) / totalPolice).toFixed(2);
         emailString += "</br> " + key + ": " + perAgencyChanged + "%";
-    })
+    });
 
     emailContainer.innerHTML = emailString;
-
 }
 
 function showEmail() {
@@ -140,40 +178,66 @@ function createLink(name, callback) {
         callback();
         let myParent = link.parentNode;
         let anyActiveLink = myParent.querySelector(".active-link");
-        anyActiveLink.classList.remove("active-link");
-        link.classList.add("active-link")
-    })
+        if (anyActiveLink) {
+            anyActiveLink.classList.remove("active-link");
+        }
+        link.classList.add("active-link");
+    });
     return link;
 }
 
 function setupCityLinks() {
     let linksContainer = document.getElementById("city-links-container");
 
-    let phoenixLink = createLink("Phoenix", () => createBudgetVisualization("Phoenix"));
+    let phoenixLink = createLink("Phoenix", () =>
+        createBudgetVisualization("Phoenix")
+    );
     linksContainer.appendChild(phoenixLink);
 
     let NYCLink = createLink("NYC", () => createBudgetVisualization("NYC"));
     linksContainer.appendChild(NYCLink);
 
+    let LSVille = createLink("Louisville", () =>
+        createBudgetVisualization("Louisville")
+    );
+    linksContainer.appendChild(LSVille);
+
     createBudgetVisualization("Phoenix");
     phoenixLink.classList.add("active-link");
 }
 
-function setupRedistributeLinks() {
-    let linksContainer = document.getElementById("defund-links-container");
+function setupRedistributeLink(budgetRow) {
+    let linkName = budgetRow.name;
+    let linkIcon = budgetRow.icon;
 
-    let treeLink = createLink("parks", () => { currentDistribution = "🌳" });
-    linksContainer.appendChild(treeLink);
+    let link = createLink(linkName, () => {
+        currentDistribution = linkIcon;
+    });
 
-    let bookLink = createLink("edu", () => { currentDistribution = "📖" });
-    linksContainer.appendChild(bookLink);
-
-    let careLink = createLink("health", () => { currentDistribution = "🏥" });
-    linksContainer.appendChild(careLink);
-
-    currentDistribution = "🌳";
-    treeLink.classList.add("active-link");
+    redistLinksContainer.appendChild(link);
 }
+
+// function setupRedistributeLinks() {
+//     let linksContainer = document.getElementById("defund-links-container");
+
+//     let treeLink = createLink("parks", () => {
+//         currentDistribution = "🌳";
+//     });
+//     linksContainer.appendChild(treeLink);
+
+//     let bookLink = createLink("edu", () => {
+//         currentDistribution = "📖";
+//     });
+//     linksContainer.appendChild(bookLink);
+
+//     let careLink = createLink("health", () => {
+//         currentDistribution = "🏥";
+//     });
+//     linksContainer.appendChild(careLink);
+
+//     currentDistribution = "🌳";
+//     treeLink.classList.add("active-link");
+// }
 
 function setupEmailLinks() {
     let emailGenerator = document.getElementById("email-generator");
@@ -185,9 +249,8 @@ function setupEmailLinks() {
 
 function setup() {
     setupCityLinks();
-    setupRedistributeLinks();
+    //setupRedistributeLinks();
     setupEmailLinks();
 }
-
 
 setup();

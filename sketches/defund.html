@@ -26,8 +26,14 @@
         </div>
 
         <div class="caption" id="budget-caption">
-            Defund the police. <br/> This is the <span id="cityname"> xx </span> budget for FY 2019. Each emoji is <span id="emoji-amt"> yy</span>$ spent by an agency per capita between 2019-2020. </br>
-            Hover over police+jail emojis to redistribute funding and paint the future we want. So far you have redistributed <span id="percent-amt"> </span>% of police+jail funding.
+            Defund the police.
+
+            <br/> In 2019, <span id="cityname"> xx </span> city budget was </a> $<span id="total-amt"> </span> per capita (<a href="https://www.citymetric.com/politics/reality-us-city-budgets-police-funding-eclipses-most-other-agencies-5186" target="_blank">source</a>).
+            This box represents that amount.
+
+            <br/> Each emoji represents a city agency's spending per capita. Police spent around $<span id="police-amt"> </span> per capita, which equates to <span id="police-percent"></span>% of the per capita budget.
+
+            <br/> Hover over police+jail emojis to redistribute funding and paint a new future. So far you have redistributed <span id="percent-amt"> </span>% of police+jail funding.
         </div>
 
         <div class="container">
@@ -38,19 +44,22 @@
 
         <div class="header">
             <div class="links-container" id="city-links-container">
-                <div> Change city </div>
-            </div>
-
-            <div class="links-container" id="defund-links-container">
-                <div> Change agency to redistribute to </div>
+                <div class="title"> Change city </div>
             </div>
 
             <div class="links-container">
-                <div> Email your representative </div>
+                <div class="title"> Change agency to redistribute to </div>
+                <div id="defund-links-container"></div>
+            </div>
+
+            <div class="links-container">
+                <div class="title"> Email your representative </div>
                 <div class="link" id="email-generator"> Generate email </div>
             </div>
 
         </div>
+
+
 
 
 

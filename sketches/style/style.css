@@ -1,11 +1,23 @@
 body {
     --bgColor: #ffed4f;
     --textColor: black;
-    --size: min(85vw, 85vh);
+    --size: min(80vw, 80vh);
     font-family: teletype, sans-serif;
     background: var(--bgColor);
     color: var(--textColor);
     font-size: 14px;
+}
+
+a:link {
+    text-decoration: underline;
+    color: inherit;
+    cursor: pointer;
+}
+
+a:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: pointer;
 }
 
 .container {
@@ -53,6 +65,7 @@ body {
 
 #budget-container .budget-item.police {
     /* background: black; */
+    /* background: var(--bgColor); */
 }
 
 #budget-container .budget-item.police:hover {}
@@ -84,7 +97,7 @@ body {
     width: 40%;
 }
 
-.links-container div:first-child {
+.links-container .title {
     font-style: italic;
 }
 
