@@ -6,18 +6,54 @@
 
     <body>
 
-        <div class="links-container" id="city-links-container">
-            <div> I want to see per capita 2019 Fiscal Year expenses for: </div>
+        <div id="email-container">
+            <div id="email-content-container">
+                <div class="caption">
+                    Defund the police. </br>
+                    Edit and copy the email below. Then send it to your city councilpeople. Find out who they are by visiting <a href="http://defund12.org" target="_blank"> defund12.org </a>.
+                </div>
+
+                <div class="container" id="email-padding-container">
+                    <div id="email" contenteditable="true">
+
+                    </div>
+                </div>
+                <div class="header">
+                    <div id="email-container-back" class="link"> Go back </div>
+                </div>
+
+            </div>
         </div>
 
-        <div class="links-container" id="defund-links-container">
-            <div> I want to distribute police funds to: </div>
+        <div class="caption" id="budget-caption">
+            Defund the police. <br/> This is the <span id="cityname"> xx </span> budget for FY 2019. Each emoji is <span id="emoji-amt"> yy</span>$ spent by an agency per capita between 2019-2020. </br>
+            Hover over police+jail emojis to redistribute funding and paint the future we want. So far you have redistributed <span id="percent-amt"> </span>% of police+jail funding.
+        </div>
+
+        <div class="container">
+            <div id="budget-container">
+            </div>
         </div>
 
 
-        <div class="container" id="budget-container">
+        <div class="header">
+            <div class="links-container" id="city-links-container">
+                <div> Change city </div>
+            </div>
+
+            <div class="links-container" id="defund-links-container">
+                <div> Change agency to redistribute to </div>
+            </div>
+
+            <div class="links-container">
+                <div> Email your representative </div>
+                <div class="link" id="email-generator"> Generate email </div>
+            </div>
 
         </div>
+
+
+
 
     </body>
 
