@@ -1,39 +1,60 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="style/style.css" rel="stylesheet" type="text/css">
     <script type="module" src="js/defund.js"></script>
 
     <body>
 
         <div id="email-container">
+            <div class="title">Defund the police.</div>
+
             <div id="email-content-container">
                 <div class="caption">
-                    Defund the police. </br>
-                    Edit and copy the email below. Then send it to your city councilpeople. Find out who they are by visiting <a href="http://defund12.org" target="_blank"> defund12.org </a>.
-                </div>
-
-                <div class="container" id="email-padding-container">
-                    <div id="email" contenteditable="true">
-
+                    <div class="content">
+                        Edit the email below, copy it, and send it to your city council people. Learn who your city council people are, and get more resources at
+                        <a href="http://www.defund12.org" target="_blank">defund12.org</a>
                     </div>
                 </div>
                 <div class="header">
                     <div id="email-container-back" class="link"> Go back </div>
                 </div>
+                <div class="container" id="email-padding-container" contenteditable="true">
+                    <div id="email">
+
+                        <p>
+                            <b>Subject:</b> [*** INSERT UNIQUE SUBJECT LINE ***]
+                            <br><br><b>Message</b>:
+
+                            <br><br>Dear [PERSON],
+                            <br><br> I am a resident of [NEIGHBORHOOD]. I am writing to urge you to Defund the Police in our city. I have spent some time analyzing our cities expenses in the Fiscal Year of 2018-2020. I believe that the funding for police
+                            in this time was too high, and other parts of our city need funding desperately. I am proposing to move
+                            <span id="email-fill">xx% of funding away from the police, and towards these departments: </span>
+                            <br><br>I appreciate your consideration.
+                            <br><br> Best,
+                            <br> [YOUR NAME]
+
+                        </p>
+                    </div>
+                </div>
+
 
             </div>
         </div>
 
+        <div class="title">Defund the police.</div>
+
         <div class="caption" id="budget-caption">
-            Defund the police.
-
-            <br/> In 2019, <span id="cityname"> xx </span> city budget was </a> $<span id="total-amt"> </span> per capita (<a href="https://www.citymetric.com/politics/reality-us-city-budgets-police-funding-eclipses-most-other-agencies-5186" target="_blank">source</a>).
-            This box represents that amount.
-
-            <br/> Each emoji represents a city agency's spending per capita. Police spent around $<span id="police-amt"> </span> per capita, which equates to <span id="police-percent"></span>% of the per capita budget.
-
-            <br/> Hover over police+jail emojis to redistribute funding and paint a new future. So far you have redistributed <span id="percent-amt"> </span>% of police+jail funding.
+            <div class="content">
+                This box represents <span id="cityname"></span> city budget in FY19: <span id="total-amt"> xx </span> per capita. Each emoji represents spending by a city agency of <span id="emoji-amt"></span> per capita. Police and corrections spent
+                <span id="police-amt"></span> per capita, or <span id="police-percent"></span> of the budget (<a href="https://www.citymetric.com/politics/reality-us-city-budgets-police-funding-eclipses-most-other-agencies-5186" target="_blank">source</a>).
+                <br>
+            </div>
+            <div class="content">
+                Hover over police+jail emojis to redistribute funding and paint a new future. So far you have redistributed <span id="percent-amt"> </span> of police+corrections funding. When you're done,
+                <div id="email-generator" class="link"> generate an email </div> to send to your city council.
+            </div>
         </div>
 
         <div class="container">
@@ -42,26 +63,17 @@
         </div>
 
 
+
         <div class="header">
             <div class="links-container" id="city-links-container">
-                <div class="title"> Change city </div>
+                <div class="header"> Change city </div>
             </div>
 
-            <div class="links-container">
-                <div class="title"> Change agency to redistribute to </div>
+            <div class="links-container double">
+                <div class="header"> Change agency to redistribute to </div>
                 <div id="defund-links-container"></div>
             </div>
-
-            <div class="links-container">
-                <div class="title"> Email your representative </div>
-                <div class="link" id="email-generator"> Generate email </div>
-            </div>
-
         </div>
-
-
-
-
 
 
     </body>
