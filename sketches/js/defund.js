@@ -13,6 +13,7 @@ const totalElements =
     (vizContainer.clientWidth * vizContainer.clientHeight) / (34 * 34);
 const emailContainer = document.getElementById("email-fill");
 const emailParentContainer = document.getElementById("email-container");
+const mainParentContainer = document.getElementById("main-container");
 const redistLinksContainer = document.getElementById("defund-links-container");
 
 // ***** 🌳🌳🌳🌳🌳🌳🌳🌳 ********
@@ -175,10 +176,12 @@ function createEmail() {
 function showEmail() {
     createEmail();
     emailParentContainer.style.display = "block";
+    mainParentContainer.style.display = "none";
 }
 
 function hideEmail() {
     emailParentContainer.style.display = "none";
+    mainParentContainer.style.display = "block";
 }
 
 // ***** 🛠 🛠 🛠 🛠 🛠 🛠  ********

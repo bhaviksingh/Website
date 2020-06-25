@@ -13,8 +13,10 @@
             <div id="email-content-container">
                 <div class="caption">
                     <div class="content">
-                        Edit the email below, copy it, and send it to your city council people. Learn who your city council people are, and get more resources at
-                        <a href="http://www.defund12.org" target="_blank">defund12.org</a>
+                        <span>Edit</span> the email below and then copy it or directly mail it to your city council people.
+                    </div>
+                    <div class="content">
+                        Email addresses are from <a href="http://www.defund12.org" target="_blank">defund12.org</a>, where you can get a ton of other resources.
                     </div>
                 </div>
                 <div class="header">
@@ -43,38 +45,46 @@
             </div>
         </div>
 
-        <div class="title">Defund the police.</div>
+        <div id="main-container">
+            <div class="title">Defund the police.</div>
 
-        <div class="caption" id="budget-caption">
-            <div class="content">
-                This box represents <span id="cityname"></span> city budget in FY19: <span id="total-amt"> xx </span> per capita. Each emoji represents spending by a city agency of <span id="emoji-amt"></span> per capita. Police and corrections spent
-                <span id="police-amt"></span> per capita, or <span id="police-percent"></span> of the budget (<a href="https://www.citymetric.com/politics/reality-us-city-budgets-police-funding-eclipses-most-other-agencies-5186" target="_blank">source</a>).
-                <br>
+            <div class="caption" id="budget-caption">
+                <div class="content">
+                    This box represents <span id="cityname"></span> FY19 city budget of <span id="total-amt"> xx </span> per capita. Each emoji represents spending by a city agency of <span id="emoji-amt"></span> per capita. Police and corrections spent
+                    <span id="police-amt"></span> per capita or <span id="police-percent"></span> of the budget (<a href="https://www.citymetric.com/politics/reality-us-city-budgets-police-funding-eclipses-most-other-agencies-5186" target="_blank">source</a>).
+                    <br>
+                </div>
+                <div class="content">
+                    Hover over police+jail emojis to redistribute funding and paint a new future. So far you have redistributed <span id="percent-amt"> </span> of police+corrections funding. When you're done,
+                    <div id="email-generator" class="link"> generate an email </div> to send to your city council.
+                </div>
             </div>
-            <div class="content">
-                Hover over police+jail emojis to redistribute funding and paint a new future. So far you have redistributed <span id="percent-amt"> </span> of police+corrections funding. When you're done,
-                <div id="email-generator" class="link"> generate an email </div> to send to your city council.
+
+            <div class="container">
+                <div id="budget-container">
+                </div>
+            </div>
+
+
+
+            <div class="header">
+
+                <div class="links-container">
+                    <div class="subhead"> Change city </div>
+                    <div id="city-links-container"></div>
+                    <div id="notes-container">
+                        <div class="subhead">Notes</div>
+                        This website is not a perfect representation of the world, it intentionally biases towards defunding police and abolition of jails. The data its based on is courtesy of city metric and openly available <a href="https://github.com/nsmediadataunit/nsmediadataunit.github.io/tree/master/live/citymetric/protest-budgets"
+                            target="_blank">here</a>. This website does not store any information, nor does it track any behaviors including visits or clicks. If you have feedback, please reach out to bhavik on <a href="http://www.instagram.com/by_bvk" target="_blank"> instagram.com</a>.
+                    </div>
+                </div>
+
+                <div class="links-container double">
+                    <div class="subhead"> Change agency to redistribute to </div>
+                    <div id="defund-links-container"></div>
+                </div>
             </div>
         </div>
-
-        <div class="container">
-            <div id="budget-container">
-            </div>
-        </div>
-
-
-
-        <div class="header">
-            <div class="links-container" id="city-links-container">
-                <div class="header"> Change city </div>
-            </div>
-
-            <div class="links-container double">
-                <div class="header"> Change agency to redistribute to </div>
-                <div id="defund-links-container"></div>
-            </div>
-        </div>
-
 
     </body>
 

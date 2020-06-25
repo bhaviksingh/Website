@@ -9,6 +9,8 @@ body {
     background: var(--bgColor);
     color: var(--textColor);
     font-size: 14px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 a:link {
@@ -28,10 +30,11 @@ a:visited {
     height: var(--size);
     margin: 0 auto;
     border: 1px solid var(--textColor);
-    overflow: scroll;
     background: white;
     box-sizing: border-box;
     margin-top: 24px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .caption {
@@ -122,7 +125,7 @@ a:visited {
 .header {
     width: var(--size);
     margin: 0 auto;
-    margin-top: 12px;
+    margin-top: 24px;
     display: flex;
     flex-direction: row;
 }
@@ -139,8 +142,9 @@ a:visited {
     flex: 1;
 }
 
-.links-container .header {
+.links-container .subhead {
     font-style: italic;
+    margin-bottom: 6px;
 }
 
 .links-container .link {
@@ -148,6 +152,12 @@ a:visited {
     margin-top: 8px;
     display: inline-block;
     border-bottom: 1px solid var(--bgColor);
+}
+
+#notes-container {
+    margin-top: 48px;
+    max-width: 80%;
+    line-height: 18px;
 }
 
 
@@ -168,7 +178,7 @@ a:visited {
 #email-container {
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     z-index: 2;
     display: none;
     background: var(--bgColor);
@@ -185,11 +195,12 @@ a:visited {
 #email-padding-container {
     padding: 24px;
     font-size: 16px;
+    line-height: 18px;
 }
 
 @media only screen and (max-width: 870px) {
      :root {
-        --size: min(90vw, 90vh);
+        --size: min(min(90vw, 90vh), calc(100vh - 240px));
     }
     .title {
         position: relative;
