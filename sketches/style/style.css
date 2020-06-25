@@ -59,13 +59,18 @@ a:visited {
     max-width: 500px;
     display: inline-block;
     margin-right: 16px;
-    line-height: 22px;
+    line-height: 24px;
 }
 
 .caption .link {
     display: inline-block;
-    border-bottom: 1px solid blue;
+    text-decoration: underline;
     color: blue;
+    border-bottom: 1px solid var(--bgColor);
+}
+
+.caption .link:hover {
+    border-bottom: 1px solid var(--bgColor);
 }
 
 .caption .content:last-child {
@@ -149,9 +154,17 @@ a:visited {
 
 .links-container .link {
     margin-right: 32px;
-    margin-top: 8px;
+    margin-top: 9px;
     display: inline-block;
     border-bottom: 1px solid var(--bgColor);
+}
+
+.header .link {
+    border-bottom: 1px solid var(--bgColor);
+}
+
+#city-links-container {
+    max-width: 60%;
 }
 
 #notes-container {
@@ -184,6 +197,7 @@ a:visited {
     background: var(--bgColor);
     top: 0;
     left: 0;
+    font-family: Courier, monospace;
 }
 
 #email-content-container {
@@ -194,7 +208,7 @@ a:visited {
 
 #email-padding-container {
     padding: 24px;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 18px;
 }
 

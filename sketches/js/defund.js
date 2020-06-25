@@ -22,6 +22,7 @@ const redistLinksContainer = document.getElementById("defund-links-container");
 let domElements = [];
 let totalPolice, policeChanged, policeChangedTo, agencyList;
 let currentDistribution = "";
+let emailContacts = "";
 
 function resetState() {
     domElements = [];
@@ -31,6 +32,7 @@ function resetState() {
     redistLinksContainer.innerHTML = "";
     agencyList = {};
     currentDistribution = "";
+    emailContacts = "";
 }
 
 function createBudgetVisualization(city) {
@@ -40,6 +42,8 @@ function createBudgetVisualization(city) {
 
     //Create DOM elements
     resetState();
+    emailContacts = budget[city].emails;
+
     budgetForCity.forEach((budgetRow) => {
         let numElementsEach = Math.floor(budgetRow.percent * totalElements);
         if (!isPolice(budgetRow)) {
@@ -63,6 +67,7 @@ function createBudgetVisualization(city) {
     let actualNumElements = domElements.length;
     let amountPerEmoji = totalForCity / actualNumElements;
     document.getElementById("cityname").innerHTML = city + "'s";
+    document.getElementById("city-2").innerHTML = city;
     document.getElementById("total-amt").innerHTML = "$" + totalForCity;
     document.getElementById("emoji-amt").innerHTML =
         "$" + amountPerEmoji.toFixed(2);
@@ -94,7 +99,9 @@ function isPolice(budgetItem) {
     let isPo =
         budgetName.includes("police") ||
         budgetName.includes("correction") ||
-        budgetName.includes("prosecutor");
+        budgetName.includes("prosecutor") ||
+        budgetName.includes("detention") ||
+        budgetName.includes("criminal");
     return isPo;
 }
 
@@ -170,7 +177,26 @@ function createEmail() {
         }
     });
 
+    //Update DOM
+    let emailContactContainer = document.getElementById("emailcontacts");
+    emailContactContainer.innerHTML = emailContacts;
     emailContainer.innerHTML = emailString;
+
+    let subjectContainer = document.getElementById("subjectcontent");
+    subjectContainer.innerHTML = "Defund police system by " + amountChanged + "%";
+
+    let emailSendLink = document.getElementById("emailsend");
+    emailSendLink.addEventListener("click", () => onMailToClick());
+}
+
+function onMailToClick() {
+    let subject = document.getElementById("subjectcontent").innerHTML;
+    let content = document.getElementById("messagecontent").innerHTML;
+    let mailTo = `mailto:${emailContacts}?subject=${subject}&body=${content}`;
+    let anchorElement = document.createElement("a");
+    anchorElement.setAttribute("href", mailTo);
+    anchorElement.setAttribute("target", "_blank");
+    anchorElement.click();
 }
 
 function showEmail() {
@@ -239,6 +265,16 @@ function setupCityLinks() {
         createBudgetVisualization("Louisville")
     );
     linksContainer.appendChild(LSVille);
+
+    let MNPLS = createLink("Minneapolis", () =>
+        createBudgetVisualization("Minneapolis")
+    );
+    linksContainer.appendChild(MNPLS);
+
+    let Portland = createLink("Portland", () =>
+        createBudgetVisualization("Portland")
+    );
+    linksContainer.appendChild(Portland);
 
     createBudgetVisualization("Phoenix");
     phoenixLink.classList.add("active-link");
