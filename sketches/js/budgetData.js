@@ -1,7 +1,7 @@
 export var budget = {
     NYC: {
         total: 7102.87,
-        emails: "mayor.gallego@phoenix.gov, council.district.1@phoenix.gov, council.district.2@phoenix.gov, council.district.3@phoenix.gov, council.district.4@phoenix.gov, council.district.5@phoenix.gov, council.district.6@phoenix.gov, council.district.7@phoenix.gov, council.district.8@phoenix.gov",
+        emails: " mguerra@council.nyc.gov, District2@council.nyc.gov, SpeakerJohnson@council.nyc.gov, KPowers@council.nyc.gov, BKallos@BenKallos.com, Helen@HelenRosenthal.com, District7@council.nyc.gov, DAyala@council.nyc.gov, D09perkins@council.nyc.gov, yrodriguez@council.nyc.gov, District11@council.nyc.gov, Andy.King@council.nyc.gov, MGjonaj@council.nyc.gov, fcabrera@council.nyc.gov, Rtorres@council.nyc.gov, District16Bronx@council.nyc.gov, salamanca@council.nyc.gov, RDiaz@council.nyc.gov, district19@council.nyc.gov, pkoo@council.nyc.gov, FMoya@council.nyc.gov, BGrodenchik@council.nyc.gov, RLancman@council.nyc.gov, dromm@council.nyc.gov, JVanBramer@council.nyc.gov, Adams@council.nyc.gov, Koslowitz@council.nyc.gov, District30@council.nyc.gov, drichards@council.nyc.gov, eulrich@council.nyc.gov, slevin@council.nyc.gov, areynoso@council.nyc.gov, LCumbo@council.nyc.gov, district36@council.nyc.gov, info38@council.nyc.gov, lander@council.nyc.gov, meugene@council.nyc.gov, District41@council.nyc.gov, AskJB@council.nyc.gov, AskKalman@council.nyc.gov, District45@council.nyc.gov, AMaisel@council.nyc.gov, MTreyger@council.nyc.gov, cdeutsch@council.nyc.gov, DROSE@Council.nyc.gov, SMatteo@council.nyc.gov, borelli@council.nyc.gov",
         budget: [{
                 name: "police",
                 icon: "🚨",
