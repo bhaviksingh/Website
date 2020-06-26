@@ -198,6 +198,7 @@ a:visited {
     top: 0;
     left: 0;
     font-family: Courier, monospace;
+    overflow-y: scroll;
 }
 
 #email-content-container {
