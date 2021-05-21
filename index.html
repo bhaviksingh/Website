@@ -23,10 +23,8 @@
     <div id="header">
         <div id="logo"> </div>
         <div id="content">
-            <div class="half"> <i>Bhavik </i> is an artist and technologist interested in creating digital experiences that help you express and understand yourself. </div>
-            <div class="half">He's in <i>Brooklyn</i> where it is <span id="clock">x:xx</span>. You can reach him at <a href="mailto:bhaviksingh@gmail.com" target="_blank">bhaviksingh@gmail.com</a>, on <a target="_blank" href="http://www.instagram.com/by_bvk">instagram</a>,
-                or <a target="_blank" href="https://www.are.na/bhavik-singh/">arena</a>.
-            </div>
+            <div class="half"> <i>Bhavik </i> is an artist and technologist building social software. He's interested in digital experiences that are slow, intimate spaces, and tools for small communities </div>
+            <div class="half"> Bhavik frequently collaborates with other artists, technologists and activists. He also works with early stage companies on design and product. You can reach him at <a href="mailto:bhaviksingh.com">bhaviksingh@gmail.com</a>. </div>
         </div>
     </div>
     <div id="tools-container">
@@ -36,19 +34,18 @@
                     <span id="refresh" style="text-decoration: underline; cursor: pointer;" onclick="layoutContent()"> Refresh layout </span>
                 </div>
                 <div>
-                    <label> FG: 
-                        <input type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)"> 
-                    </label>
+                    <label> Foreground color</label>
+                        <input type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)" > 
+                    
                 </div>
                 <div>
-                    <label> BG: 
+                    <label> Background color</label>
                         <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BGColor', this.value)"> 
-                    </label>
+                    
                 </div>
                 <div>
-                    <label>Br: 
-                        <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)"> 
-                    </label>
+                    <label>Brush color </label>
+                    <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)"> 
                 </div>
             </div>
         </div>
@@ -57,21 +54,21 @@
 
         <div id="content-holder">
 
-            <!-- Breathe -->
-            <div class="content browser not-google" data-priority="1">
-                <div class="content-caption">
-                    <div class="title">
-                        <a href="/breathe">Breathe</a> (2019/20)</div>
-                    <div> a safe space!</div>
-                </div>
-                <div class="content-main">
-                    <video width="870" height="746" muted loop poster="/Images/home/breathe-web-static.png" loop>
-                    <source src="/Images/home/breathe-web.mov" type="video/mp4">
+            <!-- Jose Miguel -->
+            <div class="content paper not-google" data-priority="1.3">
+              <div class="content-caption">
+                  <div class="title"> <a href="/https://josemiguel.virtualcarelab.com/" target="_blank">Portal with José Miguel</a> (2020)</div>
+                  <div>with José Miguel Galan & <a href="https://virtualcarelab.com/">Virtual Care Lab</a></div>
+              </div>
+              <div class="content-main">
+                  <video width="1080" height="1079" muted loop poster="/Images/home/josemiguel-portal-static.png" loop>
+                    <source src="/Images/home/josemiguel-portal-phone.mp4"  type="video/mp4">
                   </video>
-                </div>
-            </div>
+              </div>
+          </div>
+
             <!-- Breathe -->
-            <div class="content browser not-google" data-priority="1.3">
+            <div class="content paper not-google" data-priority="1.3">
                 <div class="content-caption">
                     <div class="title"> <a href="/breathe">Breathe</a> (2019/20)</div>
                 </div>
@@ -81,27 +78,46 @@
                     </video>
                 </div>
             </div>
+
+            <!-- Shared Space -->
+            <div class="content paper not-google" data-priority="1.3">
+              <div class="content-caption">
+                  <div class="title"> <a href="sharedspace.page" target="_blank">sharedspace</a> (2020)</div>
+              </div>
+              <div class="content-main">
+                  <video width="720" height="720" muted loop poster="/Images/home/sharedspace-grassroom-static.png" loop>
+                    <source src="/Images/home/sharedspace-grassroom.mp4"  type="video/mp4">
+                  </video>
+              </div>
+            </div>
+            <div class="content paper not-google" data-priority="1.6">
+              <div class="content-caption">
+                  <div class="title"> <a href="sharedspace.page" target="_blank">sharedspace</a> (2020)</div>
+              </div>
+              <div class="content-main">
+                  <video width="720" height="406" muted loop poster="/Images/home/sharedspace-sunroom-static.png" loop>
+                    <source src="/Images/home/sharedspace-sunroom.mp4"  type="video/mp4">
+                  </video>
+              </div>
+            </div>
             <!-- Dinner at Ians -->
             <div class="content paper" data-priority="1">
                 <div class="content-caption">
-                    <div class="title"> <a href="http://www.dinneratians.com">Dinner at Ian's</a> (2019/20)</div>
-                    <div> community dinner </div>
+                    <div class="title"> <a href="http://www.dinneratians.com" target="_blank">Dinner at Ian's</a> (2019/20)</div>
                 </div>
                 <div class="content-main"> <img draggable="false" src="/Images/home/dinner-at-ians.jpg" /> </div>
             </div>
-            <!-- Shandar Phool -->
-            <div class="content paper" data-priority="1">
+            <!-- FLowers -->
+            <div class="content paper" data-priority="1.5">
                 <div class="content-caption">
-                    <div class="title"> Shandar Phool </a> (2020)</div>
-                    <div> indian languages, flowers </div>
+                    <div class="title"> <a href="http://bvk-flowers.glitch.me/" target="_blank"> flower sketches </a> (2020)</div>
                 </div>
-                <div class="content-main" style="background: white"> <img draggable="false" src="/Images/home/shandar-phool.png" /> </div>
+                <div class="content-main" style="background: white"> <img draggable="false" src="/Images/home/flower-sketches.png" /> </div>
             </div>
             <!-- Emoji kitchen -->
             <div class="content browser" data-priority="1.2">
                 <div class="content-caption">
                     <div class="title"> <a href="http://emoji.kitchen"> Emoji Kitchen</a> (2019) </div>
-                    <div> make it ur own, emojis! </div>
                 </div>
                 <div class="content-main">
                     <video width="644" height="680" autoplay loop muted poster="/Images/home/emoji-kitchen-static.png" loop>
@@ -110,10 +126,9 @@
                 </div>
             </div>
             <!-- Smishy -->
-            <div class="content paper" data-priority="1.5">
+            <div class="content browser" data-priority="1.5">
                 <div class="content-caption">
                     <div class="title"> <a href="/smishy"> Smishy </a> (2019)</div>
-                    <div> creation as catharsis </div>
                 </div>
                 <div class="content-main">
                     <video width="1104" height="704" muted loop poster="/Images/home/smishy-explainer-static.png" loop>
@@ -121,37 +136,37 @@
                 </video>
                 </div>
             </div>
-            <!-- Illustrations -->
-            <div class="content paper" data-priority="1">
-                <div class="content-caption">
-                    <div class="title"> <a href="http://www.instagram.com/by_bvk" target="_blank"> Misc illustrated vibes </a> (2019) </div>
-                </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/businessmen.jpg" /> </div>
-            </div>
-            <!-- Livegame.show -->
+
+            <!-- Area 120 -->
+            <div class="content phone google" data-priority="1.2">
+              <div class="content-caption">
+                  <div class="title"><a href="https://techcrunch.com/2019/07/11/new-google-area-120-project-shoelace-aims-to-connect-people-around-shared-interests/">Shoelace</a> (2019) </div>
+                  <div> Design, Google </div>
+              </div>
+              <div class="content-main"> <img draggable="false" src="/Images/home/shoelace.png" /> </div>
+          </div>
             <div class="content phone google" data-priority="1.5">
                 <div class="content-caption">
-                    <div class="title"><a href="http://www.livegame.show">Livegame.show</a> (2019) </div>
-                    <div> Design @ Google </div>
+                    <div class="title"><a href="http://www.gamesnacks.com">Gamesnacks</a> (2019) </div>
+                    <div> Design, Google </div>
                 </div>
                 <div class="content-main"> <img draggable="false" src="/Images/home/live-game-show.png" /> </div>
             </div>
-            <!-- Minis  -->
+            <!-- Expression  -->
             <div class="content phone google" data-priority="1.5">
                 <div class="content-caption">
-                    <div class="title"> Minis (2018/19)</div>
-                    <div> Product Mgmt @ Google </div>
+                    <div class="title"> <a href="https://mashable.com/article/google-gboard-mini-stickers-how-to/" target="_blank"> Minis </a> (2018/19)</div>
+                    <div> Product Mgmt, Google</div>
                 </div>
                 <div class="content-main">
                     <video width="1080" height="1920" muted loop poster="/Images/home/minis-create-flow-static.png">
                     <source src="/Images/home/minis-create-flow.mp4" type="video/mp4">
                    </video> </div>
             </div>
-            <!-- Make a gif -->
             <div class="content phone google" data-priority="1.5">
                 <div class="content-caption">
                     <div class="title"> Make a gif (2018/19)</div>
-                    <div> Product Mgmt @ Google </div>
+                    <div> Product Mgmt, Google </div>
                 </div>
                 <div class="content-main">
                     <video width="1080" height="1920" muted loop poster="/Images/home/excam.png">
@@ -159,12 +174,18 @@
                     </video>
                 </div>
             </div>
-            <!-- Portraits -->
+            <!-- Drawings -->
             <div class="content paper" data-priority="1.5">
                 <div class="content-caption">
-                    <div class="title"> <a href="http://www.instagram.com/by_bvk"> Slow life, portrait series </a> (2018)</div>
+                    <div class="title"> <a href="http://www.instagram.com/by_bvk">drawing!</a> (1992-present)</div>
                 </div>
-                <div class="content-main"> <img draggable="false" src="/Images/home/self-01.png" /> </div>
+                <div class="content-main"> <img draggable="false" src="/Images/home/bike-sketch.jpeg" /> </div>
+            </div>
+            <div class="content paper" data-priority="1">
+              <div class="content-caption">
+                  <div class="title"> <a href="http://www.instagram.com/by_bvk">drawing in 3d!</a> (2016-present)</div>
+              </div>
+              <div class="content-main"> <img draggable="false" src="/Images/home/businessmen.jpg" /> </div>
             </div>
 
 
@@ -178,7 +199,7 @@
 
         var contentHolder = document.getElementById("content-holder");
         var contentPieces = contentHolder.children;
-        var windowSizeFactor = .4; //Controls how large the largest piece of content will be
+        var windowSizeFactor = .35; //Controls how large the largest piece of content will be
 
         function setup() {
             setUpWindowSizeCalc();
@@ -477,17 +498,6 @@
             canvas.setHeight(window.innerHeight);
             canvas.setWidth(window.innerWidth);
         }
-
-        //Time because im so lazy
-        function startTime() {
-            var format = 'h:m a';
-            var timeZone = "America/New_York";
-            var timeString = moment().tz(timeZone).format(format);
-            document.getElementById("clock").innerHTML = timeString;
-            setTimeout(startTime, 50000);
-        }
-
-        startTime();
 
         setTimeout(setup(), 500);
     </script>

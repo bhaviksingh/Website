@@ -1,7 +1,7 @@
 :root {
     --vw: 1vw;
     --vh: 1vh;
-    --FGColor: yellow;
+    --FGColor: pink;
     --BGColor: hsl(0, 0%, 90%);
     --BrushColor: black;
     --CaptionColor: white;
@@ -195,8 +195,8 @@ overflow: auto; */
     width: 100%;
     height: 100%;
     position: absolute;
-    top: 3%;
-    left: -5%;
+    top: max(-3%, -20px);
+    left: max(-3%, -20px);
     background: var(--FGColor);
     z-index: -1;
     border: var(--border-all);
@@ -213,11 +213,23 @@ overflow: auto; */
 .content .content-caption {
     display: none;
     position: absolute;
-    bottom: -16px;
+    bottom: 0px;
     left: 12px;
     padding: 12px;
     background: var(--CaptionColor);
     border: 1px solid black;
+    min-width: 20ch;
+    transform: translateY(75%);
+}
+
+.content .content-caption .title {
+  width: 100%;
+  display: inline-block;
+  
+}
+
+.content .content-caption :nth-child(2){
+  margin-top: 8px;
 }
 
 .content:hover .content-caption {
@@ -239,16 +251,27 @@ overflow: auto; */
 }
 
 #tools-container #play .slider-container div {
-    display: inline-block;
+    display: inline-flex;
     background-color: var(--FGColor);
     border: var(--border-all);
     padding: 12px;
     line-height: 24px;
+    font-size: 18px;
+}
+#play label {
+  flex: 1;
 }
 
+#play input {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 20px;
+}
 .content .content-main input {
     pointer-events: auto;
     cursor: pointer;
+    padding-top: 0px;
 }
 
 
@@ -276,7 +299,7 @@ overflow: auto; */
 @media (min-width: 1400px) {
     #header {
         max-width: 1400px;
-        margin: 0 auto;
+  
     }
     #header .half {
         width: 45%;
