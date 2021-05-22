@@ -31,21 +31,21 @@
         <div id="play">
             <div class="slider-container">
                 <div>
-                    <span id="refresh" style="text-decoration: underline; cursor: pointer;" onclick="layoutContent()"> Refresh layout </span>
+                    <span id="refresh" style="text-decoration: underline; cursor: pointer;" onclick="refreshPage()"> Refresh </span>
                 </div>
                 <div>
                     <label> Foreground color</label>
-                        <input type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)" > 
+                        <input id="FGColor-range" type="range" min="1" max="360" value="251" oninput="updateColorHue('FGColor', this.value)" > 
                     
                 </div>
                 <div>
                     <label> Background color</label>
-                        <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BGColor', this.value)"> 
+                        <input id="BGColor-range"  type="range" min="1" max="360" value="55" oninput="updateColorHue('BGColor', this.value)"> 
                     
                 </div>
                 <div>
-                    <label>Brush color </label>
-                    <input type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)"> 
+                    <label> Outline color </label>
+                    <input  style="width: 15ch" id="BrushColor-range" type="range" min="1" max="360" value="55" oninput="updateColorHue('BrushColor', this.value)"> 
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
             </div>
 
             <!-- Shared Space -->
-            <div class="content paper not-google" data-priority="1.3">
+            <div class="content paper not-google" data-priority="1">
               <div class="content-caption">
                   <div class="title"> <a href="sharedspace.page" target="_blank">sharedspace</a> (2020)</div>
               </div>
@@ -90,7 +90,7 @@
                   </video>
               </div>
             </div>
-            <div class="content paper not-google" data-priority="1.6">
+            <div class="content paper not-google" data-priority="1.3">
               <div class="content-caption">
                   <div class="title"> <a href="sharedspace.page" target="_blank">sharedspace</a> (2020)</div>
               </div>
@@ -224,6 +224,18 @@
             //Pass 3: Setup all the video hovers
             setupVideoHover();
 
+            randomizeColors();
+
+            
+        }
+        function refreshPage() {
+          layoutContent(); 
+          randomizeColors();
+        }
+        function randomizeColors() {
+          updateColorHue('FGColor', Math.floor(Math.random() * 360), true)
+          updateColorHue('BGColor', Math.floor(Math.random() * 360), true)
+          updateColorHue('BrushColor', Math.floor(Math.random() * 360), true)
         }
 
         //🖼🖼🖼🖼 CONTENT LAYOUT RELATED FUNCTIONS 
@@ -461,8 +473,17 @@
         var saturation = 100;
         var lightness = 50;
 
-        function updateColorHue(color, newHue) {
-            var newHSL = "hsl(" + newHue + ", 100%, 50%)";
+        function updateColorHue(color, newHue, isForced) {
+
+            let newHSL; 
+
+            if (color.includes("BG")) {
+              newHSL = `hsl( ${newHue}, 25%, 85%)`;
+            } else if (color.includes("FG")) {
+              newHSL = `hsl( ${newHue}, 50%, 90%)`;
+            } else if (color.includes("Brush")) {
+              newHSL = `hsl( ${newHue}, 30%, 40%)`;
+            }
             var colorVaraible = "--" + color;
             document.documentElement.style.setProperty(colorVaraible, newHSL);
 
@@ -473,12 +494,16 @@
             if (color == "BGColor") {
                 setCaptionColor();
             }
+            if(isForced) {
+              document.getElementById(color + "-range").value = newHue;
+            }
+            setFaviconFromCanvas();
         }
 
         //🔥🔥🔥🔥🔥🔥 CANVAS!
 
         var canvas, isOver;
-
+        var group = [];
         function createCanvas() {
             canvas = new fabric.Canvas("draw-canvas", {
                 isDrawingMode: true,
@@ -486,8 +511,10 @@
             });
             setCanvasSize();
             setCanvasBrushColor();
+          
         }
 
+    
         function setCanvasBrushColor() {
             var color = getComputedStyle(document.documentElement)
                 .getPropertyValue('--BrushColor'); // #999999
@@ -499,7 +526,78 @@
             canvas.setWidth(window.innerWidth);
         }
 
+        function loadSquiggle() {
+          let svgStrings = [`<svg width="275.8px" height="76.9px"> 
+              <path style="stroke:--var(BrushColor);stroke-width:1; fill:none" d="M4.6,76.7C-4.8,61,2.9,38.6,18.7,29.6s37-5.6,51.4,5.6c3.9,3,7.5,6.7,9,11.4s0.5,10.5-3.5,13.3
+            c-4,2.9-9.9,2-13.9-0.9c-4-2.9-6.5-7.5-8.4-12c-5.3-12.6-5.7-29.8,5.7-37.4c5.8-3.9,13.2-4.2,20.2-3.8c17.3,0.9,34.3,5.1,50.1,12.2
+            c8.9,4.1,18.3,10.3,19.9,20c0.3,1.8,0.2,3.8-0.9,5.1c-2.1,2.5-6.1,1.6-9.1,0.4c-6.1-2.3-12.4-4.7-17.3-9.1s-8.1-11.2-6.4-17.5
+            c2.2-7.8,10.7-11.9,18.5-13.9c16.1-4,33.3-3.4,49,2c5.5,1.9,11.2,4.6,14.3,9.5s2.5,12.6-2.6,15.5c-6.2,3.5-14.5-3.2-14.4-10.3
+            s6.1-13,12.7-15.7c13.3-5.4,28.3-0.9,41.8,3.8c6.2,2.2,13.1,5.1,15.4,11.2c2.3,6.2-5,14.5-10.2,10.4c-3.6-2.8-2.7-8.5-0.3-12.3
+            c7.2-11.5,22.3-14.6,35.7-16.5"/> </svg>`, 
+            `<svg width="294px" height="52.7px">
+              <path  style="stroke:--var(BrushColor);stroke-width:1; fill:none"  d="M0.5,30C4.1,43.3,18.6,50.8,32.2,52c11.8,1,24.5-1.9,32.6-10.5s9.6-23.7,1.3-32.1c-0.6-0.6-1.3-1.2-2.2-1.4
+                c-1.4-0.4-2.8,0.4-3.9,1.3c-6.4,5.4-4,16.5,2.5,21.7s15.3,6.2,23.6,7c7.3,0.7,15.3,1.2,21.3-3c3.4-2.4,5.8-6,7.6-9.8
+                c3.6-7.5,5.4-16,5.1-24.3c-7.3-1.9-13,8.2-9.9,15.1c3,6.9,10.8,10.2,18.1,11.9c11.8,2.8,24.1,3,35.9,0.6c6.3-1.2,12.8-3.5,16.5-8.7
+                s2.4-14-3.6-16.1c-6.4,1.2-8,10.5-4,15.7c4,5.1,10.9,6.7,17.3,7.5c7.9,0.9,15.8,1.1,23.7,0.4c6.1-0.5,12.4-1.6,17.2-5.5
+                s7.1-11.2,3.7-16.2c-6.4,0.4-8.5,9.8-4.7,14.8c3.9,5.1,10.7,6.6,17,7.7c6.9,1.1,13.8,2.1,20.7,1.9c5.3-0.2,10.7-1.1,15-4.2
+                c4.3-3.1,6.9-8.9,5.1-13.8c-9.3-0.8-17.9,8.7-16.2,17.9c1.7,9.1,13.3,14.9,21.6,10.8"/>
+              </svg>`]
+
+            let svgString = svgStrings[Math.floor(Math.random() * svgStrings.length)];
+
+            fabric.loadSVGFromString(svgString,function(objects,options) {
+            var loadedObjects = new fabric.Group(group);
+            loadedObjects.set({
+                    left: Math.random() * window.innerWidth,
+                    top: 0.2 + Math.random() * window.innerHeight,
+                    width: Math.random() * (0.4 * window.innerWidth),
+            });
+            canvas.add(loadedObjects);
+            canvas.renderAll();
+            },function(item, object) {
+                object.set('id',item.getAttribute('id'));
+                group.push(object);
+            });
+
+        }
         setTimeout(setup(), 500);
+
+        /// FAVICON
+
+        function setFaviconFromCanvas() {
+          var favCanvas = document.createElement('canvas');
+          favCanvas.width = 16;
+          favCanvas.height = 16;
+          var ctx = favCanvas.getContext('2d');
+
+          var bgColorHSL = getComputedStyle(document.documentElement).getPropertyValue('--BGColor');
+          var fgColorHSL = getComputedStyle(document.documentElement).getPropertyValue('--FGColor');
+          var brushColorHSL = getComputedStyle(document.documentElement).getPropertyValue('--BrushColor');
+          
+          ctx.fillStyle = bgColorHSL;
+          ctx.fillRect(0,0,16,16);
+
+        
+          ctx.fillStyle = fgColorHSL;
+          ctx.beginPath();
+          ctx.arc(8, 8, 4, 0, 2 * Math.PI);  
+          ctx.fill();
+
+          ctx.fillStyle = brushColorHSL;
+          ctx.beginPath();
+          ctx.arc(8, 8, 1, 0, 2 * Math.PI);  
+          ctx.fill();
+
+
+          var link = document.createElement('link');
+          link.type = 'image/x-icon';
+          link.rel = 'shortcut icon';
+          link.href = favCanvas.toDataURL("image/x-icon");
+          document.getElementsByTagName('head')[0].appendChild(link);
+      
+        }
+
+
     </script>
 </body>
 

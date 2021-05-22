@@ -1,14 +1,21 @@
 :root {
     --vw: 1vw;
     --vh: 1vh;
-    --FGColor: pink;
+    --FGColor: hsl(0, 0%, 90%);
     --BGColor: hsl(0, 0%, 90%);
-    --BrushColor: black;
+    --BrushColor: hsl(0, 0%, 70%);
     --CaptionColor: white;
     --border-weight: 1px;
     --border-style: solid;
     --border-all: var(--border-weight) solid var(--BrushColor);
     --docPadding: 32px;
+    --transitionLength: 1s
+}
+
+*, *::before, *::after {
+  transition: background var(--transitionLength),
+              border var(--transitionLength),
+              background-color var(--transitionLength);
 }
 
 body {
@@ -28,7 +35,6 @@ body {
     width: calc(var(--vw, 1vw) * 100);
     height: calc(var(--vh, 1vh) * 100);
     margin: auto;
-    background: var(--BGColor);
     overflow-x: hidden;
 }
 
@@ -90,6 +96,7 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 1;
+    
 }
 
 
@@ -257,21 +264,26 @@ overflow: auto; */
     padding: 12px;
     line-height: 24px;
     font-size: 18px;
+    
 }
 #play label {
   flex: 1;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 #play input {
   padding: 0;
   margin: 0;
   position: absolute;
-  top: 20px;
+  top: 24px;
+  cursor: pointer;
 }
 .content .content-main input {
     pointer-events: auto;
     cursor: pointer;
     padding-top: 0px;
+    
 }
 
 
@@ -341,10 +353,10 @@ input[type="range"]::-ms-track {
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: 1px solid #000000;
-    height: 16px;
-    width: 16px;
+    height: 14px;
+    width: 14px;
     border-radius: 500%;
-    background: #ffffff;
+    background: rgba(255,255,255,1.0);
     cursor: pointer;
     /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
     /* Add cool effects to your sliders! */
