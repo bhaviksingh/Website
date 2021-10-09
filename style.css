@@ -333,8 +333,10 @@ overflow: auto; */
      :root {
         --docPadding: 24px;
     }
-    #header .half {
-        display: inline;
+    #header.half {
+        display: inline-block;
+        width: 100vw;
+        max-width: 100vw;
     }
     .content .content-caption {
         display: inline-block;
