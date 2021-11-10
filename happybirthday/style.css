@@ -1,6 +1,12 @@
+
+* {
+  margin:0;
+  padding: 0;
+}
 body {
   background: #eee;
   font-family: sans-serif;
+
 }
 #container {
   width: 500px;
@@ -9,8 +15,8 @@ body {
 }
 
 #container-image {
-  width: 500px;
-  height: 500px;
+  width: min(500px, 100vw);
+  height: min(500px, 100vw);
   position: relative;
   overflow: hidden;
 }
