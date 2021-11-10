@@ -1,0 +1,67 @@
+body {
+  background: #eee;
+  font-family: sans-serif;
+}
+#container {
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 32px;
+}
+
+#container-image {
+  width: 500px;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+}
+#container-copy {
+  margin-top: 16px;
+}
+
+#container-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#container-image img.blink {
+  animation: blink 10s infinite
+}
+
+#container-image img.fall {
+  animation: fall linear 20s infinite
+}
+
+
+@keyframes fall {
+  0% {
+    top: -100%;
+    opacity: 0;
+  }
+  5% {
+    top: -100%;
+    opacity: 1;
+  }
+  100% {
+    top: 200%;
+    opacity: 1
+  }
+
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  51% {
+    opacity: 1
+  }
+  99% {
+    opacity: 1;
+  }
+  
+}
