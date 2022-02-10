@@ -22,7 +22,7 @@ class GardenAnimator {
         this.sampler = null;
 
         //We're doing this in a set timeout because we know that the tutorial is pre-loading at the same time and we want that to go first
-        setTimeout(() => this.preload(), 300);
+        setTimeout(() => this.preload(), 1000);
         this.firstPlay = true;
     }
 

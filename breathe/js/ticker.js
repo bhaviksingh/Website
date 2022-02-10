@@ -8,8 +8,8 @@ class Ticker {
     constructor(interactivityElementID) {
         this.animations = [];
         var gardenAnimator = new GardenAnimator("#garden", 500, 500);
-        var tutorialAnimator = new TutorialAnimator("#tutorial", () => { this.animations[0] = gardenAnimator });
-        this.animations[0] = tutorialAnimator;
+        this.tutorialAnimator = new TutorialAnimator("#tutorial", () => { this.animations[0] = gardenAnimator });
+        this.animations[0] = this.tutorialAnimator;
 
         //Note: its feels fucking jank that we're randomly just using 20 here, but lets go with it for now
         var totalTime = 3000;
@@ -19,9 +19,21 @@ class Ticker {
         this.interactivityElement = document.getElementById(interactivityElementID);
 
         this.setupBindEvents();
-        this.animate();
+        document.getElementById("loading-text").innerHTML = "Loading...";
+        this.checkLoadingAndAnimate();
     }
 
+
+    checkLoadingAndAnimate() {
+      console.log(this);
+      console.log(this.tutorialAnimator);
+      if (this.tutorialAnimator.loaded) {
+        document.getElementById("loading-text").innerHTML = "";
+        this.animate();
+      } else {
+        setTimeout(() => this.checkLoadingAndAnimate(), 100);
+      }
+    }
     scheduler() {
 
     }
@@ -49,6 +61,7 @@ class Ticker {
     //Main functions
     tickAllAnimators() {
         //displayProgress("Ticking.." + this.currentTick);
+
         for (var i = 0; i < this.animations.length; i++) {
             var animation = this.animations[i]; //Replace with array code when more than one animation
             animation.tick(this.currentTick);
