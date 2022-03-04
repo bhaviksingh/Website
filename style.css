@@ -9,7 +9,7 @@
     --border-style: solid;
     --border-all: var(--border-weight) solid var(--BrushColor);
 
-    --transitionLength: 1s;
+    --transitionLength: 5s;
 
     --ratio: 1.5;
     --s0: 1rem; 
@@ -96,6 +96,7 @@ body {
     pointer-events: auto;
     z-index: 3;
     padding-top: 0;
+    font-size: calc(1.1 * var(--s0));
 }
 
 #header a {
