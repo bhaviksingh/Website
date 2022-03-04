@@ -41,6 +41,8 @@ body {
     height: 100vh;
     width: calc(var(--vw, 1vw) * 100);
     height: calc(var(--vh, 1vh) * 100);
+    overflow-x: hidden;
+
 }
 
 #container {
@@ -288,8 +290,8 @@ overflow: auto; */
 
 #tools-container {
     position: fixed;
-    bottom: var(--docPadding);
-    left: var(--docPadding);
+    top: var(--docPadding);
+    right: var(--docPadding);
     z-index: 4;
 }
 

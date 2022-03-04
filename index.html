@@ -24,33 +24,30 @@
 
   <body>
     <div id="header" class="half">
-          <p>Hi there, it's Bhavik -- welcome to my website ⚘</p>
-          <p>
-            I'm writing this on a Saturday afternoon in early October from my living room in Santa Monica, California.
-            There's a gentle breeze coming through an open window that is making the blinds rock back and forth. Outside, a small yellow breasted chat is sitting on what I believe to be an olive tree. I hope wherever
-            you are is pleasant and that your last meal felt nutritous.
-          </p>
-          <p>
-            Lately I've been trying to make social software that is slow, intimate and powered by communities. I think a lot about whether a website could feel like a walk in the woods with a friend, or the family dinner table that I grew up eating around.
-            Relatedly, I tend to spend my time learning about nature, cooperatives, decentralized networks, graphics and the spaces in between these areas.
-          </p>
-          <p>
-            You can see some of my work by clicking <span class="button" onClick="showWork()"> right here</span>. I also
-            really love to collaborate with other artists, technologists, activists, humans and plants, so if that sounds
-            like you, email me at <a href="mailto:bhaviksingh@gmail.com" target="_blank">bhaviksingh@gmail.com</a>.
-          </p>
-        </div>
+      <p>Hi there it's Bhavik, welcome to my website ⚘</p>
+      <p>
+        It's Thu, Mar 3 today -- Spring will be coming soon. A pair of shoes window a pair of shoes are hanging off a telephone
+        wire. I just spent a few minutes working on this website today, and will go back to napping shortly.
+      <p>
+        Lately I've been creating software that is slow, intimate and powered by communities (can using software feel like an
+        evening breeze?). Relatedly, I tend to read about nature, cooperatives, decentralized networks, graphics and spaces in between.
+      </p>
+      <p>
+        You can see some of my work by <span class="button" onClick="showWork()">clicking here</span>. 
+        I love to collaborate with other artists, technologists, activists, humans and plants. </br> If that sounds interesting,
+        email me at <a href="mailto:bhaviksingh@gmail.com" target="_blank">bhaviksingh@gmail.com</a>.
+      </p>
     </div>
       <div id="tools-container">
         <div id="play">
           <div class="slider-container">
-            <div>
+            <div id="layout-refresh" style="display: none">
               <span id="refresh" style="text-decoration: underline; cursor: pointer" onclick="refreshPage()">
-                Refresh
-              </span>
-            </div>
+                re-arrange works
+              </div>
+            </span>
             <div>
-              <label> Foreground color</label>
+              <label> foreground color</label>
               <input
                 id="FGColor-range"
                 type="range"
@@ -61,7 +58,7 @@
               />
             </div>
             <div>
-              <label> Background color</label>
+              <label> background color </label>
               <input
                 id="BGColor-range"
                 type="range"
@@ -71,7 +68,7 @@
                 oninput="updateColorHue('BGColor', this.value)"
               />
             </div>
-            <div>
+            <div style="display: none">
               <label> Outline color </label>
               <input
                 style="width: 15ch"
@@ -102,6 +99,29 @@
               </video>
             </div>
           </div>
+
+            <!-- Lsystem club -->
+            <div class="content paper not-google" data-priority="0.9">
+              <div class="content-caption">
+                <div class="title">
+                  <a href="https://josemiguel.virtualcarelab.com/" target="_blank">lsystem.club</a> (2021)
+                </div>
+              </div>
+              <div class="content-main">
+                <img src="/Images/Home/lsystem-lilac.gif" alt="An image of the lsystem club editor"/>
+              </div>
+            </div>
+
+            <div class="content paper not-google" data-priority="1.2">
+              <div class="content-caption">
+                <div class="title">
+                  <a href="https://www.artnews.com/art-in-america/features/nfts-curation-online-exhibitions-crypto-art-1234601534/" target="_blank">generative plants (art in america)</a> (2021)
+                </div>
+              </div>
+              <div class="content-main">
+                <img src="/Images/Home/artinamerica.jpeg" alt="Screenshot of the gallery show featuring my generative plants"/>
+              </div>
+            </div>
 
           <!-- Breathe -->
           <div class="content paper not-google" data-priority="1.3">
@@ -180,7 +200,7 @@
           </div>
 
           <!-- Area 120 -->
-          <div class="content phone google" data-priority="1.2">
+          <div class="content phone google" data-priority="1.1">
             <div class="content-caption">
               <div class="title">
                 <a
@@ -248,7 +268,7 @@
 
       var contentHolder = document.getElementById("content-holder");
       var contentPieces = contentHolder.children;
-      var windowSizeFactor = 0.35; //Controls how large the largest piece of content will be
+      var windowSizeFactor = 0.31; //Controls how large the largest piece of content will be
 
       var workShown = false;
     
@@ -285,6 +305,8 @@
         let workDiv = document.getElementById("container");
         workDiv.className = "visible";
         workShown = true;
+        let workButton = document.getElementById("layout-refresh");
+        workButton.style.display = "";
         setup();
       }
       function refreshPage() {
